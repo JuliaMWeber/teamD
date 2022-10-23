@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="buEins">1</string>
+    <string name="buZwei">2</string>
+    <string name="bu3">3</string>
+    <string name="buVier">4</string>
+    <string name="sudokuButton">Sudoku</string>
+    <string name="tv">Drücke einen Button</string>
 </resources>
