@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'de.thm.mow2gamecollection'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "de.thm.mow2gamecollection"
         minSdk 21
         targetSdk 33
         versionCode 1

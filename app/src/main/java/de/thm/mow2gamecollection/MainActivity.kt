@@ -1,4 +1,4 @@
-package com.example.myapplication
+package de.thm.mow2gamecollection
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
