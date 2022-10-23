@@ -15,7 +15,7 @@ class GamesListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGamesListBinding.inflate(LayoutInflater())
+        binding = ActivityGamesListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val imageId = intArrayOf(
