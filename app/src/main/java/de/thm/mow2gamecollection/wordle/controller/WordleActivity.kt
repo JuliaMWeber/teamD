@@ -27,7 +27,6 @@ class WordleActivity : AppCompatActivity() {
         model = WordleModel(this)
 
         createTiles()
-        model.pickTargetWord()
 
         tryEditText = findViewById(R.id.tryEditText)
         val submitButton : Button = findViewById(R.id.submitButton)
@@ -105,6 +104,7 @@ class WordleActivity : AppCompatActivity() {
         }
     }
 
+    // TODO: BroadcastReceiver
     fun onGameEvent(e: GameEvent) {
         when (e) {
             GameEvent.LOST -> gameOver()

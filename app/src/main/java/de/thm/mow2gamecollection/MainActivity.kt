@@ -1,10 +1,10 @@
-package de.thm.mow2gamecollection.wordle.controller
+package de.thm.mow2gamecollection
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import de.thm.mow2gamecollection.R
+import androidx.appcompat.app.AppCompatActivity
+import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

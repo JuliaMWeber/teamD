@@ -79,12 +79,12 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     fun gameWon() {
-        // TODO: update game stats
+        // TODO: update statistics
         controller.onGameEvent(GameEvent.WON)
     }
 
     fun gameOver() {
-        // TODO: update game stats
+        // TODO: update statistics
         controller.onGameEvent(GameEvent.LOST)
     }
 
