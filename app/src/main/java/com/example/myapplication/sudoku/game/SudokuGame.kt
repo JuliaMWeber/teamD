@@ -13,7 +13,7 @@ class SudokuGame {
         gewaehlteZellenLiveData.postValue(Pair(selectedRow, selectedCol))
     }
 
-    fun updateSelectedCell(row: Int, col: Int) {
+    fun gewaehlteZelleUpdaten(row: Int, col: Int) {
         selectedRow = row
         selectedCol = col
         gewaehlteZellenLiveData.postValue(Pair(row, col))
