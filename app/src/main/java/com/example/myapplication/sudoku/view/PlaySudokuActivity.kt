@@ -1,5 +1,6 @@
 package com.example.myapplication.sudoku.view
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +13,8 @@ import com.example.myapplication.sudoku.viewModel.PlaySudokuViewModel
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
     private lateinit var viewModel: PlaySudokuViewModel
-    private lateinit var sudokuBoardView:SudokuBoardView
+    private lateinit var sudokuBoardView: SudokuBoardView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +22,8 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
 
         sudokuBoardView.registerListener(this)
 
-        viewModel = ViewModelProviders.of(this).get(PlaySudokuViewModel::class.java)
-        viewModel.sudokuGame.gewaehlteZellenLiveData.observe(this, Observer { updategewaehlteZelleUI(it) })
+        //viewModel = ViewModelProviders.of(this).get(PlaySudokuViewModel::class.java)
+        //viewModel.sudokuGame.gewaehlteZellenLiveData.observe(this, Observer { updategewaehlteZelleUI(it) })
 
     }
 
@@ -35,7 +37,5 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     }
 }
 
-private fun <T> MutableLiveData<T>.observe(playSudokuActivity: PlaySudokuActivity, observer: Observer<T>) {
 
-}
 
