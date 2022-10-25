@@ -1,4 +1,4 @@
-package com.example.myapplication
+package de.thm.mow2gamecollection
 
 import org.junit.Test
 
