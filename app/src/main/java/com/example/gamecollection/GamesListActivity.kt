@@ -23,7 +23,8 @@ class GamesListActivity : AppCompatActivity() {
         )
         val name = arrayOf(
             "Sudoko",
-            "Woorlde"
+            "Woorlde",
+            "TicTacToe"
         )
         gamesArrayList = ArrayList()
         for (i in name.indices){
