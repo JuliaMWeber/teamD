@@ -37,7 +37,7 @@ class GamesListActivity : AppCompatActivity() {
             val name = name[position]
             val imageId = imageId[position]
 
-            val i = Intent(this, SudokoActivity::class.java)
+            val i = Intent(this, TicTacToeActivity::class.java)
             i.putExtra("name",name)
             i.putExtra("imageId",imageId)
             startActivity(i)
