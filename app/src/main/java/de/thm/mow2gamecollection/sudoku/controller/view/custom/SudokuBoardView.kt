@@ -1,12 +1,14 @@
-package com.example.myapplication.sudoku.view.custom
+package de.thm.mow2gamecollection.sudoku.controller.view.custom
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import de.thm.mow2gamecollection.sudoku.controller.game.Zelle
 
 
 class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -20,6 +22,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private var listener: OnTouchListener? = null
 
+    private var zellen: List<Zelle>? = null
+
 
     //Malt dicke Linien
     private val dickeLinieZeichnen = Paint().apply {
@@ -32,7 +36,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private val duenneLinieZeichnen = Paint().apply {
         style = Paint.Style.STROKE
         color = Color.BLACK
-        strokeWidth = 2F
+        strokeWidth = 3F
     }
 
     private val farbeGewaehltesFeld = Paint().apply {
@@ -45,6 +49,12 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.parseColor("RED")
     }
 
+    private val textFarbe = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color= Color.BLACK
+        textSize = 50F
+
+    }
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val feldGroeße = widthMeasureSpec.coerceAtMost(heightMeasureSpec)
@@ -58,20 +68,20 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         zellenGroeße = (width / groeße).toFloat()
         zellenFuellen(canvas)
         linienZeichnen(canvas)
+        textSchreiben(canvas)
     }
 
     private fun zellenFuellen(canvas: Canvas) {
-        if (gewaehlteZeile == -1 || gewaehlteSpalte == -1) return
+               zellen?.forEach {
+            val zeile = it.zeile
+            val spalte = it.spalte
 
-        for (r in 0..groeße) {
-            for (c in 0..groeße) {
-                if (r == gewaehlteZeile && c == gewaehlteSpalte) {
-                    zelleFuellen(canvas, r, c, farbeGewaehltesFeld)
-                } else if (r == gewaehlteZeile || c == gewaehlteSpalte) {
-                    zelleFuellen(canvas, r, c, farbeGewaehltesFeldFehler)
-                } else if (r / sqrtGroeße == gewaehlteZeile / sqrtGroeße && c / sqrtGroeße == gewaehlteZeile / sqrtGroeße) {
-                    zelleFuellen(canvas, r, c, farbeGewaehltesFeldFehler)
-                }
+            if (zeile == gewaehlteZeile && spalte == gewaehlteSpalte) {
+                zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeld)
+            } else if (zeile == gewaehlteZeile || spalte == gewaehlteSpalte) {
+                zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeldFehler)
+            } else if (zeile / sqrtGroeße == gewaehlteZeile / sqrtGroeße && spalte / sqrtGroeße == gewaehlteZeile / sqrtGroeße) {
+                zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeldFehler)
             }
         }
     }
@@ -113,6 +123,22 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     }
 
+    private fun textSchreiben(canvas: Canvas){
+        zellen?.forEach{
+            val zeile = it.zeile
+            val spalte = it.spalte
+            val valueString = it.value.toString()
+
+            val textBounds =Rect()
+            textFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
+            val textWidth = textFarbe.measureText(valueString)
+            val textHeight= textBounds.height()
+
+            canvas. drawText(valueString, (spalte * zellenGroeße)+zellenGroeße/2-textWidth/2,
+            (zeile*zellenGroeße) +zellenGroeße/2 - textHeight/2, textFarbe)
+        }
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -133,9 +159,18 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         gewaehlteSpalte = spalte
         invalidate()
     }
+
+    fun updateZellen(zellen: List<Zelle>){
+        this.zellen = zellen
+        invalidate()
+    }
+
     fun registerListener(listener: OnTouchListener){
         this.listener=listener
     }
+
+
+
     interface OnTouchListener{
         fun zelleTouched(zeile: Int, spalte: Int){
 
