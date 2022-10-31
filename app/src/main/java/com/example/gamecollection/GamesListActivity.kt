@@ -11,9 +11,6 @@ import com.example.gamecollection.databinding.ActivityGamesListBinding
 class GamesListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGamesListBinding
     private lateinit var gamesArrayList: ArrayList<Games>
-    //var adapter: Adapter? = null
-    //var nameList: ArrayList<Item>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +26,6 @@ class GamesListActivity : AppCompatActivity() {
             "Wordle",
             "Tic Tac Toe"
         )
-        /*
-        val activity = arrayOf(
-            SudokoActivity, TicTacToeActivity, WordleActivity
-        )
-        */
 
         gamesArrayList = ArrayList()
         for (i in name.indices){
