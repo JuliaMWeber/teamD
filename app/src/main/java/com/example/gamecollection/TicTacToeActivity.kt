@@ -22,7 +22,28 @@ class TicTacToeActivity : AppCompatActivity() {
             }
         }
     }
-    private fun onFieldClick(field: TextView){
-        field.text = currentPlayer
+    private fun onFieldClick(field: TextView) {
+        if (field.text == "") {
+            field.text = currentPlayer
+
+            if (checkWin()) {
+                statusText.text = "Spieler $currentPlayer hat gewonnen"
+            } else {
+                currentPlayer = if (currentPlayer == "x") "o" else "x"
+                statusText.text = "Spieler $currentPlayer ist dran"
+            }
+        }
+    }
+    private fun checkWin() : Boolean{
+        val horizontal = (f0.text == f1.text && f1.text == f2.text && f0.text != "") ||
+                (f3.text == f4.text && f4.text == f5.text && f3.text != "") ||
+                (f6.text == f7.text && f7.text ==f8.text && f6.text != "")
+        val vertical = (f0.text == f3.text && f3.text == f6.text && f0.text != "")||
+                (f1.text == f4.text && f4.text == f7.text && f1.text != "") ||
+                (f2.text == f5.text && f5.text == f8.text && f2.text != "")
+        val diagonal = (f0.text == f4.text && f4.text == f8.text && f0.text != "")||
+                (f3.text == f5.text && f5.text == f7.text && f3.text != "")
+
+        return horizontal || vertical || diagonal
     }
 }
