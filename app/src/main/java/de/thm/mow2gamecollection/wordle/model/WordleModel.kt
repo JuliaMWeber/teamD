@@ -1,11 +1,12 @@
 package de.thm.mow2gamecollection.wordle.model
 
+import android.content.Intent
+import android.os.Build
 import android.text.Editable
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import de.thm.mow2gamecollection.R
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
+import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -40,38 +41,52 @@ class WordleModel(val controller : WordleActivity) {
         Log.d(TAG, "targetWord is $targetWord")
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun checkGuess(userInput:Editable) {
         if (userInput.length != wordLength) {
-            when {
-                userInput.length < wordLength -> controller.displayInformation("word too short!")
-                else -> controller.displayInformation("word too long!")
+            if (userInput.length < wordLength) {
+                controller.displayInformation("word too short!")
+            } else {
+                controller.displayInformation("word too long!")
             }
             return
         }
 
         // TODO: check if the word (user's guess) is in the dictionary
 
+        val remainingLetterOccurrences = HashMap<Char, Int>()
+        // count occurences of letters in targetWord
+        for (i in 0 until targetWord.length) {
+            val char = targetWord[i]
+            val charCount = targetWord.count { it == char }
+            remainingLetterOccurrences.putIfAbsent(char, charCount)
+
+            // don't count letters that are in the correct position (subtract one occurence)
+            if (userInput[i] == char) {
+                remainingLetterOccurrences[char] = remainingLetterOccurrences[char]!! - 1
+            }
+        }
+
         for (i in 0 until userInput.length) {
             val tile = Tile(
                 Position(tries, i)
             )
-
-            when {
-                targetWord[i] == userInput[i] ->
-                    controller.updateTile(tile, userInput[i].toString(),LetterStatus.CORRECT)
-
-                targetWord.contains(userInput[i]) ->
-                    // TODO: check for number of occurences in word
-                    controller.updateTile(tile, userInput[i].toString(),LetterStatus.WRONG_POSITION)
-                else ->
-                    controller.updateTile(tile, userInput[i].toString(),LetterStatus.WRONG)
+            val char = userInput[i]
+            val occurrences = remainingLetterOccurrences.getOrDefault(userInput[i], 0)
+            if (targetWord[i] == char) {
+                controller.updateTile(tile, char.toString(), LetterStatus.CORRECT)
+            } else if (occurrences > 0) {
+                controller.updateTile(tile, char.toString(), LetterStatus.WRONG_POSITION)
+                remainingLetterOccurrences[char] = occurrences - 1
+            } else {
+                controller.updateTile(tile, char.toString(),LetterStatus.WRONG)
             }
         }
 
         if (targetWord == userInput.toString()) {
             gameWon()
-        } else {
-            if (++tries == maxTries) gameOver()
+        } else if (++tries == maxTries) {
+            gameOver()
         }
 
         // TODO: store the last N played target words to prevent playing the same words again too soon

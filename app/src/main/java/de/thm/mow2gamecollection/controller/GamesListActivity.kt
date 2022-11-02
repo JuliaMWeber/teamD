@@ -8,6 +8,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.adapter.MyAdapter
 import de.thm.mow2gamecollection.model.Game
 import de.thm.mow2gamecollection.sudoku.controller.SudokuActivity
+import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 
 class GamesListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGamesListBinding
@@ -38,7 +39,7 @@ class GamesListActivity : AppCompatActivity() {
             val name = name[position]
             val imageId = imageId[position]
 
-            val i = Intent(this, SudokuActivity::class.java)
+            val i = Intent(this, WordleActivity::class.java)
             i.putExtra("name",name)
             i.putExtra("imageId",imageId)
             startActivity(i)

@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".wordle.controller.WordleActivity"
+            android:name="de.thm.mow2gamecollection.wordle.controller.WordleActivity"
             android:exported="false"
             android:label="@string/title_activity_wordle"
             android:theme="@style/Theme.GameCollection.NoActionBar">

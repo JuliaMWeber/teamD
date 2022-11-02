@@ -1,13 +1,22 @@
 package de.thm.mow2gamecollection.wordle.controller
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -16,9 +25,10 @@ import de.thm.mow2gamecollection.wordle.model.grid.Tile
 class WordleActivity : AppCompatActivity() {
     val TAG = "WordleActivity"
 
-    private lateinit var tryEditText: EditText
+    private lateinit var guessEditText: EditText
     private lateinit var model: WordleModel
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wordle)
@@ -27,11 +37,29 @@ class WordleActivity : AppCompatActivity() {
 
         createTiles()
 
-        tryEditText = findViewById(R.id.tryEditText)
+        guessEditText = findViewById(R.id.guessEditText)
         val submitButton : Button = findViewById(R.id.submitButton)
         submitButton.setOnClickListener {
-            onClickSubmitButton()
+            handleSubmitButtonClick()
         }
+        guessEditText.setOnEditorActionListener { v, actionId, event ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    handleSubmitButtonClick()
+                    true
+                }
+                else -> false
+            }
+
+        }
+        guessEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                handleSubmitButtonClick()
+                return@OnKeyListener true
+            }
+            false
+        })
+        guessEditText.requestFocus()
     }
 
     // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
@@ -56,14 +84,29 @@ class WordleActivity : AppCompatActivity() {
                 tile.layoutParams = layoutParams
                 tile.setPadding(20, 0, 20, 0)
                 tile.minEms = 1
-                tile.setBackgroundColor(Color.parseColor("#999999"))
-                tile.setTextColor(ContextCompat.getColor(this, R.color.white))
                 tile.setTextSize(24F)
-                tile.text = ""
+                resetTile(tile)
 
                 tableRow.addView(tile)
             }
         }
+    }
+
+    private fun resetAllTiles() {
+        val tableLayout : TableLayout = findViewById(R.id.tableLayout)
+        for (i in 0 until model.maxTries) {
+            val row : TableRow = tableLayout.getChildAt(i) as TableRow
+            for (j in 0 until model.wordLength) {
+                val tile : TextView = row.getChildAt(j) as TextView
+                resetTile(tile)
+            }
+        }
+    }
+
+    private fun resetTile(tile : TextView) {
+        tile.setBackgroundColor(Color.parseColor("#999999"))
+        tile.setTextColor(ContextCompat.getColor(this, R.color.white))
+        tile.text = ""
     }
 
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
@@ -79,8 +122,9 @@ class WordleActivity : AppCompatActivity() {
     }
 
     // handle user input
-    private fun onClickSubmitButton() {
-        val userInput = tryEditText.text
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun handleSubmitButtonClick() {
+        val userInput = guessEditText.text
 
         model.checkGuess(userInput)
     }
@@ -106,41 +150,53 @@ class WordleActivity : AppCompatActivity() {
     // TODO: BroadcastReceiver
     fun onGameEvent(e: GameEvent) {
         when (e) {
-            GameEvent.LOST -> gameOver()
-            GameEvent.WON -> gameWon()
-            GameEvent.RESTART -> restartGame()
+            GameEvent.LOST -> showDialog(GameEvent.LOST)
+            GameEvent.WON -> showDialog(GameEvent.WON)
+            GameEvent.RESTART -> resetAllTiles()
             GameEvent.GIVE_UP -> giveUp()
         }
     }
 
     fun clearUserInput() {
-        Log.d(TAG, "clearUserInput")
-        tryEditText.text.clear()
+        guessEditText.text.clear()
     }
 
-    fun restartGame() {
-        Log.d(TAG, "restartGame()")
-        // TODO: reset tiles
-    }
+    fun showDialog(e: GameEvent) {
+        val builder = AlertDialog.Builder(this)
 
-    fun gameWon() {
-        Log.d(TAG, "gameWon()")
-        // TODO: show a 'game won' modal
-        // for now, just show a Toast
-        Toast.makeText(this, "You win!", Toast.LENGTH_SHORT).show()
-        restartGame()
-    }
+        when (e) {
+            GameEvent.WON -> {
+                builder.setTitle("You won!")
+                    .setMessage("Do you want to play again?")
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                            dialog, id -> model.restartGame()
+                    })
+                    .setNegativeButton("No", DialogInterface.OnClickListener {
+                            dialog, id -> startActivity(Intent(this, GamesListActivity::class.java))
 
-    fun gameOver() {
-        Log.d(TAG, "gameOver()")
-        // TODO: show a 'game lost' modal
-        // for now, just show a Toast
-        displayInformation("You lose!")
-        restartGame()
+                    })
+            }
+            GameEvent.LOST -> {
+                builder.setTitle("Bad luck!")
+                    .setMessage("Do you want to try again?")
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                            dialog, id -> model.restartGame()
+                    })
+                    .setNegativeButton("No", DialogInterface.OnClickListener {
+                            dialog, id -> startActivity(Intent(this, GamesListActivity::class.java))
+                    })
+            }
+            GameEvent.GIVE_UP -> {
+                // TODO
+            }
+            GameEvent.RESTART -> {
+                // TODO
+            }
+        }
+        builder.show().getButton(DialogInterface.BUTTON_POSITIVE).requestFocus()
     }
 
     fun giveUp() {
         // TODO: ???
-        restartGame()
     }
 }
