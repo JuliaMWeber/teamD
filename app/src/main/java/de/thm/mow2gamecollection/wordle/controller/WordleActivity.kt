@@ -1,11 +1,13 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
@@ -15,11 +17,13 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentContainerView
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
+import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 
 class WordleActivity : AppCompatActivity() {
@@ -28,7 +32,6 @@ class WordleActivity : AppCompatActivity() {
     private lateinit var guessEditText: EditText
     private lateinit var model: WordleModel
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wordle)
@@ -37,6 +40,7 @@ class WordleActivity : AppCompatActivity() {
 
         createTiles()
 
+        /*
         guessEditText = findViewById(R.id.guessEditText)
         val submitButton : Button = findViewById(R.id.submitButton)
         submitButton.setOnClickListener {
@@ -60,6 +64,24 @@ class WordleActivity : AppCompatActivity() {
             false
         })
         guessEditText.requestFocus()
+
+         */
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        /* findViewById<FragmentContainerView>(R.id.keyboardContainer).setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_UP) {
+                when (keyCode) {
+                    KeyEvent.KEYCODE_ENTER -> handleSubmitButtonClick()
+                    in 29..54 -> model.addLetter(keyCode.toChar())
+                    KeyEvent.KEYCODE_BACK -> model.removeLetter()
+                }
+
+                return@OnKeyListener true
+            }
+            false
+        }) */
+        return super.onCreateView(name, context, attrs)
     }
 
     // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
@@ -84,7 +106,7 @@ class WordleActivity : AppCompatActivity() {
                 tile.layoutParams = layoutParams
                 tile.setPadding(20, 0, 20, 0)
                 tile.minEms = 1
-                tile.setTextSize(24F)
+                tile.setTextSize(48F)
                 resetTile(tile)
 
                 tableRow.addView(tile)
@@ -109,6 +131,10 @@ class WordleActivity : AppCompatActivity() {
         tile.text = ""
     }
 
+    fun removeLetter(row: Int, index: Int) {
+        resetTile(getTileView(Tile(Position(row, index))))
+    }
+
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
     // for now, simply show a Toast message
     fun displayInformation(msg: String) {
@@ -122,16 +148,18 @@ class WordleActivity : AppCompatActivity() {
     }
 
     // handle user input
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun handleSubmitButtonClick() {
-        val userInput = guessEditText.text
-
-        model.checkGuess(userInput)
+        // val userInput = guessEditText.text
+        // model.checkGuess(userInput)
+        model.checkGuess()
     }
 
     fun updateTile(tile: Tile, letter: String, status: LetterStatus) {
         getTileView(tile).text = letter
         when (status) {
+            LetterStatus.UNKNOWN ->
+                getTileView(tile).setBackgroundColor(
+                    ContextCompat.getColor(this, R.color.wordle_unknown_panel_background))
             LetterStatus.CORRECT ->
                 getTileView(tile).setBackgroundColor(
                     ContextCompat.getColor(this, R.color.wordle_correct_panel_background)
@@ -157,9 +185,24 @@ class WordleActivity : AppCompatActivity() {
         }
     }
 
-    fun clearUserInput() {
-        guessEditText.text.clear()
+    fun handleKeyboardClick(button: Button) {
+        when (button.text) {
+            "✓" -> {
+                model.checkGuess()
+            }
+            "←" -> {
+                model.removeLetter()
+            }
+            else -> {
+                val char = button.text.first()
+                model.addLetter(char)
+            }
+        }
     }
+
+    /* fun clearUserInput() {
+        guessEditText.text.clear()
+    } */
 
     fun showDialog(e: GameEvent) {
         val builder = AlertDialog.Builder(this)

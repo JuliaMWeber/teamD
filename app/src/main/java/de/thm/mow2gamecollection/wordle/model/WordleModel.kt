@@ -1,12 +1,7 @@
 package de.thm.mow2gamecollection.wordle.model
 
-import android.content.Intent
-import android.os.Build
-import android.text.Editable
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
-import de.thm.mow2gamecollection.controller.GamesListActivity
+import android.widget.Toast
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -18,6 +13,8 @@ class WordleModel(val controller : WordleActivity) {
     val wordLength = 5
     val maxTries = 6
     private var tries = 0
+    private var userInput : String = ""
+
     private lateinit var targetWord : String
     private val dictionary = Dictionary()
 
@@ -41,8 +38,9 @@ class WordleModel(val controller : WordleActivity) {
         Log.d(TAG, "targetWord is $targetWord")
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun checkGuess(userInput:Editable) {
+    fun checkGuess() {
+        Log.d(TAG, "checkGuess(): $userInput")
+
         if (userInput.length != wordLength) {
             if (userInput.length < wordLength) {
                 controller.displayInformation("word too short!")
@@ -74,12 +72,12 @@ class WordleModel(val controller : WordleActivity) {
             val char = userInput[i]
             val occurrences = remainingLetterOccurrences.getOrDefault(userInput[i], 0)
             if (targetWord[i] == char) {
-                controller.updateTile(tile, char.toString(), LetterStatus.CORRECT)
+                controller.updateTile(tile, char.uppercase(), LetterStatus.CORRECT)
             } else if (occurrences > 0) {
-                controller.updateTile(tile, char.toString(), LetterStatus.WRONG_POSITION)
+                controller.updateTile(tile, char.uppercase(), LetterStatus.WRONG_POSITION)
                 remainingLetterOccurrences[char] = occurrences - 1
             } else {
-                controller.updateTile(tile, char.toString(),LetterStatus.WRONG)
+                controller.updateTile(tile, char.uppercase(), LetterStatus.WRONG)
             }
         }
 
@@ -90,7 +88,8 @@ class WordleModel(val controller : WordleActivity) {
         }
 
         // TODO: store the last N played target words to prevent playing the same words again too soon
-        controller.clearUserInput()
+        userInput = ""
+        // controller.clearUserInput()
     }
 
     fun gameWon() {
@@ -105,7 +104,31 @@ class WordleModel(val controller : WordleActivity) {
 
     fun restartGame() {
         tries = 0
+        userInput = ""
         pickTargetWord()
         controller.onGameEvent(GameEvent.RESTART)
+    }
+
+    fun addLetter(letter: Char) {
+        if (userInput.length >= wordLength) {
+            // display Toast?
+            return
+        }
+        controller.updateTile(
+            Tile(
+                Position(tries, userInput.length)
+            ),
+            letter.uppercase(),
+            LetterStatus.UNKNOWN
+        )
+        userInput += letter
+    }
+
+    fun removeLetter() {
+        Log.d(TAG, "$userInput ${userInput.length}")
+        if (userInput.length > 0) {
+            controller.removeLetter(tries, userInput.length - 1)
+            userInput = userInput.dropLast(1)
+        }
     }
 }

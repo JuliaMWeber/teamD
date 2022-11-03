@@ -7,7 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="wordle_unknown_panel_background">#4A4A4A</color>
     <color name="wordle_correct_panel_background">#41A338</color>
-    <color name="wordle_wrong_panel_background">#3A3B3B</color>
+    <color name="wordle_wrong_panel_background">#000</color>
     <color name="wordle_wrong_position_panel_background">#E6B000</color>
 </resources>
