@@ -24,7 +24,7 @@ class GamesListActivity : AppCompatActivity() {
             R.drawable.test, R.drawable.wordle
         )
         val name = arrayOf(
-            "Sudoko",
+            "Sudoku",
             "Wordle"
         )
         gamesArrayList = ArrayList()

@@ -9,13 +9,17 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import de.thm.mow2gamecollection.sudoku.controller.game.Zelle
+import android.graphics.*
+import kotlin.math.min
 
 
 class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private var sqrtGroeße = 3
     private var groeße = 9
 
+    //Größen werden hier deklariert und in der Funktion onDraw gesetzt
     private var zellenGroeße = 0F
+    private var notizGroeße = 0F
 
     private var gewaehlteZeile = 0
     private var gewaehlteSpalte = 0
@@ -51,13 +55,29 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private val textFarbe = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color= Color.BLACK
-        textSize = 50F
+        color = Color.BLACK
+    }
+
+
+    private val startzellenTextFarbe = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.BLACK
+        typeface = Typeface.DEFAULT_BOLD
 
     }
+
+    private val notizTextFarbe = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.GRAY
+    }
+    private val farbeStartzelle = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.parseColor("#00ba00")
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val feldGroeße = widthMeasureSpec.coerceAtMost(heightMeasureSpec)
+        val feldGroeße = min(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(feldGroeße, feldGroeße)
 
     }
@@ -65,18 +85,29 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     //Malt eine Box, welche die Basis für das Spielfeld ist
     override fun onDraw(canvas: Canvas) {
-        zellenGroeße = (width / groeße).toFloat()
+        updateMeasurements(width)
         zellenFuellen(canvas)
         linienZeichnen(canvas)
         textSchreiben(canvas)
     }
 
+    private fun updateMeasurements(width : Int){
+        zellenGroeße = (width / groeße).toFloat()
+        notizGroeße = zellenGroeße /sqrtGroeße.toFloat()
+        notizTextFarbe.textSize=zellenGroeße/sqrtGroeße.toFloat()
+        textFarbe.textSize = zellenGroeße/1.5F
+        startzellenTextFarbe.textSize = zellenGroeße /1.5F
+
+    }
+
     private fun zellenFuellen(canvas: Canvas) {
-               zellen?.forEach {
+        zellen?.forEach {
             val zeile = it.zeile
             val spalte = it.spalte
 
-            if (zeile == gewaehlteZeile && spalte == gewaehlteSpalte) {
+            if (it.istStartzelle) {
+                zelleFuellen(canvas, zeile, spalte, farbeStartzelle)
+            } else if (zeile == gewaehlteZeile && spalte == gewaehlteSpalte) {
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeld)
             } else if (zeile == gewaehlteZeile || spalte == gewaehlteSpalte) {
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeldFehler)
@@ -123,21 +154,48 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     }
 
-    private fun textSchreiben(canvas: Canvas){
-        zellen?.forEach{
-            val zeile = it.zeile
-            val spalte = it.spalte
-            val valueString = it.value.toString()
+    private fun textSchreiben(canvas: Canvas) {
+        zellen?.forEach { zelle ->
+            val value = zelle.value
 
-            val textBounds =Rect()
-            textFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
-            val textWidth = textFarbe.measureText(valueString)
-            val textHeight= textBounds.height()
+            if (value == 0) {
+                zelle.notizen.forEach { notiz ->
+                    val zeileInZelle = (notiz - 1) / sqrtGroeße
+                    val spalteInZelle = (notiz - 1) % sqrtGroeße
+                    val valueString = notiz.toString()
 
-            canvas. drawText(valueString, (spalte * zellenGroeße)+zellenGroeße/2-textWidth/2,
-            (zeile*zellenGroeße) +zellenGroeße/2 - textHeight/2, textFarbe)
+                    val textGrenzen = Rect()
+                    notizTextFarbe.getTextBounds(valueString, 0, valueString.length, textGrenzen)
+                    val textBreite = notizTextFarbe.measureText(valueString)
+                    val textHoehe = textGrenzen.height()
+                    canvas.drawText(
+                        valueString,
+                        (zelle.spalte * zellenGroeße) + (spalteInZelle * notizGroeße) + notizGroeße / 2 - textBreite / 2f,
+                        (zelle.zeile * zellenGroeße) + (zeileInZelle * notizGroeße) + notizGroeße / 2 + textHoehe / 2f,
+                        notizTextFarbe
+                    )
+
+                }
+            } else {
+                val zeile = zelle.zeile
+                val spalte = zelle.spalte
+                val valueString = zelle.value.toString()
+
+                val zuNutzendeFarbe = if (zelle.istStartzelle) startzellenTextFarbe else textFarbe
+                val textBounds = Rect()
+                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
+                val textWidth = textFarbe.measureText(valueString)
+                val textHeight = textBounds.height()
+
+                canvas.drawText(
+                    valueString,
+                    (spalte * zellenGroeße) + zellenGroeße / 2 - textWidth / 2,
+                    (zeile * zellenGroeße) + zellenGroeße / 2 + textHeight / 2, textFarbe
+                )
+            }
         }
     }
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (event.action) {
@@ -154,27 +212,26 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         val moeglichegewaehlteSpalte = (x / zellenGroeße).toInt()
         listener?.zelleTouched(moeglicheGewarlteZeile, moeglichegewaehlteSpalte)
     }
-    fun updategewaelteZelleUI(zeile: Int, spalte: Int){
+
+    fun updategewaelteZelleUI(zeile: Int, spalte: Int) {
         gewaehlteZeile = zeile
         gewaehlteSpalte = spalte
         invalidate()
     }
 
-    fun updateZellen(zellen: List<Zelle>){
+    fun updateZellen(zellen: List<Zelle>) {
         this.zellen = zellen
         invalidate()
     }
 
-    fun registerListener(listener: OnTouchListener){
-        this.listener=listener
+    fun registerListener(listener: OnTouchListener) {
+        this.listener = listener
     }
 
 
-
-    interface OnTouchListener{
-        fun zelleTouched(zeile: Int, spalte: Int){
+    interface OnTouchListener {
+        fun zelleTouched(zeile: Int, spalte: Int) {
 
         }
     }
 }
-
