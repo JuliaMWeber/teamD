@@ -5,48 +5,52 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.sudoku.controller.game.Zelle
 import de.thm.mow2gamecollection.sudoku.controller.view.custom.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.controller.viewModel.PlaySudokuViewModel
-import kotlinx.android.synthetic.main.activity_play_sudoku.*
 
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
     private lateinit var viewModel: PlaySudokuViewModel
     private lateinit var zahlenButtons: List<Button>
-
+    lateinit var sudokuBoardView: SudokuBoardView
+    lateinit var notizButton: ImageButton
+    lateinit var entfernenButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_sudoku)
 
+        sudokuBoardView = findViewById(R.id.sudokuBoardView)
         sudokuBoardView.registerListener(this)
 
         viewModel = ViewModelProvider(this)[PlaySudokuViewModel::class.java]
-        viewModel.sudokuGame.gewaehlteZellenLiveData.observe(
-            this,
-            Observer { updategewaehlteZelleUI(it) })
-        viewModel.sudokuGame.zellenLiveData.observe(this, Observer { zellenUpdate(it) })
-        viewModel.sudokuGame.notizenMachenLiveData.observe(
-            this,
-            Observer { updateNotizenGemachtUI(it) })
-        viewModel.sudokuGame.hervorgehobeneSchluesselLiveData.observe(
-            this,
-            Observer { updateHervorgehobeneSchluessel(it) })
+        viewModel.sudokuGame.gewaehlteZellenLiveData.observe(this) {
+            updategewaehlteZelleUI(it)
+        }
+        viewModel.sudokuGame.zellenLiveData.observe(this) {
+            zellenUpdate(it)
+        }
+        viewModel.sudokuGame.notizenMachenLiveData.observe(this) {
+            updateNotizenGemachtUI(it)
+        }
+        viewModel.sudokuGame.hervorgehobeneSchluesselLiveData.observe(this) {
+            updateHervorgehobeneSchluessel(it)
+        }
 
-        val zahlenButtons = listOf(
-            oneButton,
-            twoButton,
-            threeButton,
-            fourButton,
-            fiveButton,
-            sixButton,
-            sevenButton,
-            eightButton,
-            nineButton
+        zahlenButtons = listOf(
+            findViewById(R.id.oneButton),
+            findViewById(R.id.twoButton),
+            findViewById(R.id.threeButton),
+            findViewById(R.id.fourButton),
+            findViewById(R.id.fiveButton),
+            findViewById(R.id.sixButton),
+            findViewById(R.id.sevenButton),
+            findViewById(R.id.eightButton),
+            findViewById(R.id.nineButton)
         )
 
         zahlenButtons.forEachIndexed { index, button ->
@@ -54,8 +58,10 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
                 viewModel.sudokuGame.handleInput(index + 1)
             }
         }
+        notizButton = findViewById(R.id.notizButton)
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
-        //entfernenButton.setOnClickListener {viewModel.sudokuGame.entfernen()}
+        entfernenButton = findViewById(R.id.entfernenButton)
+        entfernenButton.setOnClickListener {viewModel.sudokuGame.entfernen()}
     }
 
     private fun zellenUpdate(zellen: List<Zelle>?) = zellen?.let {
@@ -79,6 +85,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
 
         }
     }
+
 
     private fun updateHervorgehobeneSchluessel(set: Set<Int>?) = set?.let {
         zahlenButtons.forEachIndexed { index, button ->
