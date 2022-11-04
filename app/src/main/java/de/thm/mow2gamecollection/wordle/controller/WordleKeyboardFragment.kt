@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.findFragment
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
 private const val TAG = "WordleKeyboardFragment"
 
@@ -29,6 +32,20 @@ class WordleKeyboardFragment : Fragment() {
     private var keyboardLayout: String? = null
     private var param2: String? = null
     private var keys = mutableListOf<Char>()
+
+    private val qwertz = arrayOf(
+        arrayOf('q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p'),
+        arrayOf('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'),
+        arrayOf('←', 'y', 'x', 'c', 'v', 'b', 'n', 'm', '✓')
+    )
+
+    private val qwerty = arrayOf(
+        arrayOf('q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'),
+        arrayOf('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'),
+        arrayOf('←', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '✓')
+    )
+
+    private val keyIDs = HashMap<Char, Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +70,25 @@ class WordleKeyboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val baseLayout : LinearLayout?= getView()?.findViewById(R.id.baseLayout)
-        for (row in baseLayout!!.children) {
-            for (button in (row as LinearLayout).children) {
-                keys.add((button as Button).text[0])
+        for (keyboardRow in 0 until qwertz.size) {
+            for (keyLabel in qwertz[keyboardRow]) {
+                val button = Button(context)
+                button.text = keyLabel.toString()
+                button.layoutParams = LinearLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT,
+                    1F
+                )
+                button.setPadding(4, 4, 4, 4)
+                context?.let {
+                    button.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_unknown_panel_background)
+                    button.setTextColor(ContextCompat.getColor(it, R.color.white))
+                }
+                button.id = View.generateViewId()
+                keyIDs.set(keyLabel, button.id)
                 button.setOnClickListener { handleButtonClick(button) }
+                val rowLayout = (getView() as LinearLayout).getChildAt(keyboardRow) as LinearLayout
+                rowLayout.addView(button)
             }
         }
     }
@@ -66,8 +97,19 @@ class WordleKeyboardFragment : Fragment() {
         (activity as WordleActivity).handleKeyboardClick(button)
     }
 
-    private fun updateButton() {
-        // TODO
+    fun updateButton(char: Char, letterStatus: LetterStatus) {
+        Log.d(TAG, "updateButton $char ${keyIDs[char]}")
+        keyIDs[char]?.let {
+            val keyView = requireView().findViewById<Button>(it)
+            context?.let {
+                when (letterStatus) {
+                    LetterStatus.CORRECT -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_correct_panel_background)
+                    LetterStatus.WRONG_POSITION -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_wrong_position_panel_background)
+                    LetterStatus.WRONG -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_wrong_panel_background)
+                    else -> return
+                }
+            }
+        }
     }
 
     companion object {

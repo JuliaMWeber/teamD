@@ -1,23 +1,16 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
-import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentContainerView
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.wordle.model.WordleModel
@@ -112,7 +105,7 @@ class WordleActivity : AppCompatActivity() {
                 tile.layoutParams = layoutParams
                 tile.setPadding(20, 0, 20, 0)
                 tile.minEms = 1
-                tile.setTextSize(48F)
+                tile.setTextSize(60F)
                 resetTile(tile)
 
                 tableRow.addView(tile)
@@ -160,16 +153,19 @@ class WordleActivity : AppCompatActivity() {
         model.checkGuess()
     }
 
-    fun updateKeyboard() {
-
+    fun updateTileAndKey(tile: Tile, letter: Char, status: LetterStatus) {
+        updateTile(tile, letter, status)
+        val wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
+        wordleKeyboardFragment.updateButton(letter, status)
     }
 
-    fun updateTile(tile: Tile, letter: String, status: LetterStatus) {
-        getTileView(tile).text = letter
+    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
+        getTileView(tile).text = letter.toString().uppercase()
         when (status) {
             LetterStatus.UNKNOWN ->
                 getTileView(tile).setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.wordle_unknown_panel_background))
+                    ContextCompat.getColor(this, R.color.wordle_unknown_panel_background)
+                )
             LetterStatus.CORRECT ->
                 getTileView(tile).setBackgroundColor(
                     ContextCompat.getColor(this, R.color.wordle_correct_panel_background)

@@ -1,7 +1,6 @@
 package de.thm.mow2gamecollection.wordle.model
 
 import android.util.Log
-import android.widget.Toast
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -70,12 +69,12 @@ class WordleModel(val controller : WordleActivity) {
             val char = userInput[i]
             val occurrences = remainingLetterOccurrences.getOrDefault(userInput[i], 0)
             if (targetWord[i] == char) {
-                controller.updateTile(tile, char.uppercase(), LetterStatus.CORRECT)
+                controller.updateTileAndKey(tile, char, LetterStatus.CORRECT)
             } else if (occurrences > 0) {
-                controller.updateTile(tile, char.uppercase(), LetterStatus.WRONG_POSITION)
+                controller.updateTileAndKey(tile, char, LetterStatus.WRONG_POSITION)
                 remainingLetterOccurrences[char] = occurrences - 1
             } else {
-                controller.updateTile(tile, char.uppercase(), LetterStatus.WRONG)
+                controller.updateTileAndKey(tile, char, LetterStatus.WRONG)
             }
         }
 
@@ -116,7 +115,7 @@ class WordleModel(val controller : WordleActivity) {
             Tile(
                 Position(tries, userInput.length)
             ),
-            letter.uppercase(),
+            letter,
             LetterStatus.UNKNOWN
         )
         userInput += letter
