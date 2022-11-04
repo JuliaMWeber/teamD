@@ -13,8 +13,6 @@ import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 class GamesListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGamesListBinding
     private lateinit var gamesArrayList: ArrayList<Game>
-    //var adapter: Adapter? = null
-    //var nameList: ArrayList<Item>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,34 +24,39 @@ class GamesListActivity : AppCompatActivity() {
         )
         val name = arrayOf(
             "Sudoko",
-            "Wordle"
+            "Wordle",
+            "Tic Tac Toe"
         )
         gamesArrayList = ArrayList()
-        for (i in name.indices){
+        for (i in name.indices) {
             val games = Game(name[i], imageId[i])
             gamesArrayList.add(games)
         }
-        binding.listview.isClickable=true
-        binding.listview.adapter = MyAdapter(this,gamesArrayList)
-        binding.listview.setOnItemClickListener{parent,view,position,id ->
+        binding.listview.isClickable = true
+        binding.listview.adapter = MyAdapter(this, gamesArrayList)
+        binding.listview.setOnItemClickListener { parent, view, position, id ->
             val name = name[position]
             val imageId = imageId[position]
-
-            val i = Intent(this, WordleActivity::class.java)
-            i.putExtra("name",name)
-            i.putExtra("imageId",imageId)
-            startActivity(i)
+            when (name) {
+                /*
+                "Sudoko" -> { val i = Intent(this, SudokoActivity::class.java)
+                    i.putExtra("name",name)
+                    i.putExtra("imageId",imageId)
+                    startActivity(i)
+                }
+                "Tic Tac Toe" -> {val i = Intent(this, TicTacToeActivity::class.java)
+                    i.putExtra("name",name)
+                    i.putExtra("imageId",imageId)
+                    startActivity(i)
+                }
+                */
+                "Wordle" -> {
+                    val i = Intent(this, WordleActivity::class.java)
+                    i.putExtra("name", name)
+                    i.putExtra("imageId", imageId)
+                    startActivity(i)
+                }
+            }
         }
-/*
-        nameList.add(Item("Android", R.drawable.test))
-        nameList.add(Item("Android", R.drawable.test))
-
-        adapter = Adapter(nameList, this)
-        gridView.adapter = adapter
-        gridView.setOnItemClickListener{adapterView, view, i, ->
-            Toast.makeText(this,"Item Selected", Toast.LENGTH_LONG).show()
-        }
-        */
-
     }
 }
