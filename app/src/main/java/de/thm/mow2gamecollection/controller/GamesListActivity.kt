@@ -20,7 +20,9 @@ class GamesListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val imageId = intArrayOf(
-            R.drawable.test, R.drawable.wordle
+            R.drawable.test,
+            R.drawable.wordle,
+            R.drawable.test
         )
         val name = arrayOf(
             "Sudoko",
@@ -29,8 +31,8 @@ class GamesListActivity : AppCompatActivity() {
         )
         gamesArrayList = ArrayList()
         for (i in name.indices) {
-            val games = Game(name[i], imageId[i])
-            gamesArrayList.add(games)
+            val game = Game(name[i], imageId[i])
+            gamesArrayList.add(game)
         }
         binding.listview.isClickable = true
         binding.listview.adapter = MyAdapter(this, gamesArrayList)
@@ -38,18 +40,16 @@ class GamesListActivity : AppCompatActivity() {
             val name = name[position]
             val imageId = imageId[position]
             when (name) {
-                /*
-                "Sudoko" -> { val i = Intent(this, SudokoActivity::class.java)
+                "Sudoko" -> { val i = Intent(this, SudokuActivity::class.java)
                     i.putExtra("name",name)
                     i.putExtra("imageId",imageId)
                     startActivity(i)
                 }
-                "Tic Tac Toe" -> {val i = Intent(this, TicTacToeActivity::class.java)
+                "Tic Tac Toe" -> {val i = Intent(this, WordleActivity::class.java)
                     i.putExtra("name",name)
                     i.putExtra("imageId",imageId)
                     startActivity(i)
                 }
-                */
                 "Wordle" -> {
                     val i = Intent(this, WordleActivity::class.java)
                     i.putExtra("name", name)
