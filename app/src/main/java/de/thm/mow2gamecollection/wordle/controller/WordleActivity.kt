@@ -68,20 +68,26 @@ class WordleActivity : AppCompatActivity() {
          */
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        /* findViewById<FragmentContainerView>(R.id.keyboardContainer).setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_UP) {
-                when (keyCode) {
-                    KeyEvent.KEYCODE_ENTER -> handleSubmitButtonClick()
-                    in 29..54 -> model.addLetter(keyCode.toChar())
-                    KeyEvent.KEYCODE_BACK -> model.removeLetter()
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.d(TAG, keyCode.toString())
+        return when (keyCode) {
+            in 29..54 -> {
+                event?.let {
+                    model.addLetter(event.getUnicodeChar().toChar())
                 }
-
-                return@OnKeyListener true
+                true
             }
-            false
-        }) */
-        return super.onCreateView(name, context, attrs)
+            KeyEvent.KEYCODE_DEL -> {
+                model.removeLetter()
+                true
+            }
+            KeyEvent.KEYCODE_ENTER -> {
+                // TODO: not working as expected, q button gains focus
+                handleSubmitButtonClick()
+                true
+            }
+            else -> super.onKeyUp(keyCode, event)
+        }
     }
 
     // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
@@ -152,6 +158,10 @@ class WordleActivity : AppCompatActivity() {
         // val userInput = guessEditText.text
         // model.checkGuess(userInput)
         model.checkGuess()
+    }
+
+    fun updateKeyboard() {
+
     }
 
     fun updateTile(tile: Tile, letter: String, status: LetterStatus) {

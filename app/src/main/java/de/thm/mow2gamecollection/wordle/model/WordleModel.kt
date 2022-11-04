@@ -39,8 +39,6 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     fun checkGuess() {
-        Log.d(TAG, "checkGuess(): $userInput")
-
         if (userInput.length != wordLength) {
             if (userInput.length < wordLength) {
                 controller.displayInformation("word too short!")
@@ -125,7 +123,6 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     fun removeLetter() {
-        Log.d(TAG, "$userInput ${userInput.length}")
         if (userInput.length > 0) {
             controller.removeLetter(tries, userInput.length - 1)
             userInput = userInput.dropLast(1)

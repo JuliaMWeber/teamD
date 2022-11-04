@@ -54,8 +54,8 @@ class WordleKeyboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val baseLayout : LinearLayout?= getView()?.findViewById(R.id.baseLayout)
-        for (i in baseLayout!!.children) {
-            for (button in (i as LinearLayout).children) {
+        for (row in baseLayout!!.children) {
+            for (button in (row as LinearLayout).children) {
                 keys.add((button as Button).text[0])
                 button.setOnClickListener { handleButtonClick(button) }
             }
@@ -64,6 +64,10 @@ class WordleKeyboardFragment : Fragment() {
 
     private fun handleButtonClick(button: Button) {
         (activity as WordleActivity).handleKeyboardClick(button)
+    }
+
+    private fun updateButton() {
+        // TODO
     }
 
     companion object {
