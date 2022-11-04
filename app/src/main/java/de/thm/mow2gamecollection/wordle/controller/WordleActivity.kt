@@ -105,7 +105,7 @@ class WordleActivity : AppCompatActivity() {
                 tile.layoutParams = layoutParams
                 tile.setPadding(20, 0, 20, 0)
                 tile.minEms = 1
-                tile.setTextSize(60F)
+                tile.setTextSize(55F)
                 resetTile(tile)
 
                 tableRow.addView(tile)
