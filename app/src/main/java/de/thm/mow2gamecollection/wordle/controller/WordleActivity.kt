@@ -24,6 +24,7 @@ class WordleActivity : AppCompatActivity() {
 
     private lateinit var guessEditText: EditText
     private lateinit var model: WordleModel
+    private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,8 @@ class WordleActivity : AppCompatActivity() {
         model = WordleModel(this)
 
         createTiles()
+
+        wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
 
         /*
         guessEditText = findViewById(R.id.guessEditText)
@@ -155,7 +158,6 @@ class WordleActivity : AppCompatActivity() {
 
     fun updateTileAndKey(tile: Tile, letter: Char, status: LetterStatus) {
         updateTile(tile, letter, status)
-        val wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
         wordleKeyboardFragment.updateButton(letter, status)
     }
 
@@ -186,7 +188,10 @@ class WordleActivity : AppCompatActivity() {
         when (e) {
             GameEvent.LOST -> showDialog(GameEvent.LOST)
             GameEvent.WON -> showDialog(GameEvent.WON)
-            GameEvent.RESTART -> resetAllTiles()
+            GameEvent.RESTART -> {
+                resetAllTiles()
+                wordleKeyboardFragment.resetKeyboard()
+            }
             GameEvent.GIVE_UP -> giveUp()
         }
     }
