@@ -14,14 +14,8 @@
         android:theme="@style/Theme.GameCollection.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name="de.thm.mow2gamecollection.sudoku.controller.SudokuActivity"
-            android:exported="false" />
-        <activity
-            android:name="de.thm.mow2gamecollection.controller.GamesListActivity"
-            android:exported="false" />
-        <activity
-            android:name="de.thm.mow2gamecollection.controller.MainActivity"
-            android:exported="true">
+            android:name="de.thm.mow2gamecollection.sudoku.controller.view.PlaySudokuActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

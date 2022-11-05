@@ -25,7 +25,7 @@ class GamesListActivity : AppCompatActivity() {
             R.drawable.test
         )
         val name = arrayOf(
-            "Sudoko",
+            "Sudoku",
             "Wordle",
             "Tic Tac Toe"
         )
@@ -40,12 +40,14 @@ class GamesListActivity : AppCompatActivity() {
             val name = name[position]
             val imageId = imageId[position]
             when (name) {
-                "Sudoko" -> { val i = Intent(this, SudokuActivity::class.java)
+                "Sudoko" -> {
+                    val i = Intent(this, SudokuActivity::class.java)
                     i.putExtra("name",name)
                     i.putExtra("imageId",imageId)
                     startActivity(i)
                 }
-                "Tic Tac Toe" -> {val i = Intent(this, WordleActivity::class.java)
+                "Tic Tac Toe" -> {
+                    val i = Intent(this, WordleActivity::class.java)
                     i.putExtra("name",name)
                     i.putExtra("imageId",imageId)
                     startActivity(i)
