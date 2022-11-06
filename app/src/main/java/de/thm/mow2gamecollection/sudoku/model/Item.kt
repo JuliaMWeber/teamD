@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.model
+package de.thm.mow2gamecollection.sudoku.model
 
 class Item {
     var name: String? = null

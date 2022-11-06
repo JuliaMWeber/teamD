@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.sudoku.controller.game
+package de.thm.mow2gamecollection.sudoku.model.game
 
 class Zelle(
     val zeile: Int,

@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.model.Game
+import de.thm.mow2gamecollection.sudoku.model.Game
 
 class MyAdapter (private val context:Activity, private val arrayList:ArrayList<Game>) : ArrayAdapter<Game>(context,
     R.layout.list_item,arrayList){

@@ -26,7 +26,7 @@
             android:exported="false"
             android:theme="@style/Theme.GameCollection.NoActionBar" />
         <activity
-            android:name=".sudoku.controller.SudokuActivity"
+            android:name=".sudoku.controller.PlaySudokuActivity"
             android:exported="false"
             android:theme="@style/Theme.GameCollection.NoActionBar" />
         <activity

@@ -6,8 +6,8 @@ import android.os.Bundle
 import de.thm.mow2gamecollection.databinding.ActivityGamesListBinding
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.adapter.MyAdapter
-import de.thm.mow2gamecollection.model.Game
-import de.thm.mow2gamecollection.sudoku.controller.SudokuActivity
+import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
+import de.thm.mow2gamecollection.sudoku.model.Game
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 
@@ -42,7 +42,7 @@ class GamesListActivity : AppCompatActivity() {
             val imageID = imageIDs[position]
             val i = when (name) {
                 "Sudoku" -> {
-                    Intent(this, SudokuActivity::class.java)
+                    Intent(this, PlaySudokuActivity::class.java)
                 }
                 "Wordle" -> {
                     Intent(this, WordleActivity::class.java)

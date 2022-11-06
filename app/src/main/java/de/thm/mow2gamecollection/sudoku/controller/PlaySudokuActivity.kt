@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.sudoku.controller.view
+package de.thm.mow2gamecollection.sudoku.controller
 
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.sudoku.controller.game.Zelle
+import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.controller.view.custom.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.controller.viewModel.PlaySudokuViewModel
 

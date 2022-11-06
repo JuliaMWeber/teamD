@@ -1,11 +1,10 @@
 package de.thm.mow2gamecollection.tictactoe.controller
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import de.thm.mow2gamecollection.R
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
-
 
 class TicTacToeActivity : AppCompatActivity() {
 

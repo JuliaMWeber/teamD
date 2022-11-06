@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import de.thm.mow2gamecollection.sudoku.controller.game.Zelle
+import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import android.graphics.*
 import kotlin.math.min
 
