@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.mow2gamecollection">
+    package="de.thm.mow2gamecollection">
 
     <application
         android:allowBackup="true"
@@ -11,26 +11,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GameCollection.NoActionBar"
+        android:theme="@style/Theme.Gamecollection"
         tools:targetApi="31">
         <activity
-            android:name="de.thm.mow2gamecollection.sudoku.controller.view.PlaySudokuActivity"
-            android:exported="true" >
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="de.thm.mow2gamecollection.wordle.controller.WordleActivity"
+            android:name=".GamesListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SudokoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".wordle.controller.WordleActivity"
             android:exported="false"
             android:label="@string/title_activity_wordle"
             android:theme="@style/Theme.GameCollection.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
+        <activity
+            android:name=".TicTacToeActivity"
+            android:exported="false" />
     </application>
-
 </manifest>
