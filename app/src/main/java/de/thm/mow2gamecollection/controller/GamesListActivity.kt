@@ -8,6 +8,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.adapter.MyAdapter
 import de.thm.mow2gamecollection.model.Game
 import de.thm.mow2gamecollection.sudoku.controller.SudokuActivity
+import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 
 class GamesListActivity : AppCompatActivity() {
@@ -19,46 +20,40 @@ class GamesListActivity : AppCompatActivity() {
         binding = ActivityGamesListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val imageId = intArrayOf(
+        val imageIDs = intArrayOf(
             R.drawable.test,
             R.drawable.wordle,
-            R.drawable.test
-        )
-        val name = arrayOf(
+            R.drawable.test)
+
+        val gameNames = arrayOf(
             "Sudoku",
             "Wordle",
-            "Tic Tac Toe"
-        )
+            "Tic Tac Toe")
+
         gamesArrayList = ArrayList()
-        for (i in name.indices) {
-            val game = Game(name[i], imageId[i])
+        for (i in gameNames.indices) {
+            val game = Game(gameNames[i], imageIDs[i])
             gamesArrayList.add(game)
         }
         binding.listview.isClickable = true
         binding.listview.adapter = MyAdapter(this, gamesArrayList)
         binding.listview.setOnItemClickListener { parent, view, position, id ->
-            val name = name[position]
-            val imageId = imageId[position]
-            when (name) {
-                "Sudoko" -> {
-                    val i = Intent(this, SudokuActivity::class.java)
-                    i.putExtra("name",name)
-                    i.putExtra("imageId",imageId)
-                    startActivity(i)
-                }
-                "Tic Tac Toe" -> {
-                    val i = Intent(this, WordleActivity::class.java)
-                    i.putExtra("name",name)
-                    i.putExtra("imageId",imageId)
-                    startActivity(i)
+            val name = gameNames[position]
+            val imageID = imageIDs[position]
+            val i = when (name) {
+                "Sudoku" -> {
+                    Intent(this, SudokuActivity::class.java)
                 }
                 "Wordle" -> {
-                    val i = Intent(this, WordleActivity::class.java)
-                    i.putExtra("name", name)
-                    i.putExtra("imageId", imageId)
-                    startActivity(i)
+                    Intent(this, WordleActivity::class.java)
+                }
+                else -> {
+                    Intent(this, TicTacToeActivity::class.java)
                 }
             }
+            i.putExtra("name",name)
+            i.putExtra("imageId",imageID)
+            startActivity(i)
         }
     }
 }
