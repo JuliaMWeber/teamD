@@ -13,8 +13,8 @@ class WordleModel(val controller : WordleActivity) {
     val maxTries = 6
     private var tries = 0
     private var userInput : String = ""
-
-    private lateinit var targetWord : String
+    private val userGuesses = Array<String>(6, { "" })
+    lateinit var targetWord : String
     private val dictionary = Dictionary()
 
     init {
@@ -102,6 +102,7 @@ class WordleModel(val controller : WordleActivity) {
     fun restartGame() {
         tries = 0
         userInput = ""
+        for (i in 0 until userGuesses.size) userGuesses[i] = ""
         pickTargetWord()
         controller.onGameEvent(GameEvent.RESTART)
     }
@@ -126,5 +127,9 @@ class WordleModel(val controller : WordleActivity) {
             controller.removeLetter(tries, userInput.length - 1)
             userInput = userInput.dropLast(1)
         }
+    }
+
+    fun getUserGuessesAsString(): String {
+        return userGuesses.joinToString()
     }
 }

@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
@@ -21,13 +22,27 @@ import de.thm.mow2gamecollection.wordle.model.grid.Tile
 
 class WordleActivity : AppCompatActivity() {
     val TAG = "WordleActivity"
+    val GAME_STATE_KEY = "gameState"
+    val TARGET_WORD_KEY = "targetWord"
+    val USER_GUESSES_KEY = "userGuesses"
 
     private lateinit var guessEditText: EditText
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
 
+    // var gameState: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
+
+        // get saved game state
+        // gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+        val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
+        Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
+        val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
+        Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
+
         setContentView(R.layout.activity_wordle)
 
         model = WordleModel(this)
@@ -35,37 +50,49 @@ class WordleActivity : AppCompatActivity() {
         createTiles()
 
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
+    }
 
-        /*
-        guessEditText = findViewById(R.id.guessEditText)
-        val submitButton : Button = findViewById(R.id.submitButton)
-        submitButton.setOnClickListener {
-            handleSubmitButtonClick()
-        }
-        guessEditText.setOnEditorActionListener { v, actionId, event ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_SEND -> {
-                    handleSubmitButtonClick()
-                    true
-                }
-                else -> false
-            }
+    // This callback is called only when there is a saved instance that is previously saved by using
+    // onSaveInstanceState(). We restore some state in onCreate(), while we can optionally restore
+    // other state here, possibly usable after onStart() has completed.
+    // The savedInstanceState Bundle is same as the one used in onCreate().
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        Log.d(TAG, "onRestoreInstanceState")
+        val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
+        super.onRestoreInstanceState(savedInstanceState)
+    }
 
-        }
-        guessEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                handleSubmitButtonClick()
-                return@OnKeyListener true
-            }
-            false
-        })
-        guessEditText.requestFocus()
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d(TAG, "onSaveInstanceState")
+        // outState.putString(GAME_STATE_KEY, gameState)
+        outState.putString(TARGET_WORD_KEY, model.targetWord)
+        outState.putString(USER_GUESSES_KEY, model.getUserGuessesAsString())
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState)
+    }
 
-         */
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d(TAG, keyCode.toString())
         return when (keyCode) {
             in 29..54 -> {
                 event?.let {
@@ -183,7 +210,7 @@ class WordleActivity : AppCompatActivity() {
         }
     }
 
-    // TODO: BroadcastReceiver
+    // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
         when (e) {
             GameEvent.LOST -> showDialog(GameEvent.LOST)

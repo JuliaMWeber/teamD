@@ -102,7 +102,6 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     fun updateButton(char: Char, letterStatus: LetterStatus) {
-        Log.d(TAG, "updateButton $char ${keyIDs[char]}")
         keyIDs[char]?.let {
             val keyView = requireView().findViewById<Button>(it)
             context?.let {
