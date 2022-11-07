@@ -16,7 +16,6 @@ class WordleModel(val controller : WordleActivity) {
     private var tries = 0
     private var userInput : String = ""
     private var userGuesses = mutableListOf<String>()
-    val GAME_STATE_KEY = "gameState"
     val TARGET_WORD_KEY = "targetWord"
     val USER_GUESSES_KEY = "userGuesses"
 
@@ -87,7 +86,7 @@ class WordleModel(val controller : WordleActivity) {
             }
         }
 
-        if (targetWord == userInput.toString()) {
+        if (targetWord == userInput) {
             gameWon()
         } else if (++tries == maxTries) {
             gameOver()
@@ -148,8 +147,8 @@ class WordleModel(val controller : WordleActivity) {
     fun saveGame() {
         Log.d(TAG, "saveGame")
         // Store values between instances here
-        val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE);
-        val editor = preferences.edit();  // Put the values from the UI
+        val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
+        val editor = preferences.edit()  // Put the values from the UI
 
 
         if(tries == 0 || gameEnded) {
@@ -161,7 +160,7 @@ class WordleModel(val controller : WordleActivity) {
             editor.putString(USER_GUESSES_KEY, getUserGuessesAsString())
         }
         // Apply to storage
-        editor.apply();
+        editor.apply()
     }
 
     fun retrieveSaveGame() {
@@ -171,13 +170,14 @@ class WordleModel(val controller : WordleActivity) {
             targetWord = it
         }
         preferences.getString(USER_GUESSES_KEY, null)?.let {
-            Log.d(TAG, it.toString())
-            userGuesses = it.split(", ").toMutableList()
-            tries = userGuesses.size
-            for (row in 0 until tries) {
-                for (index in 0 until wordLength) {
-                    controller.updateTileAndKey(row, index, userGuesses[row][index], LetterStatus.UNKNOWN)
-                }
+            Log.d(TAG, it)
+            val savedGuesses = it.split(", ").toMutableList()
+            for (guess in savedGuesses) {
+                userInput = guess
+                checkGuess()
+//                for (index in 0 until wordLength) {
+//                    controller.updateTileAndKey(row, index, userGuesses[row][index], LetterStatus.UNKNOWN)
+//                }
             }
         }
         Log.d(TAG, "targetWord: $targetWord")
