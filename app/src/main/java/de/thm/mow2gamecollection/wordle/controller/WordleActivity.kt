@@ -35,33 +35,6 @@ class WordleActivity : AppCompatActivity() {
         createTiles()
 
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
-
-        /*
-        guessEditText = findViewById(R.id.guessEditText)
-        val submitButton : Button = findViewById(R.id.submitButton)
-        submitButton.setOnClickListener {
-            handleSubmitButtonClick()
-        }
-        guessEditText.setOnEditorActionListener { v, actionId, event ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_SEND -> {
-                    handleSubmitButtonClick()
-                    true
-                }
-                else -> false
-            }
-
-        }
-        guessEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                handleSubmitButtonClick()
-                return@OnKeyListener true
-            }
-            false
-        })
-        guessEditText.requestFocus()
-
-         */
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
@@ -210,10 +183,6 @@ class WordleActivity : AppCompatActivity() {
             }
         }
     }
-
-    /* fun clearUserInput() {
-        guessEditText.text.clear()
-    } */
 
     fun showDialog(e: GameEvent) {
         val builder = AlertDialog.Builder(this)
