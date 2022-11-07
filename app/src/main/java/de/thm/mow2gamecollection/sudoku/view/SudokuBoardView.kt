@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.sudoku.controller.view.custom
+package de.thm.mow2gamecollection.sudoku.view
 
 import android.content.Context
 import android.graphics.Canvas

@@ -9,8 +9,8 @@ import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
-import de.thm.mow2gamecollection.sudoku.controller.view.custom.SudokuBoardView
-import de.thm.mow2gamecollection.sudoku.controller.viewModel.PlaySudokuViewModel
+import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
+import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
 
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
