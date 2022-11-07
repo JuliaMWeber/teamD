@@ -22,23 +22,78 @@ import de.thm.mow2gamecollection.wordle.model.grid.Tile
 class WordleActivity : AppCompatActivity() {
     val TAG = "WordleActivity"
 
-    private lateinit var guessEditText: EditText
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
+
+//        // get saved game state
+//        // gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+//        val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
+//        Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
+//        val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
+//        Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
+
         setContentView(R.layout.activity_wordle)
 
         model = WordleModel(this)
 
         createTiles()
 
+        // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
     }
 
+    // This callback is called only when there is a saved instance that is previously saved by using
+    // onSaveInstanceState(). We restore some state in onCreate(), while we can optionally restore
+    // other state here, possibly usable after onStart() has completed.
+    // The savedInstanceState Bundle is same as the one used in onCreate().
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        Log.d(TAG, "onRestoreInstanceState")
+//        val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d(TAG, "onSaveInstanceState")
+//        outState.putString(TARGET_WORD_KEY, model.targetWord)
+//        outState.putString(USER_GUESSES_KEY, model.getUserGuessesAsString())
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume")
+        super.onResume()
+        model.retrieveSaveGame()
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause")
+        super.onPause()
+        model.saveGame()
+    }
+
+    override fun onRestart() {
+        Log.d(TAG, "onRestart")
+        super.onRestart()
+    }
+
+    override fun onStart() {
+        Log.d(TAG, "onStart")
+        super.onStart()
+    }
+
+    override fun onStop() {
+        Log.d(TAG, "onStop")
+        super.onStop()
+    }
+
+    // handle physical keyboard input
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d(TAG, keyCode.toString())
         return when (keyCode) {
             in 29..54 -> {
                 event?.let {
@@ -129,9 +184,18 @@ class WordleActivity : AppCompatActivity() {
         model.checkGuess()
     }
 
+    fun updateTileAndKey(row: Int, index: Int, letter: Char, status: LetterStatus) {
+            updateTile(row, index, letter, status)
+    }
+
     fun updateTileAndKey(tile: Tile, letter: Char, status: LetterStatus) {
         updateTile(tile, letter, status)
         wordleKeyboardFragment.updateButton(letter, status)
+    }
+
+    fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
+        Log.d(TAG, "updateTile($row, $index, $letter, $status")
+        updateTile(Tile(row, index), letter, status)
     }
 
     fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {

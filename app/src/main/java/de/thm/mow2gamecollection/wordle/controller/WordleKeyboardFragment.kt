@@ -57,8 +57,6 @@ class WordleKeyboardFragment : Fragment() {
         } ?: run {
             keyboardLayout = KeyboardLayout.QWERTZ.toString()
         }
-
-        Log.d(TAG, "keyboard layout: $keyboardLayout")
     }
 
     override fun onCreateView(
@@ -102,7 +100,6 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     fun updateButton(char: Char, letterStatus: LetterStatus) {
-        Log.d(TAG, "updateButton $char ${keyIDs[char]}")
         keyIDs[char]?.let {
             val keyView = requireView().findViewById<Button>(it)
             context?.let {

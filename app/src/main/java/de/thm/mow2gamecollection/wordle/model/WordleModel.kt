@@ -1,6 +1,7 @@
 package de.thm.mow2gamecollection.wordle.model
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -11,10 +12,16 @@ class WordleModel(val controller : WordleActivity) {
     val TAG = "WordleModel"
     val wordLength = 5
     val maxTries = 6
+    private var gameEnded = false
     private var tries = 0
     private var userInput : String = ""
+    private var userGuesses = mutableListOf<String>()
+    val GAME_STATE_KEY = "gameState"
+    val TARGET_WORD_KEY = "targetWord"
+    val USER_GUESSES_KEY = "userGuesses"
 
-    private lateinit var targetWord : String
+    lateinit var targetWord : String
+    // val recentTargetWords
     private val dictionary = Dictionary()
 
     init {
@@ -48,6 +55,8 @@ class WordleModel(val controller : WordleActivity) {
         }
 
         // TODO: check if the word (user's guess) is in the dictionary
+
+        userGuesses.add(userInput)
 
         val remainingLetterOccurrences = HashMap<Char, Int>()
         // count occurences of letters in targetWord
@@ -90,18 +99,22 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     fun gameWon() {
+        gameEnded = true
         // TODO: update statistics
         controller.onGameEvent(GameEvent.WON)
     }
 
     fun gameOver() {
+        gameEnded = true
         // TODO: update statistics
         controller.onGameEvent(GameEvent.LOST)
     }
 
     fun restartGame() {
+        gameEnded = false
         tries = 0
         userInput = ""
+        userGuesses.clear()
         pickTargetWord()
         controller.onGameEvent(GameEvent.RESTART)
     }
@@ -126,5 +139,48 @@ class WordleModel(val controller : WordleActivity) {
             controller.removeLetter(tries, userInput.length - 1)
             userInput = userInput.dropLast(1)
         }
+    }
+
+    fun getUserGuessesAsString(): String {
+        return userGuesses.joinToString()
+    }
+
+    fun saveGame() {
+        Log.d(TAG, "saveGame")
+        // Store values between instances here
+        val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE);
+        val editor = preferences.edit();  // Put the values from the UI
+
+
+        if(tries == 0 || gameEnded) {
+            // remove game state if saved in Shared Preferences
+            editor.remove(TARGET_WORD_KEY)
+            editor.remove(USER_GUESSES_KEY)
+        } else {
+            editor.putString(TARGET_WORD_KEY, targetWord)
+            editor.putString(USER_GUESSES_KEY, getUserGuessesAsString())
+        }
+        // Apply to storage
+        editor.apply();
+    }
+
+    fun retrieveSaveGame() {
+        Log.d(TAG, "retrieveSaveGame")
+        val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
+        preferences.getString(TARGET_WORD_KEY, null)?.let {
+            targetWord = it
+        }
+        preferences.getString(USER_GUESSES_KEY, null)?.let {
+            Log.d(TAG, it.toString())
+            userGuesses = it.split(", ").toMutableList()
+            tries = userGuesses.size
+            for (row in 0 until tries) {
+                for (index in 0 until wordLength) {
+                    controller.updateTileAndKey(row, index, userGuesses[row][index], LetterStatus.UNKNOWN)
+                }
+            }
+        }
+        Log.d(TAG, "targetWord: $targetWord")
+        Log.d(TAG, "userGuesses: ${userGuesses.joinToString(",")}")
     }
 }
