@@ -14,12 +14,12 @@ import kotlin.math.min
 
 
 class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
-    private var sqrtGroeße = 3
-    private var groeße = 9
+    private var sqrtGroesse = 3
+    private var groesse = 9
 
     //Größen werden hier deklariert und in der Funktion onDraw gesetzt
-    private var zellenGroeße = 0F
-    private var notizGroeße = 0F
+    private var zellenGroesse = 0F
+    private var notizGroesse = 0F
 
     private var gewaehlteZeile = 0
     private var gewaehlteSpalte = 0
@@ -77,8 +77,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val feldGroeße = min(widthMeasureSpec, heightMeasureSpec)
-        setMeasuredDimension(feldGroeße, feldGroeße)
+        val feldGroesse = min(widthMeasureSpec, heightMeasureSpec)
+        setMeasuredDimension(feldGroesse, feldGroesse)
 
     }
 
@@ -92,11 +92,11 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun updateMeasurements(width : Int){
-        zellenGroeße = (width / groeße).toFloat()
-        notizGroeße = zellenGroeße /sqrtGroeße.toFloat()
-        notizTextFarbe.textSize=zellenGroeße/sqrtGroeße.toFloat()
-        textFarbe.textSize = zellenGroeße/1.5F
-        startzellenTextFarbe.textSize = zellenGroeße /1.5F
+        zellenGroesse = (width / groesse).toFloat()
+        notizGroesse = zellenGroesse /sqrtGroesse.toFloat()
+        notizTextFarbe.textSize=zellenGroesse/sqrtGroesse.toFloat()
+        textFarbe.textSize = zellenGroesse/1.5F
+        startzellenTextFarbe.textSize = zellenGroesse /1.5F
 
     }
 
@@ -111,7 +111,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeld)
             } else if (zeile == gewaehlteZeile || spalte == gewaehlteSpalte) {
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeldFehler)
-            } else if (zeile / sqrtGroeße == gewaehlteZeile / sqrtGroeße && spalte / sqrtGroeße == gewaehlteZeile / sqrtGroeße) {
+            } else if (zeile / sqrtGroesse == gewaehlteZeile / sqrtGroesse && spalte / sqrtGroesse == gewaehlteZeile / sqrtGroesse) {
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeldFehler)
             }
         }
@@ -119,10 +119,10 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private fun zelleFuellen(canvas: Canvas, r: Int, c: Int, paint: Paint) {
         canvas.drawRect(
-            c * zellenGroeße,
-            r * zellenGroeße,
-            (c + 1) * zellenGroeße,
-            (r + 1) * zellenGroeße,
+            c * zellenGroesse,
+            r * zellenGroesse,
+            (c + 1) * zellenGroesse,
+            (r + 1) * zellenGroesse,
             paint
         )
     }
@@ -130,24 +130,24 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     //Zeichnet das Gitter innerhalb des Sudokus
     private fun linienZeichnen(canvas: Canvas) {
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), dickeLinieZeichnen)
-        for (i in 1 until groeße) {
-            val paintToUse = when (i % sqrtGroeße) {
+        for (i in 1 until groesse) {
+            val paintToUse = when (i % sqrtGroesse) {
                 0 -> dickeLinieZeichnen
                 else -> duenneLinieZeichnen
             }
             canvas.drawLine(
-                i * zellenGroeße,
+                i * zellenGroesse,
                 0F,
-                i * zellenGroeße,
+                i * zellenGroesse,
                 height.toFloat(),
                 paintToUse
             )
 
             canvas.drawLine(
                 0F,
-                i * zellenGroeße,
+                i * zellenGroesse,
                 width.toFloat(),
-                i * zellenGroeße,
+                i * zellenGroesse,
                 paintToUse
             )
         }
@@ -160,8 +160,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
             if (value == 0) {
                 zelle.notizen.forEach { notiz ->
-                    val zeileInZelle = (notiz - 1) / sqrtGroeße
-                    val spalteInZelle = (notiz - 1) % sqrtGroeße
+                    val zeileInZelle = (notiz - 1) / sqrtGroesse
+                    val spalteInZelle = (notiz - 1) % sqrtGroesse
                     val valueString = notiz.toString()
 
                     val textGrenzen = Rect()
@@ -170,8 +170,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     val textHoehe = textGrenzen.height()
                     canvas.drawText(
                         valueString,
-                        (zelle.spalte * zellenGroeße) + (spalteInZelle * notizGroeße) + notizGroeße / 2 - textBreite / 2f,
-                        (zelle.zeile * zellenGroeße) + (zeileInZelle * notizGroeße) + notizGroeße / 2 + textHoehe / 2f,
+                        (zelle.spalte * zellenGroesse) + (spalteInZelle * notizGroesse) + notizGroesse / 2 - textBreite / 2f,
+                        (zelle.zeile * zellenGroesse) + (zeileInZelle * notizGroesse) + notizGroesse / 2 + textHoehe / 2f,
                         notizTextFarbe
                     )
 
@@ -189,8 +189,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
                 canvas.drawText(
                     valueString,
-                    (spalte * zellenGroeße) + zellenGroeße / 2 - textWidth / 2,
-                    (zeile * zellenGroeße) + zellenGroeße / 2 + textHeight / 2, textFarbe
+                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
+                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
                 )
             }
         }
@@ -208,8 +208,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun handleTouchEvent(x: Float, y: Float) {
-        val moeglicheGewarlteZeile = (y / zellenGroeße).toInt()
-        val moeglichegewaehlteSpalte = (x / zellenGroeße).toInt()
+        val moeglicheGewarlteZeile = (y / zellenGroesse).toInt()
+        val moeglichegewaehlteSpalte = (x / zellenGroesse).toInt()
         listener?.zelleTouched(moeglicheGewarlteZeile, moeglichegewaehlteSpalte)
     }
 
