@@ -12,7 +12,7 @@ class SudokuGame {
     val notizenMachenLiveData = MutableLiveData<Boolean>()
     val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int>>()
 
-    val sudoku : Array<IntArray>  = arrayOf(
+    val sudoku: Array<IntArray> = arrayOf(
         intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
         intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
         intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
@@ -30,28 +30,24 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { i -> Zelle( i / 9, i % 9, sudoku[i/9][i%9])}
+    var zellen = List(9 * 9) { i -> Zelle(i / 9, i % 9,  sudoku[i / 9][i % 9], visibility = false) }
 
     init {
         board = Board(9, zellen)
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
-        zellenLiveData.postValue(board.zellen)
         //notizenMachenLiveData.postValue(notizenMachen)
 
-        sudokuFuellen(sudoku)
+        //sudokuFuellen(sudoku)
 
-
+        for (h in 0 until 42) {
+            var zufallszahl: Int = (1..81).random()
+            zellen[zufallszahl].istStartzelle = true
+            zellenLiveData.postValue(board.zellen)
+            Log.d("Startzellen", "$gewaehlteSpalte, $gewaehlteZeile")
+        }
     }
 
-    fun sudokuFuellen(sudoku : Array<IntArray>){
-        for (h in 0 until 42){
-            var zufallszahl : Int = (1..81).random()
-            zellen[zufallszahl].istStartzelle = true
-            Log.d("Startzellen", "$gewaehlteSpalte, $gewaehlteZeile")
-
-        }
-
-
+    fun sudokuFuellen(sudoku: Array<IntArray>) {
 
     }
 
@@ -68,7 +64,7 @@ class SudokuGame {
             }
             hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
         } else {
-           zelle.value = zahl
+            zelle.value = zahl
         }
         zellenLiveData.postValue(board.zellen)
 

@@ -90,12 +90,12 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         textSchreiben(canvas)
     }
 
-    private fun updateMeasurements(width : Int){
+    private fun updateMeasurements(width: Int) {
         zellenGroesse = (width / groesse).toFloat()
-        notizGroesse = zellenGroesse /sqrtGroesse.toFloat()
-        notizTextFarbe.textSize=zellenGroesse/sqrtGroesse.toFloat()
-        textFarbe.textSize = zellenGroesse/1.5F
-        startzellenTextFarbe.textSize = zellenGroesse /1.5F
+        notizGroesse = zellenGroesse / sqrtGroesse.toFloat()
+        notizTextFarbe.textSize = zellenGroesse / sqrtGroesse.toFloat()
+        textFarbe.textSize = zellenGroesse / 1.5F
+        startzellenTextFarbe.textSize = zellenGroesse / 1.5F
 
     }
 
@@ -156,6 +156,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private fun textSchreiben(canvas: Canvas) {
         zellen?.forEach { zelle ->
             val value = zelle.value
+            val type = zelle.istStartzelle
 
             if (value == 0) {
                 zelle.notizen.forEach { notiz ->
@@ -175,7 +176,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     )
 
                 }
-            } else {
+            } else if (type) {
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
                 val valueString = zelle.value.toString()
@@ -186,11 +187,12 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                 val textWidth = textFarbe.measureText(valueString)
                 val textHeight = textBounds.height()
 
-                canvas.drawText(
-                    valueString,
-                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
-                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
-                )
+                 canvas.drawText(
+                     valueString,
+                     (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
+                     (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
+                 )
+
             }
         }
     }
