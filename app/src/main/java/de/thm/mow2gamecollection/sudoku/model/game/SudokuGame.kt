@@ -8,9 +8,21 @@ class SudokuGame {
 
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
     var zellenLiveData = MutableLiveData<List<Zelle>>()
+
     val notizenMachenLiveData = MutableLiveData<Boolean>()
     val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int>>()
 
+    val sudoku : Array<IntArray>  = arrayOf(
+        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
+        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
+        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
+        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
+        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
+        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
+        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
+        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
+        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
+    )
 
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
@@ -18,18 +30,29 @@ class SudokuGame {
 
     private val board: Board
 
-    init {
-        val zellen = List(9 * 9) { i -> Zelle(i / 9, i % 9, i % 9) }
-        zellen[0].notizen = mutableSetOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    var zellen = List(9 * 9) { i -> Zelle( i / 9, i % 9, sudoku[i/9][i%9])}
 
+    init {
         board = Board(9, zellen)
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         zellenLiveData.postValue(board.zellen)
         //notizenMachenLiveData.postValue(notizenMachen)
 
-        for (i in 0 until 24){
-            board.getZelle((0..8).random(),(0..8).random()).istStartzelle
+        sudokuFuellen(sudoku)
+
+
+    }
+
+    fun sudokuFuellen(sudoku : Array<IntArray>){
+        for (h in 0 until 42){
+            var zufallszahl : Int = (1..81).random()
+            zellen[zufallszahl].istStartzelle = true
+            Log.d("Startzellen", "$gewaehlteSpalte, $gewaehlteZeile")
+
         }
+
+
+
     }
 
     fun handleInput(zahl: Int) {
@@ -45,7 +68,7 @@ class SudokuGame {
             }
             hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
         } else {
-            zelle.value = zahl
+           zelle.value = zahl
         }
         zellenLiveData.postValue(board.zellen)
 

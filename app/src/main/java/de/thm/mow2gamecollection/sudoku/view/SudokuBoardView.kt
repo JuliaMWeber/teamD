@@ -50,7 +50,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private val farbeGewaehltesFeldFehler = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("RED")
+        color = Color.LTGRAY
     }
 
     private val textFarbe = Paint().apply {
@@ -63,16 +63,15 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLACK
         typeface = Typeface.DEFAULT_BOLD
-
     }
 
     private val notizTextFarbe = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.GRAY
+        color = Color.DKGRAY
     }
     private val farbeStartzelle = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#00ba00")
+        color = Color.parseColor("#8B9986")
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
