@@ -16,24 +16,34 @@ class WordleModel(val controller : WordleActivity) {
     private var tries = 0
     private var userInput : String = ""
     private var userGuesses = mutableListOf<String>()
-    val TARGET_WORD_KEY = "targetWord"
-    val USER_GUESSES_KEY = "userGuesses"
+    private val TARGET_WORD_KEY = "targetWord"
+    private val USER_GUESSES_KEY = "userGuesses"
 
-    lateinit var targetWord : String
+    private var targetWord : String? = null
     // val recentTargetWords
     private val dictionary = Dictionary()
 
     init {
-        startGame()
-    }
+        Log.d(TAG, "init block")
+        retrieveSaveGame()
+        Log.d(TAG, "targetWord: $targetWord")
+        targetWord ?: run {
+            pickTargetWord()
+        }
+        Log.d(TAG, "targetWord: $targetWord")
 
-    fun startGame() {
-        pickTargetWord()
+        controller.createTiles(wordLength, maxTries)
+
+        // add retrieved userGuesses to UI
+        for(guess in userGuesses) {
+            checkGuess(guess)
+        }
         // TODO: start timer
     }
 
     // returns a randomly chosen target word
     fun pickTargetWord() {
+        Log.d(TAG, "pickTargetWord")
         /* TODO:    - add old targetWord to list of last target words
                     - check that new randomly chosen target word isn't in the list
         if(this::targetWord.isInitialized) {
@@ -43,9 +53,11 @@ class WordleModel(val controller : WordleActivity) {
         Log.d(TAG, "targetWord is $targetWord")
     }
 
-    fun checkGuess() {
-        if (userInput.length != wordLength) {
-            if (userInput.length < wordLength) {
+    fun checkGuess(input: String = userInput) {
+        Log.d(TAG, input)
+        Log.d(TAG, "(userInput.length != wordLength?) -> ${input.length} =? ${targetWord?.length})}")
+        if (input.length != wordLength) {
+            if (input.length < wordLength) {
                 controller.displayInformation("word too short!")
             } else {
                 controller.displayInformation("word too long!")
@@ -53,30 +65,26 @@ class WordleModel(val controller : WordleActivity) {
             return
         }
 
-        // TODO: check if the word (user's guess) is in the dictionary
-
-        userGuesses.add(userInput)
-
         val remainingLetterOccurrences = HashMap<Char, Int>()
         // count occurences of letters in targetWord
-        for (i in 0 until targetWord.length) {
-            val char = targetWord[i]
-            val charCount = targetWord.count { it == char }
+        for (i in 0 until targetWord!!.length) {
+            val char = targetWord!![i]
+            val charCount = targetWord!!.count { it == char }
             remainingLetterOccurrences.putIfAbsent(char, charCount)
 
             // don't count letters that are in the correct position (subtract one occurence)
-            if (userInput[i] == char) {
+            if (input[i] == char) {
                 remainingLetterOccurrences[char] = remainingLetterOccurrences[char]!! - 1
             }
         }
 
-        for (i in 0 until userInput.length) {
+        for (i in 0 until input.length) {
             val tile = Tile(
                 Position(tries, i)
             )
-            val char = userInput[i]
-            val occurrences = remainingLetterOccurrences.getOrDefault(userInput[i], 0)
-            if (targetWord[i] == char) {
+            val char = input[i]
+            val occurrences = remainingLetterOccurrences.getOrDefault(input[i], 0)
+            if (targetWord!![i] == char) {
                 controller.updateTileAndKey(tile, char, LetterStatus.CORRECT)
             } else if (occurrences > 0) {
                 controller.updateTileAndKey(tile, char, LetterStatus.WRONG_POSITION)
@@ -86,7 +94,7 @@ class WordleModel(val controller : WordleActivity) {
             }
         }
 
-        if (targetWord == userInput) {
+        if (targetWord == input) {
             gameWon()
         } else if (++tries == maxTries) {
             gameOver()
@@ -144,15 +152,14 @@ class WordleModel(val controller : WordleActivity) {
         return userGuesses.joinToString()
     }
 
-    fun saveGame() {
-        Log.d(TAG, "saveGame")
+    fun saveGameState() {
+        Log.d(TAG, "saveGameState")
         // Store values between instances here
         val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
-        val editor = preferences.edit()  // Put the values from the UI
-
+        val editor = preferences.edit()
 
         if(tries == 0 || gameEnded) {
-            // remove game state if saved in Shared Preferences
+            // remove saved game state from Shared Preferences (if existent)
             editor.remove(TARGET_WORD_KEY)
             editor.remove(USER_GUESSES_KEY)
         } else {
@@ -168,19 +175,24 @@ class WordleModel(val controller : WordleActivity) {
         val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
         preferences.getString(TARGET_WORD_KEY, null)?.let {
             targetWord = it
-        }
+            Log.d(TAG, "targetWord retrieved: $it")
+        } ?: Log.d(TAG, "no targetWord saved")
         preferences.getString(USER_GUESSES_KEY, null)?.let {
-            Log.d(TAG, it)
+            Log.d(TAG, "userGuesses retrieved: $it")
             val savedGuesses = it.split(", ").toMutableList()
             for (guess in savedGuesses) {
-                userInput = guess
-                checkGuess()
+                userGuesses.add(guess)
 //                for (index in 0 until wordLength) {
 //                    controller.updateTileAndKey(row, index, userGuesses[row][index], LetterStatus.UNKNOWN)
 //                }
             }
-        }
-        Log.d(TAG, "targetWord: $targetWord")
-        Log.d(TAG, "userGuesses: ${userGuesses.joinToString(",")}")
+        } ?: Log.d(TAG, "no user guesses saved")
+    }
+
+    fun onGuessSubmitted() {
+        // TODO: check if the word (user's guess) is in the dictionary
+
+        userGuesses.add(userInput)
+        checkGuess()
     }
 }

@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.wordle.model.WordleModel
@@ -28,19 +29,7 @@ class WordleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-
-//        // get saved game state
-//        // gameState = savedInstanceState?.getString(GAME_STATE_KEY)
-//        val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
-//        Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
-//        val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
-//        Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
-
         setContentView(R.layout.activity_wordle)
-
-        model = WordleModel(this)
-
-        createTiles()
 
         // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
@@ -68,13 +57,13 @@ class WordleActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d(TAG, "onResume")
         super.onResume()
-        model.retrieveSaveGame()
+        model = WordleModel(this)
     }
 
     override fun onPause() {
         Log.d(TAG, "onPause")
         super.onPause()
-        model.saveGame()
+        model.saveGameState()
     }
 
     override fun onRestart() {
@@ -106,19 +95,26 @@ class WordleActivity : AppCompatActivity() {
                 true
             }
             KeyEvent.KEYCODE_ENTER -> {
+                Log.d(TAG, "KEYCODE_ENTER")
                 // TODO: not working as expected, q button gains focus
                 handleSubmitButtonClick()
                 true
             }
-            else -> super.onKeyUp(keyCode, event)
+            else -> {
+                event?.keyCode.let {
+                    Log.d(TAG, "keyCode: ${it.toString()}")
+                }
+                super.onKeyUp(keyCode, event)
+            }
         }
     }
 
     // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
-    private fun createTiles() {
+    fun createTiles(cols: Int, rows: Int) {
+        Log.d(TAG, "createTiles($cols, $rows)")
         val tableLayout : TableLayout = findViewById(R.id.tableLayout)
 
-        for (i in 1..model.maxTries) {
+        for (i in 1..rows) {
             val tableRow = TableRow(this)
             tableRow.layoutParams = TableLayout.LayoutParams(
                 TableLayout.LayoutParams.MATCH_PARENT,
@@ -126,7 +122,7 @@ class WordleActivity : AppCompatActivity() {
             )
             tableRow.gravity = Gravity.CENTER
             tableLayout.addView(tableRow)
-            for (j in 1..model.wordLength) {
+            (1..cols).forEach {
                 val tile = TextView(this)
                 val layoutParams = TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
@@ -173,7 +169,9 @@ class WordleActivity : AppCompatActivity() {
 
     // returns the TextView corresponding to a Tile object
     private fun getTileView(tile: Tile) : TextView {
-        val tableRow = findViewById<TableLayout>(R.id.tableLayout).getChildAt(tile.position.row)
+        val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
+        Log.d(TAG, tableLayout.children.toString())
+        val tableRow = tableLayout.getChildAt(tile.position.row)
         return (tableRow as TableRow).getChildAt(tile.position.index) as TextView
     }
 
@@ -181,7 +179,7 @@ class WordleActivity : AppCompatActivity() {
     private fun handleSubmitButtonClick() {
         // val userInput = guessEditText.text
         // model.checkGuess(userInput)
-        model.checkGuess()
+        model.onGuessSubmitted()
     }
 
     fun updateTileAndKey(row: Int, index: Int, letter: Char, status: LetterStatus) {
@@ -234,9 +232,10 @@ class WordleActivity : AppCompatActivity() {
     }
 
     fun handleKeyboardClick(button: Button) {
+        Log.d(TAG, "handleKeyboardClick $button.text")
         when (button.text) {
             "✓" -> {
-                model.checkGuess()
+                model.onGuessSubmitted()
             }
             "←" -> {
                 model.removeLetter()
@@ -255,10 +254,10 @@ class WordleActivity : AppCompatActivity() {
             GameEvent.WON -> {
                 builder.setTitle("You won!")
                     .setMessage("Do you want to play again?")
-                    .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                    .setPositiveButton("Yes", {
                             dialog, id -> model.restartGame()
                     })
-                    .setNegativeButton("No", DialogInterface.OnClickListener {
+                    .setNegativeButton("No", {
                             dialog, id -> startActivity(Intent(this, GamesListActivity::class.java))
 
                     })
@@ -266,10 +265,10 @@ class WordleActivity : AppCompatActivity() {
             GameEvent.LOST -> {
                 builder.setTitle("Bad luck!")
                     .setMessage("Do you want to try again?")
-                    .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                    .setPositiveButton("Yes", {
                             dialog, id -> model.restartGame()
                     })
-                    .setNegativeButton("No", DialogInterface.OnClickListener {
+                    .setNegativeButton("No", {
                             dialog, id -> startActivity(Intent(this, GamesListActivity::class.java))
                     })
             }

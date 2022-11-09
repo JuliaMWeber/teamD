@@ -1,7 +1,6 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +9,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import androidx.fragment.app.findFragment
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-
-private const val TAG = "WordleKeyboardFragment"
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,24 +66,24 @@ class WordleKeyboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         keyboardLayouts[selectedKeyboardLayout]?.let {
-            for (keyboardRow in 0 until it.size) {
-                for (keyLabel in it[keyboardRow]) {
+            for (i in it.indices) {
+                for (keyLabel in it[i]) {
                     val button = Button(context)
                     button.text = keyLabel.toString()
-                    button.layoutParams = LinearLayout.LayoutParams(
+                    button.layoutParams = LayoutParams(
                         LayoutParams.WRAP_CONTENT,
                         LayoutParams.WRAP_CONTENT,
                         1F
                     )
                     button.setPadding(4, 4, 4, 4)
-                    context?.let {
-                        button.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_unknown_panel_background)
-                        button.setTextColor(ContextCompat.getColor(it, R.color.white))
+                    context?.let { context ->
+                        button.backgroundTintList = ContextCompat.getColorStateList(context, R.color.wordle_unknown_panel_background)
+                        button.setTextColor(ContextCompat.getColor(context, R.color.white))
                     }
                     button.id = View.generateViewId()
-                    keyIDs.set(keyLabel, button.id)
+                    keyIDs[keyLabel] = button.id
                     button.setOnClickListener { handleButtonClick(button) }
-                    val rowLayout = (getView() as LinearLayout).getChildAt(keyboardRow) as LinearLayout
+                    val rowLayout = (getView() as LinearLayout).getChildAt(i) as LinearLayout
                     rowLayout.addView(button)
                 }
             }
@@ -104,10 +99,10 @@ class WordleKeyboardFragment : Fragment() {
             val keyView = requireView().findViewById<Button>(it)
             context?.let {
                 when (letterStatus) {
-                    LetterStatus.UNKNOWN -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_unknown_panel_background)
-                    LetterStatus.CORRECT -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_correct_panel_background)
-                    LetterStatus.WRONG_POSITION -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_wrong_position_panel_background)
-                    LetterStatus.WRONG -> keyView.backgroundTintList = ContextCompat.getColorStateList(it, R.color.wordle_wrong_panel_background)
+                    LetterStatus.UNKNOWN -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_unknown_panel_background)
+                    LetterStatus.CORRECT -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_correct_panel_background)
+                    LetterStatus.WRONG_POSITION -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_position_panel_background)
+                    LetterStatus.WRONG -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_panel_background)
                     else -> return
                 }
             }
@@ -116,8 +111,8 @@ class WordleKeyboardFragment : Fragment() {
 
     fun resetKeyboard() {
         keyboardLayouts[selectedKeyboardLayout]?.let {
-            for (keyboardRow in 0 until it.size) {
-                for (keyLabel in it[keyboardRow]) {
+            for (keyboardRow in it) {
+                for (keyLabel in keyboardRow) {
                     updateButton(keyLabel, LetterStatus.UNKNOWN)
                 }
             }
