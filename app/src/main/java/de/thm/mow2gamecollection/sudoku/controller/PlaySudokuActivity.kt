@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.sudoku.model.game.Generator
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
@@ -19,6 +20,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     lateinit var sudokuBoardView: SudokuBoardView
     lateinit var notizButton: ImageButton
     lateinit var entfernenButton: ImageButton
+    lateinit var gen : Generator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,9 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         notizButton = findViewById(R.id.notizButton)
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
         entfernenButton = findViewById(R.id.entfernenButton)
-        entfernenButton.setOnClickListener {viewModel.sudokuGame.entfernen()}
+        entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
+
+        gen.createArray()
     }
 
     private fun zellenUpdate(zellen: List<Zelle>?) = zellen?.let {

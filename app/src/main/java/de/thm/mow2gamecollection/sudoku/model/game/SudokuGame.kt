@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 
 
 class SudokuGame {
+    private lateinit var gen : Generator
 
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
     var zellenLiveData = MutableLiveData<List<Zelle>>()
@@ -24,37 +25,41 @@ class SudokuGame {
         intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
     )
 
+    val genSudoku = gen.createArray()
+
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
     private var notizenMachen = false
 
     private val board: Board
 
-    var zellen = List(9 * 9) { i -> Zelle(i / 9, i % 9,  sudoku[i / 9][i % 9], visibility = false) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, genSudoku[f % 9]) }
 
     init {
         board = Board(9, zellen)
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
-        //notizenMachenLiveData.postValue(notizenMachen)
+        notizenMachenLiveData.postValue(notizenMachen)
 
-        //sudokuFuellen(sudoku)
+        sudokuFelderVorgeben()
 
-        for (h in 0 until 42) {
+
+    }
+
+    fun sudokuFelderVorgeben() {
+        for (h in 0 until 80) {
             var zufallszahl: Int = (1..81).random()
             zellen[zufallszahl].istStartzelle = true
             zellenLiveData.postValue(board.zellen)
-            Log.d("Startzellen", "$gewaehlteSpalte, $gewaehlteZeile")
         }
-    }
-
-    fun sudokuFuellen(sudoku: Array<IntArray>) {
-
     }
 
     fun handleInput(zahl: Int) {
         if (gewaehlteZeile == -1 || gewaehlteSpalte == -1) return
         var zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
+        if (board.getZelle(gewaehlteZeile,gewaehlteSpalte).istLeer) return
+
+
 
         if (notizenMachen) {
             if (zelle.notizen.contains(zahl)) {
@@ -80,6 +85,10 @@ class SudokuGame {
             if (notizenMachen) {
                 hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
             }
+        } else if (!zelle.istLeer) {
+            gewaehlteZeile = zeile
+            gewaehlteSpalte = spalte
+            gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
         }
     }
 
@@ -102,9 +111,13 @@ class SudokuGame {
         if (notizenMachen) {
             zelle.notizen.clear()
             hervorgehobeneSchluesselLiveData.postValue(setOf())
+        } else if (zelle.istStartzelle) {
+            zelle.value
         } else {
             zelle.value = 0
         }
+
         zellenLiveData.postValue(board.zellen)
     }
 }
+

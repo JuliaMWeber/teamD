@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent">
     <de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
@@ -10,11 +11,55 @@
         android:layout_above="@id/buttonsLayout"/>
 
     <GridLayout
+        android:id="@+id/schwierigkeitsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rowCount="2"
+        android:columnCount="3"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/schwierigkeitsauswahl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_columnSpan="3"
+            android:textAlignment="center"
+            android:layout_gravity="fill_horizontal"
+            android:text="Schwierigkeit"
+            tools:ignore="RtlCompat" />
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="Leicht" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:text="Mittel" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schwer"
+            android:layout_row="1"
+            android:layout_column="2"/>
+    </GridLayout>
+    <GridLayout
         android:id="@+id/buttonsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:rowCount="4"
-        android:columnCount="3"
+        android:columnCount="4"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
@@ -92,6 +137,7 @@
             android:id="@+id/notizButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
             android:layout_row="3"
             android:layout_column="0"
             app:srcCompat="@drawable/edit_pen_black"/>
@@ -100,12 +146,20 @@
             android:id="@+id/entfernenButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
             android:layout_row="3"
             android:layout_column="1"
             app:srcCompat="@drawable/delete_black" />
+        <Button
+            android:id="@+id/loeseneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:text="Lösen"
+            android:layout_row="3"
+            android:layout_column="2"/>
+
     </GridLayout>
-
-
 
 
 </RelativeLayout>
