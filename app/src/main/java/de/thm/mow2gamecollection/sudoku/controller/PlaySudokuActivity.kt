@@ -55,17 +55,12 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             findViewById(R.id.nineButton)
         )
 
-        zahlenButtons.forEachIndexed { index, button ->
-            button.setOnClickListener {
-                viewModel.sudokuGame.handleInput(index + 1)
-            }
-        }
         notizButton = findViewById(R.id.notizButton)
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
         entfernenButton = findViewById(R.id.entfernenButton)
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
 
-        gen.createArray()
+        //gen.createArray()
     }
 
     private fun zellenUpdate(zellen: List<Zelle>?) = zellen?.let {

@@ -9,13 +9,18 @@ class Rules {
 
 
     fun zellenPruefen(){
-            TODO()
+            TODO( /*Wenn eingegebene Zahl mit Zahl aus dem Sudoku überein stimmt,
+        dann makiere das Feld grün, wenn die eingegebene Zahl nicht übereinstimmt
+        dann makiere das Feld rot
+         */)
+
 
     }
 
     fun zahlenEintragen(button: Button, wert: Unit) : Any{
         button.setOnClickListener(
-            TODO()
+            TODO(/*Wenn der Button gedrückt wurde, gebe den Wert des
+            Buttons auf dem gewählten Feld aus*/ )
         )
     }
 }

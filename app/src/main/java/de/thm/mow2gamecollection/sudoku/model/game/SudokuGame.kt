@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 
 
 class SudokuGame {
-    private lateinit var gen : Generator
+    //private lateinit var gen: Generator
 
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
     var zellenLiveData = MutableLiveData<List<Zelle>>()
@@ -25,7 +25,7 @@ class SudokuGame {
         intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
     )
 
-    val genSudoku = gen.createArray()
+    //val genSudoku = gen.createArray()
 
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
@@ -33,7 +33,7 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, genSudoku[f % 9]) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, sudoku[f / 9][f % 9]) }
 
     init {
         board = Board(9, zellen)
@@ -57,7 +57,7 @@ class SudokuGame {
         if (gewaehlteZeile == -1 || gewaehlteSpalte == -1) return
         var zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
-        if (board.getZelle(gewaehlteZeile,gewaehlteSpalte).istLeer) return
+        if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istLeer) return
 
 
 

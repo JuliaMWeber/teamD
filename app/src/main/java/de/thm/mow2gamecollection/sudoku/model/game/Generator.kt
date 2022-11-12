@@ -4,8 +4,8 @@ import android.util.Log
 
 class Generator {
 
-    fun createArray() {
+    /*fun createArray() {
         var genSudoku = Array(9 * 9) { i -> (1..9).random() }
         Log.d("Array", "$genSudoku")
-    }
+    }*/
 }

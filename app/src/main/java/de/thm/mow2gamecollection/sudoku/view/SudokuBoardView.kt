@@ -32,30 +32,30 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     //Malt dicke Linien
     private val dickeLinieZeichnen = Paint().apply {
-        style = Paint.Style.STROKE
+        style = Style.STROKE
         color = Color.BLACK
         strokeWidth = 4F
     }
 
     //Malt dünne Linien
     private val duenneLinieZeichnen = Paint().apply {
-        style = Paint.Style.STROKE
+        style = Style.STROKE
         color = Color.BLACK
         strokeWidth = 3F
     }
 
     private val farbeGewaehltesFeld = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.parseColor("#80ba24")
     }
 
     private val farbeGewaehltesFeldFehler = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.LTGRAY
     }
 
     private val textFarbe = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.BLACK
     }
 
@@ -67,21 +67,21 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private val notizTextFarbe = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.DKGRAY
     }
     private val farbeStartzelle = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.parseColor("#8B9986")
     }
 
     private val buttonZelle = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.parseColor("#CFF0CC")
     }
 
     private val buttonZelleText = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Style.FILL_AND_STROKE
         color = Color.BLACK
         typeface = Typeface.DEFAULT_BOLD
     }
@@ -121,7 +121,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             if (it.istStartzelle) {
                 zelleFuellen(canvas, zeile, spalte, farbeStartzelle)
             } else if (it.istLeer) {
-                zelleFuellen(canvas,zeile,spalte,buttonZelle)
+                zelleFuellen(canvas, zeile, spalte, buttonZelle)
             } else if (zeile == gewaehlteZeile && spalte == gewaehlteSpalte) {
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeld)
             } else if (zeile == gewaehlteZeile || spalte == gewaehlteSpalte) {
@@ -142,7 +142,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         )
     }
 
-    //Zeichnet das Gitter innerhalb des Sudokus
     private fun linienZeichnen(canvas: Canvas) {
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), dickeLinieZeichnen)
         for (i in 1 until groesse) {
@@ -198,7 +197,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                 val spalte = zelle.spalte
                 val valueString = zelle.value.toString()
 
-                val zuNutzendeFarbe = if (zelle.istStartzelle) startzellenTextFarbe else textFarbe
+               val zuNutzendeFarbe = if (zelle.istStartzelle) startzellenTextFarbe else textFarbe
                 val textBounds = Rect()
                 zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
                 val textWidth = textFarbe.measureText(valueString)
