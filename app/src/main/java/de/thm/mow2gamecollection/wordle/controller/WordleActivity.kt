@@ -19,10 +19,11 @@ import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
+import de.thm.mow2gamecollection.wordle.helper.*
+
+private const val TAG = "WordleActivity"
 
 class WordleActivity : AppCompatActivity() {
-    val TAG = "WordleActivity"
-
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
 
@@ -86,7 +87,7 @@ class WordleActivity : AppCompatActivity() {
         return when (keyCode) {
             in 29..54 -> {
                 event?.let {
-                    model.addLetter(event.getUnicodeChar().toChar())
+                    model.addLetter(event.unicodeChar.toChar())
                 }
                 true
             }
@@ -122,17 +123,17 @@ class WordleActivity : AppCompatActivity() {
             )
             tableRow.gravity = Gravity.CENTER
             tableLayout.addView(tableRow)
-            (1..cols).forEach {
+            repeat(cols) {
                 val tile = TextView(this)
                 val layoutParams = TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
                 )
-                layoutParams.setMargins(2,2,2,2)
+                layoutParams.setMargins(2, 2, 2, 2)
                 tile.layoutParams = layoutParams
                 tile.setPadding(20, 0, 20, 0)
                 tile.minEms = 1
-                tile.setTextSize(55F)
+                tile.textSize = 55F
                 resetTile(tile)
 
                 tableRow.addView(tile)
@@ -142,9 +143,9 @@ class WordleActivity : AppCompatActivity() {
 
     private fun resetAllTiles() {
         val tableLayout : TableLayout = findViewById(R.id.tableLayout)
-        for (i in 0 until model.maxTries) {
+        for (i in 0 until MAX_TRIES) {
             val row : TableRow = tableLayout.getChildAt(i) as TableRow
-            for (j in 0 until model.wordLength) {
+            for (j in 0 until WORD_LENGTH) {
                 val tile : TextView = row.getChildAt(j) as TextView
                 resetTile(tile)
             }
@@ -191,7 +192,7 @@ class WordleActivity : AppCompatActivity() {
         wordleKeyboardFragment.updateButton(letter, status)
     }
 
-    fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
+    private fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
         Log.d(TAG, "updateTile($row, $index, $letter, $status")
         updateTile(Tile(row, index), letter, status)
     }
@@ -247,7 +248,7 @@ class WordleActivity : AppCompatActivity() {
         }
     }
 
-    fun showDialog(e: GameEvent) {
+    private fun showDialog(e: GameEvent) {
         val builder = AlertDialog.Builder(this)
 
         when (e) {
@@ -265,12 +266,12 @@ class WordleActivity : AppCompatActivity() {
             GameEvent.LOST -> {
                 builder.setTitle("Bad luck!")
                     .setMessage("Do you want to try again?")
-                    .setPositiveButton("Yes", {
-                            dialog, id -> model.restartGame()
-                    })
-                    .setNegativeButton("No", {
-                            dialog, id -> startActivity(Intent(this, GamesListActivity::class.java))
-                    })
+                    .setPositiveButton("Yes") { _, _ ->
+                        model.restartGame()
+                    }
+                    .setNegativeButton("No") { _, _ ->
+                        startActivity(Intent(this, GamesListActivity::class.java))
+                    }
             }
             GameEvent.GIVE_UP -> {
                 // TODO
@@ -282,7 +283,7 @@ class WordleActivity : AppCompatActivity() {
         builder.show().getButton(DialogInterface.BUTTON_POSITIVE).requestFocus()
     }
 
-    fun giveUp() {
+    private fun giveUp() {
         // TODO: ???
     }
 }
