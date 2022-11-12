@@ -255,13 +255,14 @@ class WordleActivity : AppCompatActivity() {
             GameEvent.WON -> {
                 builder.setTitle("You won!")
                     .setMessage("Do you want to play again?")
-                    .setPositiveButton("Yes", {
-                            dialog, id -> model.restartGame()
-                    })
-                    .setNegativeButton("No", {
-                            dialog, id -> startActivity(Intent(this, GamesListActivity::class.java))
-
-                    })
+                    .setPositiveButton("Yes") { _, _ ->
+                        model.restartGame()
+                    }
+                    .setNegativeButton("No") { _, _ ->
+                        intent = Intent(this, GamesListActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                    }
             }
             GameEvent.LOST -> {
                 builder.setTitle("Bad luck!")
