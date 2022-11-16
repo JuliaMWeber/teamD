@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 class SudokuGame {
     //private lateinit var gen: Generator
 
+
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
     var zellenLiveData = MutableLiveData<List<Zelle>>()
 
@@ -24,6 +25,7 @@ class SudokuGame {
         intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
         intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
     )
+
 
     //val genSudoku = gen.createArray()
 
@@ -45,17 +47,31 @@ class SudokuGame {
 
     }
 
-    fun sudokuFelderVorgeben() {
+
+    private fun sudokuFelderVorgeben() {
         for (h in 0 until 80) {
-            var zufallszahl: Int = (1..81).random()
+            val zufallszahl: Int = (1..81).random()
             zellen[zufallszahl].istStartzelle = true
             zellenLiveData.postValue(board.zellen)
         }
     }
 
+    /*  private var playSudokuActivity: PlaySudokuActivity = PlaySudokuActivity()
+      private fun zahlenEintragen() {
+          val zelle: Int = gewaehlteSpalte + gewaehlteZeile
+          playSudokuActivity.zahlenButtons.forEachIndexed { index, button ->
+              button.setOnClickListener {
+                  //zellen[zelle].istStartzelle = true
+                  //viewModel.sudokuGame.handleInput(index + 1)
+                  //zellenLiveData.postValue(sudokuGame.board.zellen)
+              }
+          }
+      }*/
+
+
     fun handleInput(zahl: Int) {
         if (gewaehlteZeile == -1 || gewaehlteSpalte == -1) return
-        var zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
+        val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istLeer) return
 
@@ -101,7 +117,7 @@ class SudokuGame {
             board.getZelle(gewaehlteZeile, gewaehlteSpalte).notizen
 
         } else {
-            setOf<Int>()
+            setOf()
         }
         hervorgehobeneSchluesselLiveData.postValue(akNotiz)
     }
@@ -120,4 +136,5 @@ class SudokuGame {
         zellenLiveData.postValue(board.zellen)
     }
 }
+
 

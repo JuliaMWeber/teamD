@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.sudoku.model.game.Generator
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
@@ -16,11 +15,15 @@ import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
     private lateinit var viewModel: PlaySudokuViewModel
-    private lateinit var zahlenButtons: List<Button>
-    lateinit var sudokuBoardView: SudokuBoardView
-    lateinit var notizButton: ImageButton
-    lateinit var entfernenButton: ImageButton
-    lateinit var gen : Generator
+    lateinit var zahlenButtons: List<Button>
+
+    private lateinit var sudokuBoardView: SudokuBoardView
+    private lateinit var notizButton: ImageButton
+    private lateinit var entfernenButton: ImageButton
+
+
+    //    lateinit var gen : Generator
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,14 +58,24 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             findViewById(R.id.nineButton)
         )
 
+
+
+
+        zahlenButtons.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                viewModel.sudokuGame.handleInput(index + 1)
+            }
+        }
+
         notizButton = findViewById(R.id.notizButton)
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
         entfernenButton = findViewById(R.id.entfernenButton)
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
 
-        //gen.createArray()
     }
 
+
+    /* ---- Updatefunktionen ---- */
     private fun zellenUpdate(zellen: List<Zelle>?) = zellen?.let {
         sudokuBoardView.updateZellen(zellen)
     }
@@ -71,7 +84,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         sudokuBoardView.updategewaelteZelleUI(cell.first, cell.second)
     }
 
-    fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
+    private fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
         if (it) {
             notizButton.setBackgroundColor(
                 ContextCompat.getColor(
