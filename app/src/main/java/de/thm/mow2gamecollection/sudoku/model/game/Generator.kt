@@ -1,6 +1,5 @@
 package de.thm.mow2gamecollection.sudoku.model.game
 
-import android.util.Log
 
 class Generator {
     var sudokuGen = Array(9) { i -> Array(9) { j -> 0 } }
@@ -16,7 +15,7 @@ class Generator {
         return true
     }
 
-    fun ratselLoesen(sudoku: Array<Array<Int>>): Boolean {
+    fun ratselLoesen(sudoku: Array<Array<Int>>): Any {
         var zaehler = 0
         var quad = Array(3) { i -> Array(3) { j -> 0 } }
 
@@ -32,13 +31,13 @@ class Generator {
                                 if (col < 3) {
                                     for (i in 0 until 3) {
                                         for (j in 0 until 3) {
-                                            quad[i][j] = sudoku[i][j]
+                                            //quad[i][j] = sudoku[i][j]
                                         }
                                     }
                                 } else if (col < 6) {
                                     for (i in 0 until 3) {
                                         for (j in 3 until 6) {
-                                            quad[i][j] = sudoku[i][j]
+//                                            quad[i][j] = sudoku[i][j]
                                         }
                                     }
                                 } else {
@@ -95,9 +94,9 @@ class Generator {
                                     zaehler += 1
                                     break
                                 } else {
-                                    if (ratselLoesen(sudoku)) {
-                                        return true
-                                    }
+//                                    if (ratselLoesen(sudoku) as Boolean) {
+                                    return sudoku
+
                                 }
                             }
                         }
@@ -105,18 +104,18 @@ class Generator {
                 }
             }
         }
-        return true
+        return sudoku
     }
 
     var nummernliste = Array(9) { arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9) }
 
-    fun raetselFuellen(sudoku: Array<Array<Int>>): Boolean {
+    fun raetselFuellen(sudoku: Array<Array<Int>>): Any {
         var zaehler = 0
-        var quad = Array(3) { i -> Array(3) { j -> 0 } }
+        val quad = Array(3) { i -> Array(3) { j -> 0 } }
 
         for (i in 0 until 81) {
-            var row = i / 9
-            var col = i % 9
+            val row = i / 9
+            val col = i % 9
 
             if (sudoku[row][col] == 0) {
                 nummernliste.shuffle()
@@ -192,21 +191,23 @@ class Generator {
                                 }
                             }
                             if (!value.contentEquals((quad[0] + quad[1] + quad[2]))) {
-                                sudoku[row][col] = value
+                                sudoku[row] = value
                                 if (gitterPruefen(sudoku)) {
                                     zaehler += 1
                                     break
                                 } else {
-                                    if (ratselLoesen(sudoku)) {
-                                        return true
-                                    }
+//                                    if (ratselLoesen(sudoku) as Boolean) {
+                                    return sudoku
                                 }
                             }
                         }
-                    break}
+                    }
+                    break
                 }
             }
         }
+        return sudoku
     }
 }
+
 

@@ -25,6 +25,8 @@ class SudokuGame {
         intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
         intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
     )
+    var sudokuGen = Array(9 * 9) { i -> Array(9) { j -> 0 } }
+    var genSudoku = Generator().raetselFuellen(sudokuGen)
 
 
     //val genSudoku = gen.createArray()
@@ -42,99 +44,106 @@ class SudokuGame {
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         notizenMachenLiveData.postValue(notizenMachen)
 
-        sudokuFelderVorgeben()
+        sudokuFelderVorgeben(42)
 
 
     }
 
 
-    private fun sudokuFelderVorgeben() {
-        for (h in 0 until 80) {
-            val zufallszahl: Int = (1..81).random()
+    private fun sudokuFelderVorgeben(schweregrad: Int) {
+        for (i in 0 until schweregrad) {
+            val zufallszahl: Int = (0..80).random()
             zellen[zufallszahl].istStartzelle = true
             zellenLiveData.postValue(board.zellen)
         }
+        for (h in 0 until 81) {
+            if (!zellen[h].istStartzelle){
+                zellen[h].istLeer=true
+        }
     }
+}
 
-    /*  private var playSudokuActivity: PlaySudokuActivity = PlaySudokuActivity()
-      private fun zahlenEintragen() {
-          val zelle: Int = gewaehlteSpalte + gewaehlteZeile
-          playSudokuActivity.zahlenButtons.forEachIndexed { index, button ->
-              button.setOnClickListener {
-                  //zellen[zelle].istStartzelle = true
-                  //viewModel.sudokuGame.handleInput(index + 1)
-                  //zellenLiveData.postValue(sudokuGame.board.zellen)
-              }
+/*  private var playSudokuActivity: PlaySudokuActivity = PlaySudokuActivity()
+  private fun zahlenEintragen() {
+      val zelle: Int = gewaehlteSpalte + gewaehlteZeile
+      playSudokuActivity.zahlenButtons.forEachIndexed { index, button ->
+          button.setOnClickListener {
+              //zellen[zelle].istStartzelle = true
+              //viewModel.sudokuGame.handleInput(index + 1)
+              //zellenLiveData.postValue(sudokuGame.board.zellen)
           }
-      }*/
+      }
+  }*/
 
 
-    fun handleInput(zahl: Int) {
-        if (gewaehlteZeile == -1 || gewaehlteSpalte == -1) return
-        val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-        if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
-        if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istLeer) return
+fun handleInput(zahl: Int) {
+    if (gewaehlteZeile == -1 || gewaehlteSpalte == -1) return
+    val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
+    if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
+    if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istLeer) return
 
 
+
+    if (notizenMachen) {
+        if (zelle.notizen.contains(zahl)) {
+            zelle.notizen.remove(zahl)
+        } else {
+            zelle.notizen.add(zahl)
+        }
+        hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
+    } else {
+        zelle.value = zahl
+    }
+    zellenLiveData.postValue(board.zellen)
+
+}
+
+fun gewaehlteZelleUpdaten(zeile: Int, spalte: Int) {
+    val zelle = board.getZelle(zeile, spalte)
+    if (!zelle.istStartzelle) {
+        gewaehlteZeile = zeile
+        gewaehlteSpalte = spalte
+        gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
 
         if (notizenMachen) {
-            if (zelle.notizen.contains(zahl)) {
-                zelle.notizen.remove(zahl)
-            } else {
-                zelle.notizen.add(zahl)
-            }
             hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
-        } else {
-            zelle.value = zahl
         }
-        zellenLiveData.postValue(board.zellen)
+    } else if (!zelle.istLeer) {
+        gewaehlteZeile = zeile
+        gewaehlteSpalte = spalte
+        gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
+    }
+}
 
+fun aendereNotizstatus() {
+    notizenMachen = !notizenMachen
+    notizenMachenLiveData.postValue(notizenMachen)
+
+    val akNotiz = if (notizenMachen) {
+        Log.d("SudokuGame", "$gewaehlteSpalte , $gewaehlteZeile")
+        board.getZelle(gewaehlteZeile, gewaehlteSpalte).notizen
+
+    } else {
+        setOf()
+    }
+    hervorgehobeneSchluesselLiveData.postValue(akNotiz)
+}
+
+fun entfernen() {
+    val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
+    if (notizenMachen) {
+        zelle.notizen.clear()
+        hervorgehobeneSchluesselLiveData.postValue(setOf())
+    } else if (zelle.istStartzelle) {
+        zelle.value
+    } else {
+        zelle.value = 0
     }
 
-    fun gewaehlteZelleUpdaten(zeile: Int, spalte: Int) {
-        val zelle = board.getZelle(zeile, spalte)
-        if (!zelle.istStartzelle) {
-            gewaehlteZeile = zeile
-            gewaehlteSpalte = spalte
-            gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
+    zellenLiveData.postValue(board.zellen)
+}
 
-            if (notizenMachen) {
-                hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
-            }
-        } else if (!zelle.istLeer) {
-            gewaehlteZeile = zeile
-            gewaehlteSpalte = spalte
-            gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
-        }
-    }
 
-    fun aendereNotizstatus() {
-        notizenMachen = !notizenMachen
-        notizenMachenLiveData.postValue(notizenMachen)
-
-        val akNotiz = if (notizenMachen) {
-            Log.d("SudokuGame", "$gewaehlteSpalte , $gewaehlteZeile")
-            board.getZelle(gewaehlteZeile, gewaehlteSpalte).notizen
-
-        } else {
-            setOf()
-        }
-        hervorgehobeneSchluesselLiveData.postValue(akNotiz)
-    }
-
-    fun entfernen() {
-        val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-        if (notizenMachen) {
-            zelle.notizen.clear()
-            hervorgehobeneSchluesselLiveData.postValue(setOf())
-        } else if (zelle.istStartzelle) {
-            zelle.value
-        } else {
-            zelle.value = 0
-        }
-
-        zellenLiveData.postValue(board.zellen)
-    }
 }
 
 
