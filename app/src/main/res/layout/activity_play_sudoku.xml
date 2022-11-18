@@ -69,8 +69,9 @@
             android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="0"
-            android:text="1"
-            />
+            android:background="@drawable/buttongrundlage"
+            android:backgroundTintMode="src_atop"
+            android:text="1" />
 
         <Button
             android:id="@+id/twoButton"
