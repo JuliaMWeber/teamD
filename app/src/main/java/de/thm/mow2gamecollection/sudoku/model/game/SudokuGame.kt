@@ -10,7 +10,7 @@ class SudokuGame {
 
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
     var zellenLiveData = MutableLiveData<List<Zelle>>()
-
+    var buttonEingabenLiveData = MutableLiveData<Boolean>()
     val notizenMachenLiveData = MutableLiveData<Boolean>()
     val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int>>()
 
@@ -27,7 +27,7 @@ class SudokuGame {
     )
     var nummernliste = Array(9) { arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9) }
     var sudokuGen = Array(9) { i -> Array(9) { j -> 0 } }
-    var zellenNummern = Array(9){ Array(9){it+1}}
+    var zellenNummern = Array(9) { Array(9) { it + 1 } }
 
     // var genSudoku = shuffleSudoku(nummernliste)
     var shuffDoku = Array(9) { i -> Array(9) { j -> (nummernliste.shuffle()) } }
@@ -38,6 +38,7 @@ class SudokuGame {
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
     private var notizenMachen = false
+    private var buttonEingabe = false
 
     private val board: Board
 
@@ -47,6 +48,8 @@ class SudokuGame {
         board = Board(9, zellen)
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         notizenMachenLiveData.postValue(notizenMachen)
+        buttonEingabenLiveData.postValue(buttonEingabe)
+
 
         sudokuFelderVorgeben(42)
 
@@ -54,8 +57,8 @@ class SudokuGame {
     }
 
     fun felderAendern() {
-    var zelle=board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-        zelle.buttonEingabe=true
+        val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
+        zelle.buttonEingabe = true
         zellenLiveData.postValue(board.zellen)
 
 
@@ -80,7 +83,7 @@ class SudokuGame {
         val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istLeer) return
-        if (board.getZelle(gewaehlteZeile,gewaehlteSpalte).buttonEingabe) return
+        if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).buttonEingabe) return
 
 
 
@@ -91,7 +94,14 @@ class SudokuGame {
                 zelle.notizen.add(zahl)
             }
             hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
-        } else {
+        } /*else if (buttonEingabe) {
+            if (zelle.buttonEingabe.contains(zahl)) {
+                zelle.buttonEingabe.remove(zahl)
+            } else {
+                zelle.buttonEingabe.ad(zahl)
+            }
+            hervorgehobeneSchluesselLiveData.postValue(zelle.buttonEingabe)
+        }*/ else {
             zelle.value = zahl
         }
         zellenLiveData.postValue(board.zellen)
@@ -112,6 +122,8 @@ class SudokuGame {
             gewaehlteZeile = zeile
             gewaehlteSpalte = spalte
             gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
+        } else if (!zelle.buttonEingabe) {
+            hervorgehobeneSchluesselLiveData.postValue(setOf(zelle.eingabeValue))
         }
     }
 
@@ -120,7 +132,6 @@ class SudokuGame {
         notizenMachenLiveData.postValue(notizenMachen)
 
         val akNotiz = if (notizenMachen) {
-            Log.d("SudokuGame", "$gewaehlteSpalte , $gewaehlteZeile")
             board.getZelle(gewaehlteZeile, gewaehlteSpalte).notizen
 
         } else {
@@ -145,5 +156,9 @@ class SudokuGame {
 
 
 }
+
+
+
+
 
 

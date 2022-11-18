@@ -1,30 +1,37 @@
 package de.thm.mow2gamecollection.sudoku.controller
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.sudoku.model.game.SudokuGame
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
+import kotlinx.android.synthetic.main.activity_play_sudoku.*
 
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
     private lateinit var viewModel: PlaySudokuViewModel
-    lateinit var zahlenButtons: List<Button>
-
+    private lateinit var zahlenButtons: List<Button>
+    private lateinit var schwierigkeitsAuswahl: List<RadioButton>
+    private lateinit var sudokuGame: SudokuGame
     private lateinit var sudokuBoardView: SudokuBoardView
     private lateinit var notizButton: ImageButton
     private lateinit var entfernenButton: ImageButton
+    private lateinit var zelle: Zelle
 
 
     //    lateinit var gen : Generator
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_sudoku)
@@ -42,8 +49,23 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         viewModel.sudokuGame.notizenMachenLiveData.observe(this) {
             updateNotizenGemachtUI(it)
         }
+        viewModel.sudokuGame.buttonEingabenLiveData.observe(this){
+
+        }
         viewModel.sudokuGame.hervorgehobeneSchluesselLiveData.observe(this) {
             updateHervorgehobeneSchluessel(it)
+        }
+
+        schwierigkeitsAuswahl = listOf(
+            findViewById(R.id.leicht),
+            findViewById(R.id.mittel),
+            findViewById(R.id.schwer),
+        )
+
+        schwierigkeitsAuswahl.forEachIndexed { index, button ->
+            button.setOnClickListener {
+
+            }
         }
 
         zahlenButtons = listOf(
@@ -58,12 +80,11 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             findViewById(R.id.nineButton)
         )
 
-
-
-
         zahlenButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
                 viewModel.sudokuGame.handleInput(index + 1)
+                viewModel.sudokuGame.felderAendern()
+
             }
         }
 
@@ -71,6 +92,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
         entfernenButton = findViewById(R.id.entfernenButton)
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
+
 
     }
 

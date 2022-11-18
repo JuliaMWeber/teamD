@@ -75,6 +75,11 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.parseColor("#8B9986")
     }
 
+    private val leerZelle = Paint().apply {
+        style = Style.FILL_AND_STROKE
+        color = Color.parseColor("#ffffff")
+    }
+
     private val buttonZelle = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.parseColor("#CFF0CC")
@@ -121,6 +126,8 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             if (it.istStartzelle) {
                 zelleFuellen(canvas, zeile, spalte, farbeStartzelle)
             } else if (it.istLeer) {
+                zelleFuellen(canvas, zeile, spalte, leerZelle)
+            } else if (it.buttonEingabe) {
                 zelleFuellen(canvas, zeile, spalte, buttonZelle)
             } else if (zeile == gewaehlteZeile && spalte == gewaehlteSpalte) {
                 zelleFuellen(canvas, zeile, spalte, farbeGewaehltesFeld)
@@ -173,6 +180,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             val value = zelle.value
             val type = zelle.istStartzelle
             val leerType = zelle.istLeer
+            val buttonType = zelle.buttonEingabe
 
             if (value == 0) {
                 zelle.notizen.forEach { notiz ->
@@ -197,7 +205,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                 val spalte = zelle.spalte
                 val valueString = zelle.value.toString()
 
-               val zuNutzendeFarbe = if (zelle.istStartzelle) startzellenTextFarbe else textFarbe
+                val zuNutzendeFarbe = if (zelle.istStartzelle) startzellenTextFarbe else textFarbe
                 val textBounds = Rect()
                 zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
                 val textWidth = textFarbe.measureText(valueString)
@@ -209,12 +217,12 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
                 )
 
-            } else if (leerType) {
+            } else if (buttonType) {
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
                 val valueString = zelle.value.toString()
 
-                val zuNutzendeFarbe = if (zelle.istLeer) buttonZelle else textFarbe
+                val zuNutzendeFarbe = if (zelle.buttonEingabe) buttonZelle else textFarbe
                 val textBounds = Rect()
                 zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
                 val textWidth = textFarbe.measureText(valueString)
