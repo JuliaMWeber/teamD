@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.sudoku.model.game.SudokuGame
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
@@ -21,11 +20,10 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     private lateinit var viewModel: PlaySudokuViewModel
     private lateinit var zahlenButtons: List<Button>
     private lateinit var schwierigkeitsAuswahl: List<RadioButton>
-    private lateinit var sudokuGame: SudokuGame
     private lateinit var sudokuBoardView: SudokuBoardView
     private lateinit var notizButton: ImageButton
     private lateinit var entfernenButton: ImageButton
-    private lateinit var zelle: Zelle
+    private lateinit var loesenButton: Button
 
 
     //    lateinit var gen : Generator
@@ -83,7 +81,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         zahlenButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
                 viewModel.sudokuGame.handleInput(index + 1)
-                viewModel.sudokuGame.felderAendern()
+                viewModel.sudokuGame.felderAendern(index+1)
 
             }
         }
@@ -92,6 +90,8 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
         entfernenButton = findViewById(R.id.entfernenButton)
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
+        loesenButton = findViewById(R.id.loesenButton)
+        loesenButton.setOnClickListener { viewModel.sudokuGame.loesen() }
 
 
     }
@@ -120,8 +120,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         }
     }
 
-
-    private fun updateHervorgehobeneSchluessel(set: Set<Int>?) = set?.let {
+    private fun updateHervorgehobeneSchluessel(set: Set<Int?>) = set?.let {
         zahlenButtons.forEachIndexed { index, button ->
             val color =
                 if (set.contains(index + 1)) ContextCompat.getColor(
@@ -132,6 +131,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             button.setBackgroundColor(color)
         }
     }
+
 
     override fun zelleTouched(zeile: Int, spalte: Int) {
         viewModel.sudokuGame.gewaehlteZelleUpdaten(zeile, spalte)

@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData
 
 class SudokuGame {
     //private lateinit var gen: Generator
+    private lateinit var zelle: Zelle
 
 
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
     var zellenLiveData = MutableLiveData<List<Zelle>>()
-    var buttonEingabenLiveData = MutableLiveData<Boolean>()
+    var buttonEingabenLiveData = MutableLiveData<Int>()
     val notizenMachenLiveData = MutableLiveData<Boolean>()
-    val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int>>()
+    val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int?>>()
+    val loesenButtonLiveData = MutableLiveData<Boolean>()
 
     val sudoku: Array<IntArray> = arrayOf(
         intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
@@ -38,11 +40,11 @@ class SudokuGame {
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
     private var notizenMachen = false
-    private var buttonEingabe = false
+    private var buttonEingabe = -1
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, f, sudoku[f / 9][f % 9]) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, sudoku[f / 9][f % 9], null) }
 
     init {
         board = Board(9, zellen)
@@ -56,9 +58,11 @@ class SudokuGame {
 
     }
 
-    fun felderAendern() {
+    fun felderAendern(index: Int) {
         val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
         zelle.buttonEingabe = true
+        zelle.eingabeValue = index
+
         zellenLiveData.postValue(board.zellen)
 
 
@@ -94,17 +98,7 @@ class SudokuGame {
                 zelle.notizen.add(zahl)
             }
             hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
-        } /*else if (buttonEingabe) {
-            if (zelle.buttonEingabe.contains(zahl)) {
-                zelle.buttonEingabe.remove(zahl)
-            } else {
-                zelle.buttonEingabe.ad(zahl)
-            }
-            hervorgehobeneSchluesselLiveData.postValue(zelle.buttonEingabe)
-        }*/ else {
-            zelle.value = zahl
         }
-        zellenLiveData.postValue(board.zellen)
 
     }
 
@@ -123,7 +117,12 @@ class SudokuGame {
             gewaehlteSpalte = spalte
             gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
         } else if (!zelle.buttonEingabe) {
+
             hervorgehobeneSchluesselLiveData.postValue(setOf(zelle.eingabeValue))
+        } else if (!zelle.istRichtig) {
+            gewaehlteZeile = zeile
+            gewaehlteSpalte = spalte
+
         }
     }
 
@@ -154,9 +153,27 @@ class SudokuGame {
         zellenLiveData.postValue(board.zellen)
     }
 
-
+    fun loesen() {
+        var richtigCounter = 0
+        var falschCounter = 0
+        for (i in 0 until 9) {
+            for (j in 0 until 9) {
+                var pos = i * board.groesse + j
+                if (zellen[pos].value == zellen[pos].eingabeValue) {
+                    zellen[pos].istRichtig = true
+                    richtigCounter++
+                    zellenLiveData.postValue(board.zellen)
+                } else {
+                    zellen[pos].istFalsch
+                    falschCounter++
+                    zellenLiveData.postValue(board.zellen)
+                }
+            }
+        }
+        Log.d("Richtige", "$richtigCounter")
+        Log.d("Falsche", "$falschCounter")
+    }
 }
-
 
 
 

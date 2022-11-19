@@ -163,7 +163,7 @@
             app:srcCompat="@drawable/delete_black"
             android:background="@drawable/buttongrundlage"/>
         <Button
-            android:id="@+id/loeseneButton"
+            android:id="@+id/loesenButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
