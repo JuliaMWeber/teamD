@@ -9,6 +9,7 @@ import de.thm.mow2gamecollection.controller.adapter.MyAdapter
 import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
 import de.thm.mow2gamecollection.sudoku.model.Game
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
+import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeStartActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
 
 class GamesListActivity : AppCompatActivity() {
