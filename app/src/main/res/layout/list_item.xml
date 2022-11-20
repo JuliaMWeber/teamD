@@ -29,13 +29,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/gamesName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/gamesName"
+                    android:fontFamily="@font/pixel12x10"
                     android:text="Spiel1"
                     android:textColor="@color/black"
                     android:textSize="26sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
