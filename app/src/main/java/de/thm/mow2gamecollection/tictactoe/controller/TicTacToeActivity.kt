@@ -144,6 +144,7 @@ class TicTacToeActivity : AppCompatActivity() {
         }
     }
     private fun resetFields () {
+        f0.text = ""
         f1.text = ""
         f2.text = ""
         f3.text = ""
