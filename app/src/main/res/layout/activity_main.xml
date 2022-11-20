@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controller.MainActivity"
-    android:background="@drawable/test">
+    android:background="@drawable/startseite">
 
     <Button
         android:id="@+id/startButton"
@@ -16,6 +16,8 @@
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/pixel12x10"
+        android:background="@drawable/button_grundlage_xxs"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
