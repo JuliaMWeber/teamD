@@ -118,7 +118,7 @@ class SudokuGame {
             gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
         } else if (!zelle.buttonEingabe) {
 
-            hervorgehobeneSchluesselLiveData.postValue(setOf(zelle.eingabeValue))
+            hervorgehobeneSchluesselLiveData.postValue(setOf(zelle.eingabeValue) as Set<Int?>?)
         } else if (!zelle.istRichtig) {
             gewaehlteZeile = zeile
             gewaehlteSpalte = spalte
@@ -156,6 +156,8 @@ class SudokuGame {
     fun loesen() {
         var richtigCounter = 0
         var falschCounter = 0
+        var richtigesFeld = 0
+        var falschesFeld = 0
         for (i in 0 until 9) {
             for (j in 0 until 9) {
                 var pos = i * board.groesse + j
@@ -164,14 +166,19 @@ class SudokuGame {
                     richtigCounter++
                     zellenLiveData.postValue(board.zellen)
                 } else {
-                    zellen[pos].istFalsch
+                    zellen[pos].istFalsch = true
                     falschCounter++
                     zellenLiveData.postValue(board.zellen)
                 }
+                if (zellen[pos].istRichtig) richtigesFeld++
+                else if (zellen[pos].istFalsch) falschesFeld++
+
             }
         }
         Log.d("Richtige", "$richtigCounter")
         Log.d("Falsche", "$falschCounter")
+        Log.d("Richtige Felder", "$richtigesFeld")
+        Log.d("Falsche Felder", "$falschesFeld")
     }
 }
 
