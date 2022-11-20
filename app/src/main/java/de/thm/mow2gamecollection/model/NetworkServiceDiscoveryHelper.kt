@@ -9,7 +9,7 @@ import java.net.ServerSocket
 import kotlin.properties.Delegates
 
 class NetworkServiceDiscoveryHelper(val context: Context) {
-    private val TAG = "NetworkServiceDiscoveryHelper"
+    private val TAG = "NsdHelper"
     private val SERVICE_NAME = "Mow2Multiplayer"
     private val SERVICE_TYPE = "_mow2multiplayer._tcp."
 
@@ -83,7 +83,7 @@ class NetworkServiceDiscoveryHelper(val context: Context) {
 
         override fun onServiceFound(service: NsdServiceInfo) {
             // A service was found! Do something with it.
-            Log.d(TAG, "Service discovery success$service")
+            Log.d(TAG, "onServiceFound")
             when {
                 service.serviceType != SERVICE_TYPE -> // Service type is the string containing the protocol and
                     // transport layer for this service.

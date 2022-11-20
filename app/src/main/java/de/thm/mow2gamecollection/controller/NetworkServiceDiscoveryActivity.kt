@@ -1,7 +1,5 @@
 package de.thm.mow2gamecollection.controller
 
-import android.net.nsd.NsdManager
-import android.net.nsd.NsdServiceInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,14 +7,15 @@ import android.view.View
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.model.NetworkServiceDiscoveryHelper
 
-class MultiplayerConnectionPrototype : AppCompatActivity() {
-    private val TAG = "MultiplayerConnectionPrototype"
+class NetworkServiceDiscoveryActivity : AppCompatActivity() {
+    private val TAG = "NsdMultiplayerP"
 
     private lateinit var nsdHelper: NetworkServiceDiscoveryHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_multiplayer_connection_prototype)
+        setContentView(R.layout.activity_network_service_discovery)
 
         nsdHelper = NetworkServiceDiscoveryHelper(this)
         nsdHelper.initializeServerSocket()
@@ -45,6 +44,13 @@ class MultiplayerConnectionPrototype : AppCompatActivity() {
     }
 
     fun onStartDiscoveryButtonClick(view: View) {
-        // TODO
+        Log.d(TAG, "onStartDiscoveryButtonClick")
+//        val serviceInfo = NsdServiceInfo().apply {
+//            host = InetAddress.getByName("10.0.2.2")
+//            port = 5000
+//            serviceType = "_mow2multiplayer._tcp."
+//            serviceName = "Mow2MultiplayerXYZ"
+//        }
+//        nsdHelper.discoveryListener.onServiceFound(serviceInfo)
     }
 }
