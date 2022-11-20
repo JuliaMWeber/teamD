@@ -4,142 +4,203 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TicTacToeActivity">
+    tools:context=".TicTacToeActivity"
+    android:background="@drawable/hintergrund">
 
     <TextView
-        android:id="@+id/statusText"
+        android:id="@+id/player_one_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Spieler x ist am Zug"
+        android:text="Player x:"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/player_two_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Player o:"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_one_score" />
+
+    <TextView
+        android:id="@+id/countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="1dp"
-        android:background="@android:color/holo_green_dark"
-        app:layout_constraintDimensionRatio="h,1:1"
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/f7"
+        app:layout_constraintEnd_toEndOf="@+id/f2"
+        app:layout_constraintStart_toStartOf="@+id/f0"
+        app:layout_constraintTop_toTopOf="@+id/f7" />
+
+    <TextView
+        android:id="@+id/f8"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/f7"
+        app:layout_constraintTop_toBottomOf="@+id/f5" />
+
+    <TextView
+        android:id="@+id/f7"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/f8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/f6"
+        app:layout_constraintTop_toBottomOf="@+id/f4" />
+
+    <TextView
+        android:id="@+id/f3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/f4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusText">
+        app:layout_constraintTop_toBottomOf="@+id/f0" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+    <TextView
+        android:id="@+id/f6"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/f7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/f3" />
 
-            <TextView
-                android:id="@+id/f0"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <TextView
+        android:id="@+id/f0"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="208dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/f1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/f1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <TextView
+        android:id="@+id/f1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="208dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/f2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/f0"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/f2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-        </TableRow>
+    <TextView
+        android:id="@+id/f2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="208dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/f1"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+    <TextView
+        android:id="@+id/f5"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/f4"
+        app:layout_constraintTop_toBottomOf="@+id/f2" />
 
-            <TextView
-                android:id="@+id/f3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <TextView
+        android:id="@+id/f4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/f5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/f3"
+        app:layout_constraintTop_toBottomOf="@+id/f1" />
 
-            <TextView
-                android:id="@+id/f4"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <View
+        android:id="@+id/view"
+        android:layout_width="4dp"
+        android:layout_height="0dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/f6"
+        app:layout_constraintEnd_toStartOf="@+id/f1"
+        app:layout_constraintStart_toEndOf="@+id/f0"
+        app:layout_constraintTop_toTopOf="@+id/f0" />
 
-            <TextView
-                android:id="@+id/f5"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-        </TableRow>
+    <View
+        android:id="@+id/view2"
+        android:layout_width="4dp"
+        android:layout_height="0dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/f6"
+        app:layout_constraintEnd_toStartOf="@+id/f2"
+        app:layout_constraintStart_toEndOf="@+id/f1"
+        app:layout_constraintTop_toTopOf="@+id/f0" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/f1"
+        app:layout_constraintEnd_toEndOf="@+id/f2"
+        app:layout_constraintStart_toStartOf="@+id/f0"
+        app:layout_constraintTop_toBottomOf="@+id/f1" />
 
-            <TextView
-                android:id="@+id/f6"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <Button
+        android:id="@+id/startNewGameButton"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/playButton"
+        android:background="@drawable/button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/f7"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            <TextView
-                android:id="@+id/f8"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-        </TableRow>
-
-    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
