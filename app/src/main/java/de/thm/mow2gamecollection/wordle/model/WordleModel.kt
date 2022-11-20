@@ -10,7 +10,9 @@ import de.thm.mow2gamecollection.wordle.model.grid.Tile
 import org.apache.commons.collections4.queue.CircularFifoQueue
 import de.thm.mow2gamecollection.wordle.helper.*
 
+// debugging
 private const val TAG = "WordleModel"
+private const val DEBUG = false
 // keys for SharedPreferences
 private const val TARGET_WORD_KEY = "targetWord"
 private const val USER_GUESSES_KEY = "userGuesses"
@@ -21,7 +23,7 @@ class WordleModel(val controller : WordleActivity) {
     private var tries = 0
     private var userInput : String = ""
     private var userGuesses = mutableListOf<String>()
-    private var targetWord : String? = null
+    var targetWord : String? = null
     private val recentTargetWords = CircularFifoQueue<String>(NUMBER_OF_RECENT_TARGET_WORDS) // List<String>(3, { i -> (i.toString())})
     private val dictionary = Dictionary()
 
@@ -42,12 +44,12 @@ class WordleModel(val controller : WordleActivity) {
 
     // returns a randomly chosen target word
     private fun pickTargetWord() {
-        Log.d(TAG, "pickTargetWord")
+        if (DEBUG) if (DEBUG) Log.d(TAG, "pickTargetWord")
 
         fun getRandomTargetWord() {
             val randomWord = dictionary.randomWord()
             if(recentTargetWords.contains(randomWord)) {
-                Log.d(TAG, "word $randomWord has recently been played")
+                if (DEBUG) Log.d(TAG, "word $randomWord has recently been played")
                 getRandomTargetWord()
             } else {
                 targetWord = randomWord
@@ -58,7 +60,7 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     private fun checkGuess(input: String = userInput) {
-        Log.d(TAG, "checkGuess: $input")
+        if (DEBUG) Log.d(TAG, "checkGuess: $input")
         if (input.length != WORD_LENGTH) {
             if (input.length < WORD_LENGTH) {
                 controller.displayInformation("word too short!")
@@ -105,7 +107,7 @@ class WordleModel(val controller : WordleActivity) {
 
         if (gameEnded) {
             recentTargetWords.add(targetWord)
-            Log.d(TAG, "game ended. recent target words: $recentTargetWords")
+            if (DEBUG) Log.d(TAG, "game ended. recent target words: $recentTargetWords")
         }
 
         userInput = ""
@@ -113,21 +115,21 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     private fun gameWon() {
-        Log.d(TAG, "gameWon")
+        if (DEBUG) Log.d(TAG, "gameWon")
         gameEnded = true
         // TODO: update statistics
         controller.onGameEvent(GameEvent.WON)
     }
 
     private fun gameOver() {
-        Log.d(TAG, "gameOver")
+        if (DEBUG) Log.d(TAG, "gameOver")
         gameEnded = true
         // TODO: update statistics
         controller.onGameEvent(GameEvent.LOST)
     }
 
     fun restartGame() {
-        Log.d(TAG, "restartGame")
+        if (DEBUG) Log.d(TAG, "restartGame")
         gameEnded = false
         tries = 0
         userInput = ""
@@ -160,7 +162,7 @@ class WordleModel(val controller : WordleActivity) {
 
     // save game progress to SharedPreferences
     fun saveGameState() {
-        Log.d(TAG, "saveGameState")
+        if (DEBUG) Log.d(TAG, "saveGameState")
         // Store values between instances here
         val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
         val editor = preferences.edit()
@@ -181,30 +183,30 @@ class WordleModel(val controller : WordleActivity) {
 
     // retrieve game progress from SharedPreferences
     private fun retrieveSaveGame() {
-        Log.d(TAG, "retrieveSaveGame")
+        if (DEBUG) Log.d(TAG, "retrieveSaveGame")
         val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
 
         // get target word
         preferences.getString(TARGET_WORD_KEY, null)?.let {
             targetWord = it
-            Log.d(TAG, "targetWord retrieved: $it")
-        } ?: Log.d(TAG, "no targetWord saved")
+            if (DEBUG) Log.d(TAG, "targetWord retrieved: $it")
+        } ?: run { if (DEBUG) Log.d(TAG, "no targetWord saved") }
 
         // get user's guesses
         preferences.getString(USER_GUESSES_KEY, null)?.let { retrievedGuesses ->
-            Log.d(TAG, "user's guesses retrieved: $retrievedGuesses")
+            if (DEBUG) Log.d(TAG, "user's guesses retrieved: $retrievedGuesses")
             retrievedGuesses.split(", ").forEach {
                 userGuesses.add(it)
             }
-        } ?: Log.d(TAG, "no user guesses saved")
+        } ?: run { if (DEBUG) Log.d(TAG, "no user guesses saved") }
 
         // get recent target words
         preferences.getString(RECENT_TARGET_WORDS_KEY, null)?.let { retrievedRecentTargetWords ->
-            Log.d(TAG, "recent target words retrieved: $retrievedRecentTargetWords")
+            if (DEBUG) Log.d(TAG, "recent target words retrieved: $retrievedRecentTargetWords")
             retrievedRecentTargetWords.split(", ").forEach {
                 recentTargetWords.add(it)
             }
-        } ?: Log.d(TAG, "no recent target words saved")
+        } ?: run { if (DEBUG) Log.d(TAG, "no recent target words saved") }
     }
 
     fun onGuessSubmitted() {

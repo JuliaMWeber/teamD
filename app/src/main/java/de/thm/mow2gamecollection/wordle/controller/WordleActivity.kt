@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
@@ -22,30 +21,30 @@ import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 import de.thm.mow2gamecollection.wordle.helper.*
 
+// debug
 private const val TAG = "WordleActivity"
+private const val DEBUG = false
 
 class WordleActivity : AppCompatActivity() {
-    val TAG = "WordleActivity"
-    val GAME_STATE_KEY = "gameState"
+    // val GAME_STATE_KEY = "gameState"
     val TARGET_WORD_KEY = "targetWord"
     val USER_GUESSES_KEY = "userGuesses"
 
-    private lateinit var guessEditText: EditText
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
 
     // var gameState: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate")
+        if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
         // get saved game state
         // gameState = savedInstanceState?.getString(GAME_STATE_KEY)
         val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
-        Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
+        if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
         val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
-        Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
+        if (DEBUG) Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
 
         setContentView(R.layout.activity_wordle)
 
@@ -58,14 +57,14 @@ class WordleActivity : AppCompatActivity() {
     // other state here, possibly usable after onStart() has completed.
     // The savedInstanceState Bundle is same as the one used in onCreate().
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        Log.d(TAG, "onRestoreInstanceState")
+        if (DEBUG) Log.d(TAG, "onRestoreInstanceState")
         val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
         super.onRestoreInstanceState(savedInstanceState)
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
     override fun onSaveInstanceState(outState: Bundle) {
-        Log.d(TAG, "onSaveInstanceState")
+        if (DEBUG) Log.d(TAG, "onSaveInstanceState")
         // outState.putString(GAME_STATE_KEY, gameState)
         outState.putString(TARGET_WORD_KEY, model.targetWord)
         outState.putString(USER_GUESSES_KEY, model.getUserGuessesAsString())
@@ -74,29 +73,29 @@ class WordleActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        Log.d(TAG, "onResume")
+        if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
         model = WordleModel(this)
     }
 
     override fun onPause() {
-        Log.d(TAG, "onPause")
+        if (DEBUG) Log.d(TAG, "onPause")
         super.onPause()
         model.saveGameState()
     }
 
     override fun onRestart() {
-        Log.d(TAG, "onRestart")
+        if (DEBUG) Log.d(TAG, "onRestart")
         super.onRestart()
     }
 
     override fun onStart() {
-        Log.d(TAG, "onStart")
+        if (DEBUG) Log.d(TAG, "onStart")
         super.onStart()
     }
 
     override fun onStop() {
-        Log.d(TAG, "onStop")
+        if (DEBUG) Log.d(TAG, "onStop")
         super.onStop()
     }
 
@@ -114,14 +113,14 @@ class WordleActivity : AppCompatActivity() {
                 true
             }
             KeyEvent.KEYCODE_ENTER -> {
-                Log.d(TAG, "KEYCODE_ENTER")
+                if (DEBUG) Log.d(TAG, "KEYCODE_ENTER")
                 // TODO: not working as expected, q button gains focus
                 handleSubmitButtonClick()
                 true
             }
             else -> {
                 event?.keyCode.let {
-                    Log.d(TAG, "keyCode: ${it.toString()}")
+                    if (DEBUG) Log.d(TAG, "keyCode: ${it.toString()}")
                 }
                 super.onKeyUp(keyCode, event)
             }
@@ -130,7 +129,7 @@ class WordleActivity : AppCompatActivity() {
 
     // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
     fun createTiles(cols: Int, rows: Int) {
-        Log.d(TAG, "createTiles($cols, $rows)")
+        if (DEBUG) Log.d(TAG, "createTiles($cols, $rows)")
         val tableLayout : TableLayout = findViewById(R.id.tableLayout)
 
         for (i in 1..rows) {
@@ -189,7 +188,7 @@ class WordleActivity : AppCompatActivity() {
     // returns the TextView corresponding to a Tile object
     private fun getTileView(tile: Tile) : TextView {
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
-        Log.d(TAG, tableLayout.children.toString())
+        if (DEBUG) Log.d(TAG, tableLayout.children.toString())
         val tableRow = tableLayout.getChildAt(tile.position.row)
         return (tableRow as TableRow).getChildAt(tile.position.index) as TextView
     }
@@ -211,7 +210,7 @@ class WordleActivity : AppCompatActivity() {
     }
 
     private fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
-        Log.d(TAG, "updateTile($row, $index, $letter, $status")
+        if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
         updateTile(Tile(row, index), letter, status)
     }
 
@@ -251,7 +250,7 @@ class WordleActivity : AppCompatActivity() {
     }
 
     fun handleKeyboardClick(button: Button) {
-        Log.d(TAG, "handleKeyboardClick $button.text")
+        if (DEBUG) Log.d(TAG, "handleKeyboardClick $button.text")
         when (button.text) {
             "✓" -> {
                 model.onGuessSubmitted()
