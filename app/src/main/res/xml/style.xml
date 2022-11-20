@@ -1,0 +1,12 @@
+<style name="AppTheme"
+    parent="Theme.MaterialComponents.Light.DarkActionBar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <android.support.design.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MATERIAL BUTTON"
+            android:textSize="15sp"
+            app:strokeColor="#000000"
+            app:strokeWidth="2dp" />
+</style>

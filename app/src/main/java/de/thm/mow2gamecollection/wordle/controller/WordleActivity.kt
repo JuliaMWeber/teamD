@@ -21,7 +21,7 @@ import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 import de.thm.mow2gamecollection.wordle.helper.*
 
-// debug
+// debugging
 private const val TAG = "WordleActivity"
 private const val DEBUG = false
 
