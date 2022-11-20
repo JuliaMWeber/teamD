@@ -39,7 +39,7 @@ class TicTacToeActivity : AppCompatActivity() {
     private lateinit var player2Points: TextView
 
     private lateinit var countdown: TextView
-    private lateinit var timer: CountDownTimer
+   // private lateinit var timer: CountDownTimer
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +54,7 @@ class TicTacToeActivity : AppCompatActivity() {
             field.setOnClickListener{
                 onFieldClick (it as TextView)
             }
-
-         */
+            */
 
         gameManagerTTT = de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT(this)
         f0 = findViewById(R.id.f0)
@@ -130,10 +129,12 @@ class TicTacToeActivity : AppCompatActivity() {
             startNewGameButton.visibility = View.GONE
             gameManagerTTT.reset()
             resetFields()
+            ctimer()
         }
         updatePoints()
 
-
+    }
+    fun ctimer() {
         countdown = findViewById(R.id.countdown)
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -146,8 +147,6 @@ class TicTacToeActivity : AppCompatActivity() {
                 countdown.setText("abgelaufen")
             }
         }.start()
-
-
     }
 
 /*
@@ -191,9 +190,11 @@ class TicTacToeActivity : AppCompatActivity() {
     private fun onFieldClick(field: TextView, position: de.thm.mow2gamecollection.tictactoe.model.Position){
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
+            statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
             val winningLine = gameManagerTTT.makeMove(position)
             if (winningLine != null) {
                 updatePoints()
+                statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
                 disableFields()
                 startNewGameButton.visibility = View.VISIBLE
                 showWinner(winningLine)
