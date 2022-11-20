@@ -4,6 +4,7 @@ import android.icu.text.Transliterator.Position
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -22,6 +23,7 @@ class TicTacToeActivity : AppCompatActivity() {
     lateinit var model: GameManagerTTT
 
     private lateinit var gameManagerTTT: GameManagerTTT
+
     //lateinit var gameManager: GameManager
     private lateinit var f0: TextView
     private lateinit var f1: TextView
@@ -36,7 +38,8 @@ class TicTacToeActivity : AppCompatActivity() {
     private lateinit var player1Points: TextView
     private lateinit var player2Points: TextView
 
-    private lateinit var timer : CountDownTimer
+    private lateinit var countdown: TextView
+   // private lateinit var timer: CountDownTimer
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +54,7 @@ class TicTacToeActivity : AppCompatActivity() {
             field.setOnClickListener{
                 onFieldClick (it as TextView)
             }
-
-         */
-
+            */
 
         gameManagerTTT = de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT(this)
         f0 = findViewById(R.id.f0)
@@ -69,61 +70,118 @@ class TicTacToeActivity : AppCompatActivity() {
         player1Points = findViewById(R.id.player_one_score)
         player2Points = findViewById(R.id.player_two_score)
 
-        f0.setOnClickListener{onFieldClick(f0,
-            de.thm.mow2gamecollection.tictactoe.model.Position(0, 0)
-        )}
-        f1.setOnClickListener{onFieldClick(f1,
-            de.thm.mow2gamecollection.tictactoe.model.Position(0, 1)
-        )}
-        f2.setOnClickListener { onFieldClick(f2,
-            de.thm.mow2gamecollection.tictactoe.model.Position(0, 2)
-        ) }
-        f3.setOnClickListener { onFieldClick(f3,
-            de.thm.mow2gamecollection.tictactoe.model.Position(1, 0)
-        ) }
-        f4.setOnClickListener { onFieldClick(f4,
-            de.thm.mow2gamecollection.tictactoe.model.Position(1, 1)
-        ) }
-        f5.setOnClickListener { onFieldClick(f5,
-            de.thm.mow2gamecollection.tictactoe.model.Position(1, 2)
-        ) }
-        f6.setOnClickListener { onFieldClick(f6,
-            de.thm.mow2gamecollection.tictactoe.model.Position(2, 0)
-        ) }
-        f7.setOnClickListener { onFieldClick(f7,
-            de.thm.mow2gamecollection.tictactoe.model.Position(2, 1)
-        ) }
-        f8.setOnClickListener { onFieldClick(f8,
-            de.thm.mow2gamecollection.tictactoe.model.Position(2, 2)
-        ) }
+        f0.setOnClickListener {
+            onFieldClick(
+                f0,
+                de.thm.mow2gamecollection.tictactoe.model.Position(0, 0)
+            )
+        }
+        f1.setOnClickListener {
+            onFieldClick(
+                f1,
+                de.thm.mow2gamecollection.tictactoe.model.Position(0, 1)
+            )
+        }
+        f2.setOnClickListener {
+            onFieldClick(
+                f2,
+                de.thm.mow2gamecollection.tictactoe.model.Position(0, 2)
+            )
+        }
+        f3.setOnClickListener {
+            onFieldClick(
+                f3,
+                de.thm.mow2gamecollection.tictactoe.model.Position(1, 0)
+            )
+        }
+        f4.setOnClickListener {
+            onFieldClick(
+                f4,
+                de.thm.mow2gamecollection.tictactoe.model.Position(1, 1)
+            )
+        }
+        f5.setOnClickListener {
+            onFieldClick(
+                f5,
+                de.thm.mow2gamecollection.tictactoe.model.Position(1, 2)
+            )
+        }
+        f6.setOnClickListener {
+            onFieldClick(
+                f6,
+                de.thm.mow2gamecollection.tictactoe.model.Position(2, 0)
+            )
+        }
+        f7.setOnClickListener {
+            onFieldClick(
+                f7,
+                de.thm.mow2gamecollection.tictactoe.model.Position(2, 1)
+            )
+        }
+        f8.setOnClickListener {
+            onFieldClick(
+                f8,
+                de.thm.mow2gamecollection.tictactoe.model.Position(2, 2)
+            )
+        }
 
         startNewGameButton.setOnClickListener {
             startNewGameButton.visibility = View.GONE
             gameManagerTTT.reset()
             resetFields()
+            ctimer()
         }
         updatePoints()
 
-        val textView = findViewById<TextView>(R.id.countdown)
-        timer = object: CountDownTimer(5_000, 100){
-            override fun onTick(remaining: Long) {
-                textView.text = remaining.toString()
-
-            }
-            override fun onFinish() {
-                textView.text = "Zeit ist abgelaufen"
-            }
-        }
-        fun onStart() {
-            super.onStart()
-            timer.start()
-        }
-
-        fun onStop() {
-            super.onStop()
-            timer.cancel()
-        }
     }
+    fun ctimer() {
+        countdown = findViewById(R.id.countdown)
+        object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+                countdown.setText("übrige Zeit: " + millisUntilFinished / 1000)
+            }
+
+            override fun onFinish() {
+
+                countdown.setText("abgelaufen")
+            }
+        }.start()
+    }
+
+/*
+    countdown = findViewById(R.id.countdown)
+    countdown.text = "timer"
+    //val textView = findViewById(R.id.countdown)
+    timer =
+    object : CountDownTimer(5_000, 100) {
+        override fun onTick(remaining: Long) {
+            Log.d("TicTacToeActivity", "onTick")
+            countdown.text = remaining.toString()
+
+
+        }
+
+        override fun onFinish() {
+            countdown.text = "Zeit ist abgelaufen"
+        }
+
+
+    override fun onStart() {
+        super.onStart()
+        timer.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timer.cancel()
+    }
+    */
+
+
+
+
+
     private fun updatePoints() {
         player1Points.text = "Punkte x: ${gameManagerTTT.player1Points}"
         player2Points.text = "Punkte o: ${gameManagerTTT.player2Points}"
@@ -132,9 +190,11 @@ class TicTacToeActivity : AppCompatActivity() {
     private fun onFieldClick(field: TextView, position: de.thm.mow2gamecollection.tictactoe.model.Position){
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
+            statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
             val winningLine = gameManagerTTT.makeMove(position)
             if (winningLine != null) {
                 updatePoints()
+                statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
                 disableFields()
                 startNewGameButton.visibility = View.VISIBLE
                 showWinner(winningLine)
@@ -203,8 +263,6 @@ class TicTacToeActivity : AppCompatActivity() {
             field.background = ContextCompat.getDrawable(TicTacToeActivity@this, background)
         }
     }
-
-
 }
 
 
@@ -224,7 +282,7 @@ private fun onFieldClick(field: TextView) {
         }
     }
 }
+*/
 
-}
 
- */
+

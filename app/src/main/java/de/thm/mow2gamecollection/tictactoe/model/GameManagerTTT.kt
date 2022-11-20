@@ -5,6 +5,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 
 class GameManagerTTT (val controller: TicTacToeActivity){
+    //x is starting
     private var currentPlayer = 1
     var player1Points = 0
     var player2Points  = 0
@@ -13,6 +14,7 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         get() {
             return if (currentPlayer == 1) "x" else "o"
         }
+
     private var state = arrayOf(
         intArrayOf(0,0,0),
         intArrayOf(0,0,0),
