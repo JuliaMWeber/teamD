@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- THM-Farben -->
-    <color name="thm_primary">#80BA24</color>
+    <!-- THM -->
+    <color name="thm_primary">#78be20</color>
     <color name="thm_secondary">#4A5C66</color>
     <color name="thm_red">#971b2f</color>
     <color name="thm_orange">#F4AA00</color>
     <color name="thm_light_blue">#00B5E2</color>
     <color name="thm_dark_blue">#012169</color>
+
+    <!-- additional -->
+    <color name="primary_variant">#4CAF50</color>
 
     <!-- Wordle -->
     <color name="wordle_unknown_panel_background">#4A5C66</color>
