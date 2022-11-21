@@ -96,7 +96,7 @@ class NearbyConnectionManager(activity: MultiplayerGame, payloadCallback: Payloa
     // Callback for finding other devices
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-            connectionsClient.requestConnection(activity.myCodeName, endpointId, connectionLifecycleCallback)
+            connectionsClient.requestConnection(activity.myName, endpointId, connectionLifecycleCallback)
         }
 
         override fun onEndpointLost(endpointId: String) {

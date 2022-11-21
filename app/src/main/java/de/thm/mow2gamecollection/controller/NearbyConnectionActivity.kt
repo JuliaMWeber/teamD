@@ -9,9 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import com.google.android.gms.nearby.connection.*
+import de.thm.mow2gamecollection.controller.helper.connection.NearbyConnectionManager
 import de.thm.mow2gamecollection.databinding.ActivityNearbyConnectionBinding
 import de.thm.mow2gamecollection.model.MultiplayerGame
-import de.thm.mow2gamecollection.model.NearbyConnectionManager
 import java.util.*
 
 /**
@@ -81,7 +81,7 @@ class NearbyConnectionActivity : AppCompatActivity(), MultiplayerGame {
     /*
     The following variables are for tracking our own data
     */
-    override var myCodeName: String = CodenameGenerator.generate()
+    override var myName: String = CodenameGenerator.generate()
     private var myScore = 0
     private var myChoice: GameChoice? = null
 
@@ -97,9 +97,9 @@ class NearbyConnectionActivity : AppCompatActivity(), MultiplayerGame {
 
         nearbyConnectionManager = NearbyConnectionManager(this, payloadCallback)
 
-        binding.myName.text = "You\n($myCodeName)"
+        binding.myName.text = "You\n($myName)"
         binding.findOpponent.setOnClickListener {
-            nearbyConnectionManager.findOpponent(myCodeName)
+            nearbyConnectionManager.findOpponent(myName)
             binding.status.text = "Searching for opponents..."
             // "find opponents" is the opposite of "disconnect" so they don't both need to be
             // visible at the same time
@@ -124,14 +124,12 @@ class NearbyConnectionActivity : AppCompatActivity(), MultiplayerGame {
     override fun onStart() {
         super.onStart()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_CODE_REQUIRED_PERMISSIONS
-                )
-            }
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+            checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_CODE_REQUIRED_PERMISSIONS
+            )
         }
     }
 
