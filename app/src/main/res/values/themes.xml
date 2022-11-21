@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.GameCollection" parent="Theme.Design.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#80ba24</item>
-        <item name="colorPrimaryVariant">#8aaa40</item>
-        <item name="colorOnPrimary">#000000</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
@@ -22,8 +22,11 @@
     <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-
-
+    <style name="Theme.Gamecollection.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Gamecollection.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Gamecollection.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
