@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +13,14 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
 import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
+import de.thm.mow2gamecollection.tictactoe.model.Position
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
 import de.thm.mow2gamecollection.tictactoe.model.WinningLine
 //import de.thm.mow2gamecollection.tictactoe.model.Position
 
+// DEBUGGING
 private const val TAG = "TicTacToeActivity"
+private const val DEBUG = false // set to true to print debug logs
 
 class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
@@ -32,32 +34,18 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     private var playerNumber: Int? = null
 
     //lateinit var gameManager: GameManager
-    private lateinit var f0: TextView
-    private lateinit var f1: TextView
-    private lateinit var f2: TextView
-    private lateinit var f3: TextView
-    private lateinit var f4: TextView
-    private lateinit var f5: TextView
-    private lateinit var f6: TextView
-    private lateinit var f7: TextView
-    private lateinit var f8: TextView
     private lateinit var allFields: Array<Array<TextView>>
-    private lateinit var startNewGameButton: Button
-    private lateinit var player1Points: TextView
-    private lateinit var player2Points: TextView
 
-    private lateinit var countdown: TextView
    // private lateinit var timer: CountDownTimer
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val networkMultiplayerMode = intent.getBooleanExtra("networkMultiplayerMode", false)
-        Log.d(TAG, "networkMultiplayerMode: $networkMultiplayerMode")
+        if (DEBUG) Log.d(TAG, "networkMultiplayerMode: $networkMultiplayerMode")
         if(networkMultiplayerMode) {
             playerNumber = intent.getIntExtra("playerNumber", 0)
-            Log.d(TAG, "playerNumber: $playerNumber")
+            if (DEBUG) Log.d(TAG, "playerNumber: $playerNumber")
             initEmulatorNetworkingService(this, intent.getBooleanExtra("isServer", false))
         }
 
@@ -73,77 +61,23 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             */
 
         gameManagerTTT = GameManagerTTT(this)
-        f0 = findViewById(R.id.f0)
-        f1 = findViewById(R.id.f1)
-        f2 = findViewById(R.id.f2)
-        f3 = findViewById(R.id.f3)
-        f4 = findViewById(R.id.f4)
-        f5 = findViewById(R.id.f5)
-        f6 = findViewById(R.id.f6)
-        f7 = findViewById(R.id.f7)
-        f8 = findViewById(R.id.f8)
         allFields = arrayOf(
             arrayOf(f0,f1,f2),
             arrayOf(f3,f4,f5),
             arrayOf(f6,f7,f8)
         )
-        startNewGameButton = findViewById(R.id.startNewGameButton)
-        player1Points = findViewById(R.id.player_one_score)
-        player2Points = findViewById(R.id.player_two_score)
 
-        f0.setOnClickListener {
-            onFieldClick(
-                f0,
-                de.thm.mow2gamecollection.tictactoe.model.Position(0, 0)
-            )
-        }
-        f1.setOnClickListener {
-            onFieldClick(
-                f1,
-                de.thm.mow2gamecollection.tictactoe.model.Position(0, 1)
-            )
-        }
-        f2.setOnClickListener {
-            onFieldClick(
-                f2,
-                de.thm.mow2gamecollection.tictactoe.model.Position(0, 2)
-            )
-        }
-        f3.setOnClickListener {
-            onFieldClick(
-                f3,
-                de.thm.mow2gamecollection.tictactoe.model.Position(1, 0)
-            )
-        }
-        f4.setOnClickListener {
-            onFieldClick(
-                f4,
-                de.thm.mow2gamecollection.tictactoe.model.Position(1, 1)
-            )
-        }
-        f5.setOnClickListener {
-            onFieldClick(
-                f5,
-                de.thm.mow2gamecollection.tictactoe.model.Position(1, 2)
-            )
-        }
-        f6.setOnClickListener {
-            onFieldClick(
-                f6,
-                de.thm.mow2gamecollection.tictactoe.model.Position(2, 0)
-            )
-        }
-        f7.setOnClickListener {
-            onFieldClick(
-                f7,
-                de.thm.mow2gamecollection.tictactoe.model.Position(2, 1)
-            )
-        }
-        f8.setOnClickListener {
-            onFieldClick(
-                f8,
-                de.thm.mow2gamecollection.tictactoe.model.Position(2, 2)
-            )
+        for (i in allFields.indices) {
+            val row = allFields[i]
+                for (j in row.indices) {
+                    val field = row[j]
+                    field.setOnClickListener {
+                    onFieldClick(
+                        it as TextView,
+                        Position(i, j)
+                    )
+                }
+            }
         }
 
         startNewGameButton.setOnClickListener {
@@ -155,17 +89,16 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         updatePoints()
 
     }
-    fun ctimer() {
-        countdown = findViewById(R.id.countdown)
+    private fun ctimer() {
         object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
-                countdown.setText("übrige Zeit: " + millisUntilFinished / 1000)
+                countdown.text = "übrige Zeit: ${millisUntilFinished / 1000}"
             }
 
             override fun onFinish() {
 
-                countdown.setText("abgelaufen")
+                countdown.text = "abgelaufen"
             }
         }.start()
     }
@@ -177,7 +110,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     timer =
     object : CountDownTimer(5_000, 100) {
         override fun onTick(remaining: Long) {
-            Log.d("TicTacToeActivity", "onTick")
+            if (DEBUG) Log.d("TicTacToeActivity", "onTick")
             countdown.text = remaining.toString()
 
 
@@ -209,16 +142,17 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun updatePoints() {
-        player1Points.text = "Punkte x: ${gameManagerTTT.player1Points}"
-        player2Points.text = "Punkte o: ${gameManagerTTT.player2Points}"
+        playerOneScore.text = "Punkte x: ${gameManagerTTT.player1Points}"
+        playerTwoScore.text = "Punkte o: ${gameManagerTTT.player2Points}"
     }
 
     private fun onFieldClick(field: TextView, position: de.thm.mow2gamecollection.tictactoe.model.Position){
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
 
+            // send move to opponent
             sendNetworkMessage("${position.row};${position.column}")
-            statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
+
             val winningLine = gameManagerTTT.makeMove(position)
             if (winningLine != null) {
                 updatePoints()
@@ -227,49 +161,26 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                 startNewGameButton.visibility = View.VISIBLE
                 showWinner(winningLine)
             }else{
+                statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
                 startNewGameButton.visibility = View.VISIBLE
             }
         }
     }
     private fun resetFields () {
-        f0.text = ""
-        f1.text = ""
-        f2.text = ""
-        f3.text = ""
-        f4.text = ""
-        f5.text = ""
-        f6.text = ""
-        f7.text = ""
-        f8.text = ""
-        f0.background = null
-        f1.background = null
-        f2.background = null
-        f3.background = null
-        f4.background = null
-        f5.background = null
-        f6.background = null
-        f7.background = null
-        f8.background = null
-        f0.isEnabled = true
-        f1.isEnabled = true
-        f2.isEnabled = true
-        f3.isEnabled = true
-        f4.isEnabled = true
-        f5.isEnabled = true
-        f6.isEnabled = true
-        f7.isEnabled = true
-        f8.isEnabled = true
+        allFields.forEach { row ->
+            row.forEach {
+                it.text = ""
+                it.background = null
+                it.isEnabled = true
+            }
+        }
     }
     private fun disableFields(){
-        f0.isEnabled = false
-        f1.isEnabled = false
-        f2.isEnabled = false
-        f3.isEnabled = false
-        f4.isEnabled = false
-        f5.isEnabled = false
-        f6.isEnabled = false
-        f7.isEnabled = false
-        f8.isEnabled = false
+        allFields.forEach { row ->
+            row.forEach {
+                it.isEnabled = false
+            }
+        }
     }
 
     private fun showWinner(winningLine: WinningLine) {
@@ -288,16 +199,16 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             )
         }
         winningFields.forEach { field ->
-            field.background = ContextCompat.getDrawable(TicTacToeActivity@this, background)
+            field.background = ContextCompat.getDrawable(this, background)
         }
     }
 
     override fun handleNetworkMessage(msg: String) {
-        Log.d(TAG, "received message: $msg")
+        if (DEBUG) Log.d(TAG, "received message: $msg")
         val msgList = msg.split(";")
         val row = msgList[0].toInt()
         val col = msgList[1].toInt()
-        onFieldClick(getField(row, col), de.thm.mow2gamecollection.tictactoe.model.Position(row, col))
+        onFieldClick(getField(row, col), Position(row, col))
     }
 }
 
