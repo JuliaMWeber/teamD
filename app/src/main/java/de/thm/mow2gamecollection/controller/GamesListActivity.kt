@@ -59,7 +59,7 @@ class GamesListActivity : AppCompatActivity() {
                 }
             }
 
-            i.putExtra("isMultiplayer", gamesArrayList[position].isMultiplayer)
+            i.putExtra("isMultiplayer", gamesArrayList[position].isNetworkMultiplayer)
 
 //            i.putExtra("name",name)
 //            i.putExtra("imageId",imageID)
