@@ -94,9 +94,10 @@ class EmulatorNetworkingService(val activity: EmulatorEnabledMultiplayerGame, va
             }
             while (!currentThread().isInterrupted) {
                 try {
-                    if (DEBUG) Log.d(TAG, "listening on port $port")
+                    if (DEBUG) Log.d(TAG, "serverSocket: $serverSocket")
                     // Start listening for messages
                     val mySocket = serverSocket!!.accept()
+                    if (DEBUG) Log.d(TAG, "listening on port $port")
                     if (DEBUG) Log.d(TAG, "ServerThread: mySocket: $mySocket")
                     val commThread = CommunicationThread(mySocket)
                     Thread(commThread).start()
@@ -109,6 +110,8 @@ class EmulatorNetworkingService(val activity: EmulatorEnabledMultiplayerGame, va
                 } catch (e: IOException) {
                     if (DEBUG) Log.d(TAG, e.toString())
                     e.printStackTrace()
+                    if (DEBUG) Log.d(TAG, "try again in 5s…")
+                    sleep(5000)
                 }
             }
         }
