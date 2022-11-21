@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.model.WiFiDirectBroadcastReceiver
+import de.thm.mow2gamecollection.controller.helper.connection.WiFiDirectBroadcastReceiver
 
 private const val TAG = "WifiDirectActivity"
 
