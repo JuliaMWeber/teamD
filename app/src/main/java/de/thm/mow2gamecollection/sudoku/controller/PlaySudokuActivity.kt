@@ -1,6 +1,5 @@
 package de.thm.mow2gamecollection.sudoku.controller
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import androidx.appcompat.app.AppCompatActivity
@@ -9,14 +8,14 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RadioButton
 import androidx.core.content.ContextCompat
-import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
-import kotlinx.android.synthetic.main.activity_play_sudoku.*
+import de.thm.mow2gamecollection.databinding.ActivityPlaySudokuBinding
 
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
+    private lateinit var binding: ActivityPlaySudokuBinding
     private lateinit var viewModel: PlaySudokuViewModel
     private lateinit var zahlenButtons: List<Button>
     private lateinit var schwierigkeitsAuswahl: List<RadioButton>
@@ -28,13 +27,13 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
 
     //    lateinit var gen : Generator
 
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_play_sudoku)
 
-        sudokuBoardView = findViewById(R.id.sudokuBoardView)
+        binding = ActivityPlaySudokuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        sudokuBoardView = binding.sudokuBoardView
         sudokuBoardView.registerListener(this)
 
         viewModel = ViewModelProvider(this)[PlaySudokuViewModel::class.java]
@@ -55,27 +54,27 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         }
 
         schwierigkeitsAuswahl = listOf(
-            findViewById(R.id.leicht),
-            findViewById(R.id.mittel),
-            findViewById(R.id.schwer),
+            binding.leicht,
+            binding.mittel,
+            binding.schwer
         )
 
         schwierigkeitsAuswahl.forEachIndexed { index, button ->
             button.setOnClickListener {
-
+                // TODO
             }
         }
 
         zahlenButtons = listOf(
-            findViewById(R.id.oneButton),
-            findViewById(R.id.twoButton),
-            findViewById(R.id.threeButton),
-            findViewById(R.id.fourButton),
-            findViewById(R.id.fiveButton),
-            findViewById(R.id.sixButton),
-            findViewById(R.id.sevenButton),
-            findViewById(R.id.eightButton),
-            findViewById(R.id.nineButton)
+            binding.oneButton,
+            binding.twoButton,
+            binding.threeButton,
+            binding.fourButton,
+            binding.fiveButton,
+            binding.sixButton,
+            binding.sevenButton,
+            binding.eightButton,
+            binding.nineButton
         )
 
         zahlenButtons.forEachIndexed { index, button ->
@@ -86,11 +85,11 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             }
         }
 
-        notizButton = findViewById(R.id.notizButton)
+        notizButton = binding.notizButton
         notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
-        entfernenButton = findViewById(R.id.entfernenButton)
+        entfernenButton = binding.entfernenButton
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
-        loesenButton = findViewById(R.id.loesenButton)
+        loesenButton = binding.loesenButton
         loesenButton.setOnClickListener { viewModel.sudokuGame.loesen() }
 
 
@@ -120,7 +119,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         }
     }
 
-    private fun updateHervorgehobeneSchluessel(set: Set<Int?>) = set?.let {
+    private fun updateHervorgehobeneSchluessel(set: Set<Int?>) = set.let {
         zahlenButtons.forEachIndexed { index, button ->
             val color =
                 if (set.contains(index + 1)) ContextCompat.getColor(
