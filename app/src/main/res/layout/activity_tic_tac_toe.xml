@@ -5,26 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/hintergrund"
-    tools:context=".controller.TicTacToeActivity">
+    tools:context=".tictactoe.controller.TicTacToeActivity">
 
     <TextView
-        android:id="@+id/player_one_score"
+        android:id="@+id/playerOneScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Player x:"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/player_two_score"
+        android:id="@+id/playerTwoScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Player o:"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/player_one_score" />
+        app:layout_constraintTop_toBottomOf="@id/playerOneScore" />
 
     <TextView
         android:id="@+id/countdown"
@@ -197,7 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button"
-        android:text="@string/playButton"
+        android:text="@string/restartButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
