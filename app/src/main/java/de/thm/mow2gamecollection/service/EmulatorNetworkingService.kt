@@ -14,14 +14,16 @@ import java.net.Socket
 import java.net.UnknownHostException
 import java.util.concurrent.Executors
 
+// PORT CONFIGURATION
+private const val SERVER_PORT = 6000 // port the emulator instances listen to for incoming connections
+private const val SERVER_HOST_PORT = 5000 // port on host machine which is forwarded to the serverPort on the emulator
+private const val CLIENT_HOST_PORT = 5003 // port on host machine which is forwarded to the clientPort on the emulator
+
 // DEBUGGING
 private const val DEBUG = true
 private const val TAG = "EmulatorNetworkingServ"
 
 class EmulatorNetworkingService(val activity: EmulatorEnabledMultiplayerGame, val isServer: Boolean) {
-    private val serverPort = 6000 // port the emulator instances listen to for incoming connections
-    private val serverHostPort = 5000 // port on host machine which is forwarded to the serverPort on the emulator
-    val clientHostPort = 5003 // port on host machine which is forwarded to the clientPort on the emulator
     private var serverIp: String? = "10.0.2.2"
     private var socket: Socket? = null
     private var serverSocket: ServerSocket? = null
@@ -32,15 +34,31 @@ class EmulatorNetworkingService(val activity: EmulatorEnabledMultiplayerGame, va
 
         // If we're the server start a ServerThread, else connect to the server
         if (isServer) {
-            Thread(ServerThread(serverPort)).start()
+            Thread(ServerThread(SERVER_PORT)).start()
         } else {
-            Thread(ClientThread(serverHostPort)).start()
+            Thread(ClientThread(SERVER_HOST_PORT)).start()
             // We can't use the same socket for the responses from the "server".
             // Therefore, also start a ServerThread / open a separate socket on the "client" for the "server" to connect to.
-            Thread(ServerThread(serverPort)).start()
+            Thread(ServerThread(SERVER_PORT)).start()
         }
     }
 
+    // close the sockets
+    fun stop() {
+        try {
+            socket!!.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        try {
+            serverSocket!!.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    // send message to the other AVD
     fun sendMessage(str: String) {
         Executors.newSingleThreadExecutor().execute {
             try {
@@ -61,13 +79,6 @@ class EmulatorNetworkingService(val activity: EmulatorEnabledMultiplayerGame, va
         }
     }
 
-    fun closeServerSocket() {
-        try {
-            serverSocket!!.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
 
     // Opens a socket on the server device to get messages
     inner class ServerThread(private val port: Int) : Thread() {
@@ -93,7 +104,7 @@ class EmulatorNetworkingService(val activity: EmulatorEnabledMultiplayerGame, va
                         // Connect to the "server port" of the "client"
                         // We need to send our messages through a different socket.
                         if (DEBUG) Log.d(TAG, "is server -> start ClientThread")
-                        Thread(ClientThread(clientHostPort)).start()
+                        Thread(ClientThread(CLIENT_HOST_PORT)).start()
                     }
                 } catch (e: IOException) {
                     if (DEBUG) Log.d(TAG, e.toString())

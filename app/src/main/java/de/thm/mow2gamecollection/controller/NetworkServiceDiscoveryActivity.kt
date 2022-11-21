@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.model.NetworkServiceDiscoveryHelper
+import de.thm.mow2gamecollection.controller.helper.connection.NetworkServiceDiscoveryHelper
 
 class NetworkServiceDiscoveryActivity : AppCompatActivity() {
     private val TAG = "NsdMultiplayerP"

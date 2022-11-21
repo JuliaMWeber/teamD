@@ -1,6 +1,5 @@
 package de.thm.mow2gamecollection.tictactoe.controller
 
-import android.icu.text.Transliterator.Position
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -73,7 +72,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             }
             */
 
-        gameManagerTTT = de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT(this)
+        gameManagerTTT = GameManagerTTT(this)
         f0 = findViewById(R.id.f0)
         f1 = findViewById(R.id.f1)
         f2 = findViewById(R.id.f2)
@@ -200,9 +199,12 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
     */
 
+    override fun onStop() {
+        super.onStop()
+        emulatorNetworkingService?.stop()
+    }
 
-
-    fun getTextViewFromPosition(row: Int, col: Int) : TextView {
+    private fun getField(row: Int, col: Int) : TextView {
         return allFields[row][col]
     }
 
@@ -295,7 +297,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         val msgList = msg.split(";")
         val row = msgList[0].toInt()
         val col = msgList[1].toInt()
-        onFieldClick(getTextViewFromPosition(row, col), de.thm.mow2gamecollection.tictactoe.model.Position(row, col))
+        onFieldClick(getField(row, col), de.thm.mow2gamecollection.tictactoe.model.Position(row, col))
     }
 }
 

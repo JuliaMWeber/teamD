@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.model
+package de.thm.mow2gamecollection.controller.helper.connection
 
 import android.content.Context
 import android.net.nsd.NsdManager

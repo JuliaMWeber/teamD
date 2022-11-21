@@ -1,8 +1,9 @@
-package de.thm.mow2gamecollection.model
+package de.thm.mow2gamecollection.controller.helper.connection
 
 import android.app.Activity
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
+import de.thm.mow2gamecollection.model.MultiplayerGame
 
 private const val PACKAGE_NAME = "de.thm.mow2teamd.multiplayerprototype"
 
