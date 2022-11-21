@@ -11,7 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Fonts -->
+        <item name="android:fontFamily">@font/pixel12x10</item>
     </style>
 
     <style name="Theme.GameCollection.NoActionBar">

@@ -68,14 +68,17 @@ class WordleKeyboardFragment : Fragment() {
         keyboardLayouts[selectedKeyboardLayout]?.let {
             for (i in it.indices) {
                 for (keyLabel in it[i]) {
-                    val button = Button(context)
-                    button.text = keyLabel.toString()
-                    button.layoutParams = LayoutParams(
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT,
-                        1F
-                    )
-                    button.setPadding(4, 4, 4, 4)
+                    val button = Button(context).apply {
+                        text = keyLabel.toString()
+                        layoutParams = LayoutParams(
+                            LayoutParams.WRAP_CONTENT,
+                            LayoutParams.WRAP_CONTENT,
+                            1F
+                        )
+                        setPadding(4, 4, 4, 4)
+                        // background = AppCompatResources.getDrawable(context, R.drawable.buttongrundlage)
+                    }
+
                     context?.let { context ->
                         button.backgroundTintList = ContextCompat.getColorStateList(context, R.color.wordle_unknown_panel_background)
                         button.setTextColor(ContextCompat.getColor(context, R.color.white))
