@@ -1,22 +1,19 @@
 package de.thm.mow2gamecollection.tictactoe.controller
 
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
 import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
 import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
 import de.thm.mow2gamecollection.tictactoe.model.Position
-import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
 import de.thm.mow2gamecollection.tictactoe.model.WinningLine
-//import de.thm.mow2gamecollection.tictactoe.model.Position
 
 // DEBUGGING
 private const val TAG = "TicTacToeActivity"
@@ -25,21 +22,28 @@ private const val DEBUG = false // set to true to print debug logs
 class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
     override var emulatorNetworkingService: EmulatorNetworkingService? = null
-
-    //private var currentPlayer = "x"
-    lateinit var model: GameManagerTTT
-
+    private lateinit var binding: ActivityTicTacToeBinding
     private lateinit var gameManagerTTT: GameManagerTTT
 
+    //private var currentPlayer = "x"
     private var playerNumber: Int? = null
+    private val allFields by lazy {
+        arrayOf(
+            arrayOf(binding.f0, binding.f1, binding.f2),
+            arrayOf(binding.f3, binding.f4, binding.f5),
+            arrayOf(binding.f6, binding.f7, binding.f8)
+        )
+    }
 
-    //lateinit var gameManager: GameManager
-    private lateinit var allFields: Array<Array<TextView>>
-
-   // private lateinit var timer: CountDownTimer
+    // lateinit var gameManager: GameManager
+    // private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        gameManagerTTT = GameManagerTTT(this)
+        binding = ActivityTicTacToeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val networkMultiplayerMode = intent.getBooleanExtra("networkMultiplayerMode", false)
         if (DEBUG) Log.d(TAG, "networkMultiplayerMode: $networkMultiplayerMode")
@@ -49,23 +53,12 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             initEmulatorNetworkingService(this, intent.getBooleanExtra("isServer", false))
         }
 
-        setContentView(R.layout.activity_tic_tac_toe)
-
-        model = GameManagerTTT(this)
-
         /*
         for(field in allFields){
             field.setOnClickListener{
                 onFieldClick (it as TextView)
             }
             */
-
-        gameManagerTTT = GameManagerTTT(this)
-        allFields = arrayOf(
-            arrayOf(f0,f1,f2),
-            arrayOf(f3,f4,f5),
-            arrayOf(f6,f7,f8)
-        )
 
         for (i in allFields.indices) {
             val row = allFields[i]
@@ -80,8 +73,8 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             }
         }
 
-        startNewGameButton.setOnClickListener {
-            startNewGameButton.visibility = View.GONE
+        binding.startNewGameButton.setOnClickListener {
+            it.visibility = View.GONE
             gameManagerTTT.reset()
             resetFields()
             ctimer()
@@ -93,12 +86,12 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
-                countdown.text = "übrige Zeit: ${millisUntilFinished / 1000}"
+                binding.countdown.text = "übrige Zeit: ${millisUntilFinished / 1000}"
             }
 
             override fun onFinish() {
 
-                countdown.text = "abgelaufen"
+                binding.countdown.text = "abgelaufen"
             }
         }.start()
     }
@@ -142,11 +135,11 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun updatePoints() {
-        playerOneScore.text = "Punkte x: ${gameManagerTTT.player1Points}"
-        playerTwoScore.text = "Punkte o: ${gameManagerTTT.player2Points}"
+        binding.playerOneScore.text = "Punkte x: ${gameManagerTTT.player1Points}"
+        binding.playerTwoScore.text = "Punkte o: ${gameManagerTTT.player2Points}"
     }
 
-    private fun onFieldClick(field: TextView, position: de.thm.mow2gamecollection.tictactoe.model.Position){
+    private fun onFieldClick(field: TextView, position: Position){
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
 
@@ -156,13 +149,13 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             val winningLine = gameManagerTTT.makeMove(position)
             if (winningLine != null) {
                 updatePoints()
-                statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
+                binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
                 disableFields()
-                startNewGameButton.visibility = View.VISIBLE
+                binding.startNewGameButton.visibility = View.VISIBLE
                 showWinner(winningLine)
             }else{
-                statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
-                startNewGameButton.visibility = View.VISIBLE
+                binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
+                binding.startNewGameButton.visibility = View.VISIBLE
             }
         }
     }
@@ -185,16 +178,16 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
     private fun showWinner(winningLine: WinningLine) {
         val (winningFields, background) = when (winningLine) {
-            WinningLine.ROW_0 -> Pair(listOf(f0,f1,f2), R.drawable.horizontal_line)
-            WinningLine.ROW_1 -> Pair(listOf(f3,f4,f5), R.drawable.horizontal_line)
-            WinningLine.ROW_2 -> Pair(listOf(f6,f7,f8), R.drawable.horizontal_line)
-            WinningLine.COLUMN_0 -> Pair(listOf(f0,f3,f6), R.drawable.vertical_line)
-            WinningLine.COLUMN_1 -> Pair(listOf(f1,f4,f7), R.drawable.vertical_line)
-            WinningLine.COLUMN_2 -> Pair(listOf(f2,f5,f8), R.drawable.vertical_line)
-            WinningLine.DIAGONAL_LEFT -> Pair(listOf(f0, f4, f8),
+            WinningLine.ROW_0 -> Pair(listOf(binding.f0, binding.f1, binding.f2), R.drawable.horizontal_line)
+            WinningLine.ROW_1 -> Pair(listOf(binding.f3, binding.f4, binding.f5), R.drawable.horizontal_line)
+            WinningLine.ROW_2 -> Pair(listOf(binding.f6, binding.f7, binding.f8), R.drawable.horizontal_line)
+            WinningLine.COLUMN_0 -> Pair(listOf(binding.f0, binding.f3, binding.f6), R.drawable.vertical_line)
+            WinningLine.COLUMN_1 -> Pair(listOf(binding.f1, binding.f4, binding.f7), R.drawable.vertical_line)
+            WinningLine.COLUMN_2 -> Pair(listOf(binding.f2, binding.f5, binding.f8), R.drawable.vertical_line)
+            WinningLine.DIAGONAL_LEFT -> Pair(listOf(binding.f0, binding.f4, binding.f8),
                 R.drawable.left_diagonal_line
             )
-            WinningLine.DIAGONAL_RIGHT -> Pair(listOf(f2, f4, f6),
+            WinningLine.DIAGONAL_RIGHT -> Pair(listOf(binding.f2, binding.f4, binding.f6),
                 R.drawable.right_diagonal_line
             )
         }
