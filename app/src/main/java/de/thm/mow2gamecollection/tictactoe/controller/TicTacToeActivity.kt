@@ -12,17 +12,25 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
+import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
 import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
 import de.thm.mow2gamecollection.tictactoe.model.WinningLine
 //import de.thm.mow2gamecollection.tictactoe.model.Position
 
-class TicTacToeActivity : AppCompatActivity() {
+private const val TAG = "TicTacToeActivity"
+
+class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
+
+    override var emulatorNetworkingService: EmulatorNetworkingService? = null
 
     //private var currentPlayer = "x"
     lateinit var model: GameManagerTTT
 
     private lateinit var gameManagerTTT: GameManagerTTT
+
+    private var playerNumber: Int? = null
 
     //lateinit var gameManager: GameManager
     private lateinit var f0: TextView
@@ -34,6 +42,7 @@ class TicTacToeActivity : AppCompatActivity() {
     private lateinit var f6: TextView
     private lateinit var f7: TextView
     private lateinit var f8: TextView
+    private lateinit var allFields: Array<Array<TextView>>
     private lateinit var startNewGameButton: Button
     private lateinit var player1Points: TextView
     private lateinit var player2Points: TextView
@@ -44,12 +53,20 @@ class TicTacToeActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val networkMultiplayerMode = intent.getBooleanExtra("networkMultiplayerMode", false)
+        Log.d(TAG, "networkMultiplayerMode: $networkMultiplayerMode")
+        if(networkMultiplayerMode) {
+            playerNumber = intent.getIntExtra("playerNumber", 0)
+            Log.d(TAG, "playerNumber: $playerNumber")
+            initEmulatorNetworkingService(this, intent.getBooleanExtra("isServer", false))
+        }
+
         setContentView(R.layout.activity_tic_tac_toe)
 
         model = GameManagerTTT(this)
 
         /*
-        val allFields = arrayOf(f0,f1,f2,f3,f4,f5,f6,f7,f8)
         for(field in allFields){
             field.setOnClickListener{
                 onFieldClick (it as TextView)
@@ -66,6 +83,11 @@ class TicTacToeActivity : AppCompatActivity() {
         f6 = findViewById(R.id.f6)
         f7 = findViewById(R.id.f7)
         f8 = findViewById(R.id.f8)
+        allFields = arrayOf(
+            arrayOf(f0,f1,f2),
+            arrayOf(f3,f4,f5),
+            arrayOf(f6,f7,f8)
+        )
         startNewGameButton = findViewById(R.id.startNewGameButton)
         player1Points = findViewById(R.id.player_one_score)
         player2Points = findViewById(R.id.player_two_score)
@@ -136,7 +158,7 @@ class TicTacToeActivity : AppCompatActivity() {
     }
     fun ctimer() {
         countdown = findViewById(R.id.countdown)
-        object : CountDownTimer(30000, 1000) {
+        object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
                 countdown.setText("übrige Zeit: " + millisUntilFinished / 1000)
@@ -180,7 +202,9 @@ class TicTacToeActivity : AppCompatActivity() {
 
 
 
-
+    fun getTextViewFromPosition(row: Int, col: Int) : TextView {
+        return allFields[row][col]
+    }
 
     private fun updatePoints() {
         player1Points.text = "Punkte x: ${gameManagerTTT.player1Points}"
@@ -190,6 +214,8 @@ class TicTacToeActivity : AppCompatActivity() {
     private fun onFieldClick(field: TextView, position: de.thm.mow2gamecollection.tictactoe.model.Position){
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
+
+            sendNetworkMessage("${position.row};${position.column}")
             statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
             val winningLine = gameManagerTTT.makeMove(position)
             if (winningLine != null) {
@@ -262,6 +288,14 @@ class TicTacToeActivity : AppCompatActivity() {
         winningFields.forEach { field ->
             field.background = ContextCompat.getDrawable(TicTacToeActivity@this, background)
         }
+    }
+
+    override fun handleNetworkMessage(msg: String) {
+        Log.d(TAG, "received message: $msg")
+        val msgList = msg.split(";")
+        val row = msgList[0].toInt()
+        val col = msgList[1].toInt()
+        onFieldClick(getTextViewFromPosition(row, col), de.thm.mow2gamecollection.tictactoe.model.Position(row, col))
     }
 }
 

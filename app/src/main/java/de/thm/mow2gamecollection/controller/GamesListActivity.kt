@@ -34,7 +34,7 @@ class GamesListActivity : AppCompatActivity() {
             Game("Sudoku", R.drawable.test, false),
             Game("Wordle", R.drawable.wordle, false),
             Game("Tic Tac Toe", R.drawable.test, false),
-            Game("Tic Tac Toe Multiplayer", R.drawable.test, true),
+            Game("Tic Tac Toe Network Multiplayer", R.drawable.test, true),
         )
 //        for (i in gameNames.indices) {
 //            val game = Game(gameNames[i], imageIDs[i])
@@ -54,8 +54,11 @@ class GamesListActivity : AppCompatActivity() {
                 "Wordle" -> {
                     Intent(this, WordleActivity::class.java)
                 }
-                else -> {
+                "Tic Tac Toe" -> {
                     Intent(this, TicTacToeActivity::class.java)
+                }
+                else -> {
+                    Intent(this, StartTicTacToeNetworkMultiplayerActivity::class.java)
                 }
             }
 

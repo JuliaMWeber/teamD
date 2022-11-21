@@ -15,7 +15,7 @@ private const val DEBUG = false
 
 class ChatActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
-    private var emulatorNetworkingService: EmulatorNetworkingService? = null
+    override var emulatorNetworkingService: EmulatorNetworkingService? = null
 
 
 
