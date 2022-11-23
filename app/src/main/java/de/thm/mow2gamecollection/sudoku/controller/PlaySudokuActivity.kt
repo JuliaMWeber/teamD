@@ -19,14 +19,13 @@ import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
     private lateinit var viewModel: PlaySudokuViewModel
     private lateinit var zahlenButtons: List<Button>
-    private lateinit var schwierigkeitsAuswahl: List<Button>
     private lateinit var sudokuBoardView: SudokuBoardView
     private lateinit var notizButton: ImageButton
     private lateinit var entfernenButton: ImageButton
     private lateinit var loesenButton: Button
-    private lateinit var leicht: Button
-    private lateinit var mittel: Button
-    private lateinit var schwer: Button
+    lateinit var leicht: Button
+    lateinit var mittel: Button
+    lateinit var schwer: Button
 
 
     //    lateinit var gen : Generator
@@ -35,7 +34,10 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_schwierigkeit_sudoku)
+        setContentView(R.layout.activity_play_sudoku)
+
+        sudokuBoardView = findViewById(R.id.sudokuBoardView)
+        sudokuBoardView.registerListener(this)
 
         viewModel = ViewModelProvider(this)[PlaySudokuViewModel::class.java]
         viewModel.sudokuGame.gewaehlteZellenLiveData.observe(this) {
@@ -47,7 +49,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         viewModel.sudokuGame.notizenMachenLiveData.observe(this) {
             updateNotizenGemachtUI(it)
         }
-        viewModel.sudokuGame.buttonEingabenLiveData.observe(this){
+        viewModel.sudokuGame.buttonEingabenLiveData.observe(this) {
 
         }
         viewModel.sudokuGame.hervorgehobeneSchluesselLiveData.observe(this) {
@@ -55,10 +57,13 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         }
 
 
-        schwierigkeitsAuswahl(leicht, 42)
-        schwierigkeitsAuswahl(mittel, 32)
-        schwierigkeitsAuswahl(schwer, 22)
+        leicht = findViewById(R.id.leicht)
+        mittel = findViewById(R.id.mittel)
+        schwer = findViewById(R.id.schwer)
 
+        //SudokuGame().schwierigkeitsAuswahl(leicht, 42)
+        //SudokuGame().schwierigkeitsAuswahl(mittel, 32)
+        //SudokuGame().schwierigkeitsAuswahl(schwer, 22)
 
 
         zahlenButtons = listOf(
@@ -76,7 +81,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         zahlenButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
                 viewModel.sudokuGame.handleInput(index + 1)
-                viewModel.sudokuGame.felderAendern(index+1)
+                viewModel.sudokuGame.felderAendern(index + 1)
 
             }
         }
@@ -87,17 +92,22 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
         loesenButton = findViewById(R.id.loesenButton)
         loesenButton.setOnClickListener { viewModel.sudokuGame.loesen() }
-
-
-    }
-
-    fun schwierigkeitsAuswahl(button: Button, gegFelder : Int){
-        button.setOnClickListener {
-            SudokuGame().sudokuFelderVorgeben(gegFelder)
-            sudokuBoardView = findViewById(R.id.sudokuBoardView)
-            sudokuBoardView.registerListener(this)
+        leicht.setOnClickListener {
+            viewModel.sudokuGame.zellenLeeren()
+            viewModel.sudokuGame.sudokuFelderVorgeben(42)
         }
+        mittel.setOnClickListener {
+            viewModel.sudokuGame.zellenLeeren()
+            viewModel.sudokuGame.sudokuFelderVorgeben(32)
+        }
+        schwer.setOnClickListener {
+            viewModel.sudokuGame.zellenLeeren()
+            viewModel.sudokuGame.sudokuFelderVorgeben(22)
+        }
+
+
     }
+
 
     /* ---- Updatefunktionen ---- */
     private fun zellenUpdate(zellen: List<Zelle>?) = zellen?.let {

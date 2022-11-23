@@ -1,12 +1,15 @@
 package de.thm.mow2gamecollection.sudoku.model.game
 
 import android.util.Log
+import android.widget.Button
 import androidx.lifecycle.MutableLiveData
+import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
 
 
 class SudokuGame {
     //private lateinit var gen: Generator
     private lateinit var zelle: Zelle
+    private lateinit var psa: PlaySudokuActivity
 
 
     var gewaehlteZellenLiveData = MutableLiveData<Pair<Int, Int>>()
@@ -51,10 +54,6 @@ class SudokuGame {
         buttonEingabenLiveData.postValue(buttonEingabe)
 
 
-
-
-
-
     }
 
     fun felderAendern(index: Int) {
@@ -66,6 +65,14 @@ class SudokuGame {
 
 
     }
+
+    fun zellenLeeren() {
+        for (i in 0 until 81) {
+            zellen[i].istStartzelle = false
+            zellenLiveData.postValue(board.zellen)
+        }
+    }
+
 
     fun sudokuFelderVorgeben(schweregrad: Int) {
         for (i in 0 until schweregrad) {
@@ -151,6 +158,7 @@ class SudokuGame {
 
         zellenLiveData.postValue(board.zellen)
     }
+
 
     fun loesen() {
         for (i in 0 until 9) {
