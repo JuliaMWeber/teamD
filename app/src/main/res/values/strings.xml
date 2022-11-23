@@ -18,4 +18,6 @@
 
     <string name="title_activity_nsd_prototype">NsdPrototype</string>
     <string name="Schwierigkeit">Schwierigkeit</string>
+    <string name="Notiz">Notizen</string>
+    <string name="Entfernen">Entfernen</string>
 </resources>

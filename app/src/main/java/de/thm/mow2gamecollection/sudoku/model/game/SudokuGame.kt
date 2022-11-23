@@ -51,7 +51,6 @@ class SudokuGame {
         buttonEingabenLiveData.postValue(buttonEingabe)
 
 
-        sudokuFelderVorgeben(42)
 
 
 
@@ -68,7 +67,7 @@ class SudokuGame {
 
     }
 
-    private fun sudokuFelderVorgeben(schweregrad: Int) {
+    fun sudokuFelderVorgeben(schweregrad: Int) {
         for (i in 0 until schweregrad) {
             val zufallszahl: Int = (0..80).random()
             zellen[zufallszahl].istStartzelle = true

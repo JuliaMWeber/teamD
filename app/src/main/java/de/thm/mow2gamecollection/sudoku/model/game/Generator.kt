@@ -3,9 +3,21 @@ package de.thm.mow2gamecollection.sudoku.model.game
 import kotlin.random.Random
 
 class Generator {
-    var sudoku = Array(9) { i -> Array(9) { j -> 0 } }
+    var genSudoku = Array(9) { i -> Array(9) { j -> 0 } }
     var tSudoku = Array(9) { i -> Array(9) { j -> 0 } }
     val nummernliste = Array(9) { i -> (arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9)) }
+
+    val sudoku: Array<IntArray> = arrayOf(
+        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
+        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
+        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
+        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
+        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
+        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
+        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
+        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
+        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
+    )
 
     fun raetselFuellen(sudoku: Array<Array<Int>>): Array<Array<Int>> {
 
@@ -13,7 +25,6 @@ class Generator {
             nummernliste[i].shuffle()
             for (j in 0 until 9) {
                 sudoku[i][j] = nummernliste[i][j]
-                tSudoku[i][j] = nummernliste[i][j]
             }
             println("Gefülltes Sudoku: " + sudoku[i].joinToString())
         }
@@ -22,15 +33,13 @@ class Generator {
 
     fun raetselPruefen() {
         var zaehler = 0
-        raetselFuellen(sudoku)
-        for (i in 0 until 8) {
+        //raetselFuellen(sudoku)
+        for (i in 0 until 9) {
             for (j in 0 until 8) {
-                if (j < 8) {
                     if (sudoku[i][j] == sudoku[i][j + 1]) {
                         sudoku[i][j] = nummernliste[i][j + 1]
                         nummernliste[i][j] = sudoku[i][j + 1]
                     }
-                }
             }
             println("Geprüftes Sudoku: " + sudoku[i].joinToString())
         }
