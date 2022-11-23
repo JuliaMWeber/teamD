@@ -27,12 +27,10 @@ class SudokuGame {
         intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
         intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
     )
-    var nummernliste = Array(9) { arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9) }
     var sudokuGen = Array(9) { i -> Array(9) { j -> 0 } }
-    var zellenNummern = Array(9) { Array(9) { it + 1 } }
 
-    // var genSudoku = shuffleSudoku(nummernliste)
-    var shuffDoku = Array(9) { i -> Array(9) { j -> (nummernliste.shuffle()) } }
+
+    var genSudoku = Generator().getSudoku()
 
 
     //val genSudoku = gen.createArray()
@@ -54,6 +52,8 @@ class SudokuGame {
 
 
         sudokuFelderVorgeben(42)
+
+
 
 
     }
@@ -160,7 +160,7 @@ class SudokuGame {
                 if (zellen[pos].value == zellen[pos].eingabeValue) {
                     zellen[pos].istRichtig = true
                     zellenLiveData.postValue(board.zellen)
-                } else if (zellen[pos].value!=zellen[pos].eingabeValue && zellen[pos].eingabeValue!=null) {
+                } else if (zellen[pos].value != zellen[pos].eingabeValue && zellen[pos].eingabeValue != null) {
                     zellen[pos].istFalsch = true
                     zellenLiveData.postValue(board.zellen)
 
@@ -169,6 +169,8 @@ class SudokuGame {
 
         }
     }
+
+
 }
 
 
