@@ -28,7 +28,7 @@
             android:layout_columnSpan="3"
             android:layout_gravity="fill_horizontal"
             android:fontFamily="@font/pixel12x10"
-            android:text="Schwierigkeit"
+            android:text="@string/Schwierigkeit"
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
 

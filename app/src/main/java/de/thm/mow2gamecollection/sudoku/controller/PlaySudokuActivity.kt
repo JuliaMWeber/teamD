@@ -13,7 +13,6 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
-import kotlinx.android.synthetic.main.activity_play_sudoku.*
 
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {

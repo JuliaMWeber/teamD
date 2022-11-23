@@ -4,26 +4,32 @@ import kotlin.random.Random
 
 class Generator {
     var sudoku = Array(9) { i -> Array(9) { j -> 0 } }
+    var tSudoku = Array(9) { i -> Array(9) { j -> 0 } }
     val nummernliste = Array(9) { i -> (arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9)) }
 
     fun raetselFuellen(sudoku: Array<Array<Int>>): Array<Array<Int>> {
+
         for (i in 0 until 9) {
             nummernliste[i].shuffle()
             for (j in 0 until 9) {
                 sudoku[i][j] = nummernliste[i][j]
+                tSudoku[i][j] = nummernliste[i][j]
             }
-            println("Gefülltes Sudoku: --- " + sudoku[i].joinToString())
+            println("Gefülltes Sudoku: " + sudoku[i].joinToString())
         }
         return sudoku
     }
 
     fun raetselPruefen() {
+        var zaehler = 0
         raetselFuellen(sudoku)
         for (i in 0 until 8) {
-            nummernliste[i].shuffle(Random)
             for (j in 0 until 8) {
-                if (sudoku[j][i] == sudoku[i][j]) {
-                    sudoku[j] = nummernliste[i]
+                if (j < 8) {
+                    if (sudoku[i][j] == sudoku[i][j + 1]) {
+                        sudoku[i][j] = nummernliste[i][j + 1]
+                        nummernliste[i][j] = sudoku[i][j + 1]
+                    }
                 }
             }
             println("Geprüftes Sudoku: " + sudoku[i].joinToString())
