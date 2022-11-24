@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/startseite"
+    tools:context=".wordle.controller.WordleLetterGridFragment">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="2dp"
+        app:columnCount="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="5:6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:rowCount="6"
+        tools:context=".wordle.controller.WordleLetterGridFragment">
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView00"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/thm_light_blue"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1"-->
+        <!--            tools:layout_editor_absoluteX="2dp"-->
+        <!--            tools:layout_editor_absoluteY="2dp" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView01"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/thm_light_blue"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:text="W"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView02"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/wordle_wrong_position_panel_background"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:text="E"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView03"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/wordle_correct_panel_background"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:text="R"-->
+        <!--            android:textColor="@android:color/white"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView04"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/darker_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="T"-->
+        <!--            android:textColor="@color/thm_secondary"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView20"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:text="Z"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView21"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView22"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView23"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView24"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView30"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView31"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView32"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView33"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView34"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView40"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView41"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView42"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView43"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView44"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView50"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView51"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView52"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView53"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView54"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView60"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView61"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView62"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView63"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView64"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:background="@color/mid_dark_bluish_grey"-->
+        <!--            android:gravity="center"-->
+        <!--            android:shadowColor="#000000"-->
+        <!--            android:shadowRadius="10"-->
+        <!--            android:textColor="@color/darker_bluish_grey"-->
+        <!--            android:textSize="48sp"-->
+        <!--            app:layout_columnWeight="1"-->
+        <!--            app:layout_rowWeight="1" />-->
+
+
+    </androidx.gridlayout.widget.GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,13 +75,7 @@ class WordleKeyboardFragment : Fragment() {
                             LayoutParams.WRAP_CONTENT,
                             1F
                         )
-                        setPadding(4, 4, 4, 4)
                         // background = AppCompatResources.getDrawable(context, R.drawable.buttongrundlage)
-                    }
-
-                    context?.let { context ->
-                        button.backgroundTintList = ContextCompat.getColorStateList(context, R.color.wordle_unknown_panel_background)
-                        button.setTextColor(ContextCompat.getColor(context, R.color.white))
                     }
                     button.id = View.generateViewId()
                     keyIDs[keyLabel] = button.id
@@ -101,11 +95,21 @@ class WordleKeyboardFragment : Fragment() {
         keyIDs[char]?.let {
             val keyView = requireView().findViewById<Button>(it)
             context?.let {
+                keyView.setTextColor(ContextCompat.getColor(it, R.color.white))
                 when (letterStatus) {
-                    LetterStatus.UNKNOWN -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_unknown_panel_background)
-                    LetterStatus.CORRECT -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_correct_panel_background)
-                    LetterStatus.WRONG_POSITION -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_position_panel_background)
-                    LetterStatus.WRONG -> keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_panel_background)
+                    LetterStatus.UNKNOWN -> {
+                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_unknown_panel_background)
+                    }
+                    LetterStatus.CORRECT -> {
+                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_correct_panel_background)
+                    }
+                    LetterStatus.WRONG_POSITION -> {
+                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_position_panel_background
+                        )
+                    }
+                    LetterStatus.WRONG -> {
+                    keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_panel_background)
+                }
                     else -> return
                 }
             }

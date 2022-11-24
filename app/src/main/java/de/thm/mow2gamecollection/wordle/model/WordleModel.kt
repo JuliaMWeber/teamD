@@ -33,7 +33,7 @@ class WordleModel(val controller : WordleActivity) {
             pickTargetWord()
         }
 
-        controller.createTiles(WORD_LENGTH, MAX_TRIES)
+//        controller.createTiles(WORD_LENGTH, MAX_TRIES)
 
         // add retrieved userGuesses to UI
         for(guess in userGuesses) {
@@ -143,13 +143,7 @@ class WordleModel(val controller : WordleActivity) {
             // display Toast?
             return
         }
-        controller.updateTile(
-            Tile(
-                Position(tries, userInput.length)
-            ),
-            letter,
-            LetterStatus.UNKNOWN
-        )
+        controller.updateTile(tries, userInput.length, letter, LetterStatus.UNKNOWN)
         userInput += letter
     }
 

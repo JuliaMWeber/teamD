@@ -3,23 +3,17 @@ package de.thm.mow2gamecollection.wordle.controller
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.KeyEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
-import de.thm.mow2gamecollection.wordle.helper.*
 
 // debugging
 private const val TAG = "WordleActivity"
@@ -32,6 +26,7 @@ class WordleActivity : AppCompatActivity() {
 
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
+    private lateinit var wordleLetterGridFragment: WordleLetterGridFragment
 
     // var gameState: String? = null
 
@@ -49,7 +44,9 @@ class WordleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_wordle)
 
         // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
-        wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboardContainer) as WordleKeyboardFragment
+        wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboard) as WordleKeyboardFragment
+        // TODO: Use the [WordleLetterGridFragment.newInstance] factory method to create Fragment instead
+        wordleLetterGridFragment = supportFragmentManager.findFragmentById(R.id.letterGrid) as WordleLetterGridFragment
     }
 
     // This callback is called only when there is a saved instance that is previously saved by using
@@ -101,22 +98,19 @@ class WordleActivity : AppCompatActivity() {
 
     // handle physical keyboard input
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        return when (keyCode) {
+        when (keyCode) {
             in 29..54 -> {
                 event?.let {
                     model.addLetter(event.unicodeChar.toChar())
                 }
-                true
             }
             KeyEvent.KEYCODE_DEL -> {
                 model.removeLetter()
-                true
             }
             KeyEvent.KEYCODE_ENTER -> {
                 if (DEBUG) Log.d(TAG, "KEYCODE_ENTER")
-                // TODO: not working as expected, q button gains focus
                 handleSubmitButtonClick()
-                true
+                // TODO: not working as expected, q button gains focus
             }
             else -> {
                 event?.keyCode.let {
@@ -125,59 +119,42 @@ class WordleActivity : AppCompatActivity() {
                 super.onKeyUp(keyCode, event)
             }
         }
+        return true
     }
 
     // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
-    fun createTiles(cols: Int, rows: Int) {
-        if (DEBUG) Log.d(TAG, "createTiles($cols, $rows)")
-        val tableLayout : TableLayout = findViewById(R.id.tableLayout)
+//    fun createTiles(cols: Int, rows: Int) {
+//        if (DEBUG) Log.d(TAG, "createTiles($cols, $rows)")
+//        val tableLayout : LinearLayout = findViewById(R.id.tableLayout)
+//
+//        for (i in 1..rows) {
+//            val tableRow = TableRow(this)
+//            tableRow.layoutParams = TableLayout.LayoutParams(
+//                TableLayout.LayoutParams.MATCH_PARENT,
+//                TableLayout.LayoutParams.WRAP_CONTENT
+//            )
+//            tableRow.gravity = Gravity.CENTER
+//            tableLayout.addView(tableRow)
+//            repeat(cols) {
+//                val tile = TextView(this)
+//                val layoutParams = TableRow.LayoutParams(
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                )
+//                layoutParams.setMargins(2, 2, 2, 2)
+//                tile.layoutParams = layoutParams
+//                tile.setPadding(50, 50, 50, 0)
+//                tile.minEms = 1
+//                tile.textSize = 52F
+//                tile.gravity = Gravity.CENTER
+//                resetTile(tile)
+//
+//                tableRow.addView(tile)
+//            }
+//        }
+//    }
 
-        for (i in 1..rows) {
-            val tableRow = TableRow(this)
-            tableRow.layoutParams = TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT
-            )
-            tableRow.gravity = Gravity.CENTER
-            tableLayout.addView(tableRow)
-            repeat(cols) {
-                val tile = TextView(this)
-                val layoutParams = TableRow.LayoutParams(
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                )
-                layoutParams.setMargins(2, 2, 2, 2)
-                tile.layoutParams = layoutParams
-                tile.setPadding(20, 0, 20, 0)
-                tile.minEms = 1
-                tile.textSize = 55F
-                resetTile(tile)
 
-                tableRow.addView(tile)
-            }
-        }
-    }
-
-    private fun resetAllTiles() {
-        val tableLayout : TableLayout = findViewById(R.id.tableLayout)
-        for (i in 0 until MAX_TRIES) {
-            val row : TableRow = tableLayout.getChildAt(i) as TableRow
-            for (j in 0 until WORD_LENGTH) {
-                val tile : TextView = row.getChildAt(j) as TextView
-                resetTile(tile)
-            }
-        }
-    }
-
-    private fun resetTile(tile : TextView) {
-        tile.setBackgroundColor(Color.parseColor("#999999"))
-        tile.setTextColor(ContextCompat.getColor(this, R.color.white))
-        tile.text = ""
-    }
-
-    fun removeLetter(row: Int, index: Int) {
-        resetTile(getTileView(Tile(Position(row, index))))
-    }
 
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
     // for now, simply show a Toast message
@@ -185,16 +162,13 @@ class WordleActivity : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    // returns the TextView corresponding to a Tile object
-    private fun getTileView(tile: Tile) : TextView {
-        val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
-        if (DEBUG) Log.d(TAG, tableLayout.children.toString())
-        val tableRow = tableLayout.getChildAt(tile.position.row)
-        return (tableRow as TableRow).getChildAt(tile.position.index) as TextView
+    fun removeLetter(row: Int, index: Int) {
+        wordleLetterGridFragment.removeLetter(row, index)
     }
 
     // handle user input
     private fun handleSubmitButtonClick() {
+        if (DEBUG) Log.d(TAG, "handleSubmitButtonClick")
         // val userInput = guessEditText.text
         // model.checkGuess(userInput)
         model.onGuessSubmitted()
@@ -205,36 +179,36 @@ class WordleActivity : AppCompatActivity() {
     }
 
     fun updateTileAndKey(tile: Tile, letter: Char, status: LetterStatus) {
-        updateTile(tile, letter, status)
+        updateTile(tile.position.row, tile.position.index, letter, status)
         wordleKeyboardFragment.updateButton(letter, status)
     }
 
-    private fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
+    fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
         if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
-        updateTile(Tile(row, index), letter, status)
+        wordleLetterGridFragment.updateTile(row, index, letter, status)
     }
 
-    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
-        getTileView(tile).text = letter.toString().uppercase()
-        when (status) {
-            LetterStatus.UNKNOWN ->
-                getTileView(tile).setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.wordle_unknown_panel_background)
-                )
-            LetterStatus.CORRECT ->
-                getTileView(tile).setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.wordle_correct_panel_background)
-                )
-            LetterStatus.WRONG_POSITION ->
-                getTileView(tile).setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.wordle_wrong_position_panel_background)
-                )
-            else ->
-                getTileView(tile).setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.wordle_wrong_panel_background)
-                )
-        }
-    }
+//    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
+//        getTileView(tile).text = letter.toString().uppercase()
+//        when (status) {
+//            LetterStatus.UNKNOWN ->
+//                getTileView(tile).setBackgroundColor(
+//                    ContextCompat.getColor(this, R.color.wordle_unknown_panel_background)
+//                )
+//            LetterStatus.CORRECT ->
+//                getTileView(tile).setBackgroundColor(
+//                    ContextCompat.getColor(this, R.color.wordle_correct_panel_background)
+//                )
+//            LetterStatus.WRONG_POSITION ->
+//                getTileView(tile).setBackgroundColor(
+//                    ContextCompat.getColor(this, R.color.wordle_wrong_position_panel_background)
+//                )
+//            else ->
+//                getTileView(tile).setBackgroundColor(
+//                    ContextCompat.getColor(this, R.color.wordle_wrong_panel_background)
+//                )
+//        }
+//    }
 
     // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
@@ -242,7 +216,7 @@ class WordleActivity : AppCompatActivity() {
             GameEvent.LOST -> showDialog(GameEvent.LOST)
             GameEvent.WON -> showDialog(GameEvent.WON)
             GameEvent.RESTART -> {
-                resetAllTiles()
+                wordleLetterGridFragment.resetAllTiles()
                 wordleKeyboardFragment.resetKeyboard()
             }
             GameEvent.GIVE_UP -> giveUp()
