@@ -36,7 +36,7 @@ class GamesListActivity : AppCompatActivity() {
             Game("Sudoku", R.drawable.test, false),
             Game("Wordle", R.drawable.wordle, false),
             //Game("Tic Tac Toe", R.drawable.test, false),
-            Game("Tic Tac Toe Start", R.drawable.test, false),
+            Game("Tic Tac Toe Start", R.drawable.ttt, false),
             Game("Tic Tac Toe Network Multiplayer", R.drawable.test, true),
         )
 //        for (i in gameNames.indices) {
