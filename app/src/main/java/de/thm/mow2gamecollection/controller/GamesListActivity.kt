@@ -8,6 +8,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.adapter.MyAdapter
 import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
 import de.thm.mow2gamecollection.model.Game
+import de.thm.mow2gamecollection.tictactoe.controller.StartTicTacToeActivity
 import de.thm.mow2gamecollection.tictactoe.controller.StartTicTacToeNetworkMultiplayerActivity
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
@@ -34,7 +35,8 @@ class GamesListActivity : AppCompatActivity() {
         gamesArrayList = arrayListOf(
             Game("Sudoku", R.drawable.test, false),
             Game("Wordle", R.drawable.wordle, false),
-            Game("Tic Tac Toe", R.drawable.test, false),
+            //Game("Tic Tac Toe", R.drawable.test, false),
+            Game("Tic Tac Toe Start", R.drawable.test, false),
             Game("Tic Tac Toe Network Multiplayer", R.drawable.test, true),
         )
 //        for (i in gameNames.indices) {
@@ -55,8 +57,8 @@ class GamesListActivity : AppCompatActivity() {
                 "Wordle" -> {
                     Intent(this, WordleActivity::class.java)
                 }
-                "Tic Tac Toe" -> {
-                    Intent(this, TicTacToeActivity::class.java)
+                "Tic Tac Toe Start" -> {
+                    Intent(this, StartTicTacToeActivity::class.java)
                 }
                 else -> {
                     Intent(this, StartTicTacToeNetworkMultiplayerActivity::class.java)

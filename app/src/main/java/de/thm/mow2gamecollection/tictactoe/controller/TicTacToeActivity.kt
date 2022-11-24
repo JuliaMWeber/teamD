@@ -19,11 +19,14 @@ import de.thm.mow2gamecollection.tictactoe.model.WinningLine
 private const val TAG = "TicTacToeActivity"
 private const val DEBUG = false // set to true to print debug logs
 
+
 class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
     override var emulatorNetworkingService: EmulatorNetworkingService? = null
     private lateinit var binding: ActivityTicTacToeBinding
     private lateinit var gameManagerTTT: GameManagerTTT
+
+    private lateinit var gameMode: GameMode;
 
     //private var currentPlayer = "x"
     private var playerNumber: Int? = null
@@ -40,6 +43,8 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val gameModeString: String? = intent.getStringExtra("gameMode")
+        this.gameMode = gameModeString?.let { GameMode.valueOf(it) }!!
 
         gameManagerTTT = GameManagerTTT(this)
         binding = ActivityTicTacToeBinding.inflate(layoutInflater)
@@ -73,11 +78,13 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             }
         }
 
+
         binding.startNewGameButton.setOnClickListener {
             it.visibility = View.GONE
             gameManagerTTT.reset()
             resetFields()
-            ctimer()
+           // if(btn2.setOnClickListener(this))
+             //   //ctimer()
         }
         updatePoints()
 
@@ -153,7 +160,11 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                 disableFields()
                 binding.startNewGameButton.visibility = View.VISIBLE
                 showWinner(winningLine)
+                //binding.statusText.visibility = View.GONE
             }else{
+                if (this.gameMode === GameMode.HARD){
+                    ctimer()
+                }
                 binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
                 binding.startNewGameButton.visibility = View.VISIBLE
             }
