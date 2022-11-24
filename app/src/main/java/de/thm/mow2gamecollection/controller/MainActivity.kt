@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import de.thm.mow2gamecollection.R
 
-class MainActivity : AppCompatActivity() {
+class  MainActivity : AppCompatActivity() {
     //lateinit var btn: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

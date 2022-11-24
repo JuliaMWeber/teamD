@@ -8,6 +8,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.adapter.MyAdapter
 import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
 import de.thm.mow2gamecollection.model.Game
+import de.thm.mow2gamecollection.sudoku.controller.schwierigkeitsActivity
 import de.thm.mow2gamecollection.tictactoe.controller.StartTicTacToeNetworkMultiplayerActivity
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity

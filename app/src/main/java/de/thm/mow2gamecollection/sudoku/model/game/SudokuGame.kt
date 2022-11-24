@@ -69,16 +69,22 @@ class SudokuGame {
     fun zellenLeeren() {
         for (i in 0 until 81) {
             zellen[i].istStartzelle = false
+            zellen[i].buttonEingabe=false
             zellenLiveData.postValue(board.zellen)
         }
     }
 
 
     fun sudokuFelderVorgeben(schweregrad: Int) {
-        for (i in 0 until schweregrad) {
-            val zufallszahl: Int = (0..80).random()
-            zellen[zufallszahl].istStartzelle = true
-            zellenLiveData.postValue(board.zellen)
+        for (i in 0 .. schweregrad) {
+            var zufallszahl: Int = (0..80).random()
+            if (!zellen[zufallszahl].istStartzelle) {
+                zellen[zufallszahl].istStartzelle = true
+                zellenLiveData.postValue(board.zellen)
+            } else if (zellen[zufallszahl].istStartzelle){
+                zufallszahl=(0..80).random()
+                zellen[zufallszahl].istStartzelle=true
+            }
         }
         for (h in 0 until 81) {
             if (!zellen[h].istStartzelle) {
