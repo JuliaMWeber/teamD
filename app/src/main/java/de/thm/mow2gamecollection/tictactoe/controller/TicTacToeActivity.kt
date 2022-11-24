@@ -98,7 +98,8 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
             override fun onFinish() {
 
-                binding.countdown.text = "abgelaufen"
+                binding.countdown.text = "Zeit abgelaufen"
+                resetFields()
             }
         }.start()
     }
