@@ -188,6 +188,10 @@ class WordleActivity : AppCompatActivity() {
         wordleLetterGridFragment.updateTile(row, index, letter, status)
     }
 
+    fun revealRow(row: Int) {
+        wordleLetterGridFragment.reveal(row)
+    }
+
 //    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
 //        getTileView(tile).text = letter.toString().uppercase()
 //        when (status) {
