@@ -99,6 +99,8 @@ class WordleModel(val controller : WordleActivity) {
             }
         }
 
+        controller.revealRow(tries)
+
         if (targetWord == input) {
             gameWon()
         } else if (++tries == MAX_TRIES) {

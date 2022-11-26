@@ -21,7 +21,7 @@ class TileView : androidx.appcompat.widget.AppCompatTextView {
     fun update(status: LetterStatus, letter: Char? = null) {
         when (status) {
             LetterStatus.BLANK -> {
-                setBackgroundColor(ContextCompat.getColor(context, R.color.mid_dark_bluish_grey))
+                setBackgroundColor(ContextCompat.getColor(context, R.color.wordle_empty_panel_background))
                 setTextColor(ContextCompat.getColor(context, R.color.white))
                 setShadowLayer(10F, 0F, 0F, ContextCompat.getColor(context, R.color.black))
                 text = ""
