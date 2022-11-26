@@ -165,11 +165,11 @@
             android:id="@+id/notizButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
             android:layout_row="3"
             android:layout_column="0"
-            app:srcCompat="@drawable/edit_pen_black"
-            android:background="@drawable/buttongrundlage"/>
+            android:layout_gravity="fill_horizontal"
+            android:background="@drawable/buttongrundlage"
+            app:srcCompat="@drawable/edit_pen_black" />
 
         <ImageButton
             android:id="@+id/entfernenButton"

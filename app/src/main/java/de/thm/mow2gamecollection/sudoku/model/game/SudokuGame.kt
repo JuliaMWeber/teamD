@@ -33,9 +33,6 @@ class SudokuGame {
     var sudokuGen = Array(9) { i -> Array(9) { j -> 0 } }
 
 
-
-
-
     //val genSudoku = gen.createArray()
 
     private var gewaehlteZeile = -1
@@ -45,7 +42,7 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, , null) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, null, null) }
 
     init {
         board = Board(9, zellen)
@@ -54,7 +51,7 @@ class SudokuGame {
         buttonEingabenLiveData.postValue(buttonEingabe)
 
 
-
+        alleFelderFuellen()
 
 
     }
@@ -72,28 +69,29 @@ class SudokuGame {
     fun zellenLeeren() {
         for (i in 0 until 81) {
             zellen[i].istStartzelle = false
-            zellen[i].buttonEingabe=false
+            zellen[i].buttonEingabe = false
             zellenLiveData.postValue(board.zellen)
         }
     }
 
-fun alleFelderFuellen(){
-    Generator().zellenListeBefuellen()
-    Generator().genValueEntfernen()
-    for (i in 0 until 81){
-        zellen[i].istStartzelle
-        zellenLiveData.postValue(board.zellen)
+    fun alleFelderFuellen() {
+        Generator().zellenListeBefuellen()
+        Generator().genValueEntfernen()
+        for (i in 0 until 81) {
+            zellen[i].istStartzelle
+            zellenLiveData.postValue(board.zellen)
 
+        }
     }
-}
+
     fun sudokuFelderVorgeben(schweregrad: Int) {
-        for (i in 0 .. schweregrad) {
+        for (i in 0..schweregrad) {
             Generator().genValueEntfernen()
             //var zufallszahl: Int = (0..80).random()
             if (!zellen[i].istStartzelle) {
                 zellen[i].istStartzelle = true
                 zellenLiveData.postValue(board.zellen)
-            } else if (zellen[i].istStartzelle){
+            } else if (zellen[i].istStartzelle) {
                 //zufallszahl=(0..80).random()
                 //zellen[zufallszahl].istStartzelle=true
             }

@@ -119,7 +119,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             notizButton.setBackgroundColor(
                 ContextCompat.getColor(
                     this,
-                    androidx.appcompat.R.color.primary_dark_material_light
+                    androidx.appcompat.R.color.abc_color_highlight_material
                 )
             )
         } else {
