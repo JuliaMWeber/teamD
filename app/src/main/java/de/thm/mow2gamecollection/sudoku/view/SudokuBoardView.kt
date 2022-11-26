@@ -211,6 +211,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             val buttonType = zelle.buttonEingabe
             val richtigType = zelle.istRichtig
             val falschType = zelle.istFalsch
+            val valueType = zelle.hatGenValue
 
 
             if (value == 0) {
@@ -239,10 +240,9 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             } else if (type || buttonType || richtigType || falschType) {
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
-                val valueString = zelle.value.toString()
+                val valueString = zelle.genValue.toString()
 
-                val zuNutzendeFarbe =
-                    if (zelle.istStartzelle || zelle.buttonEingabe || zelle.istRichtig || zelle.istFalsch) textFarbe else textFarbe
+                val zuNutzendeFarbe = textFarbe
                 val textBounds = Rect()
                 zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
                 val textWidth = textFarbe.measureText(valueString)
@@ -254,56 +254,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
                 )
 
-            }  /*else if (buttonType) {
-                val zeile = zelle.zeile
-                val spalte = zelle.spalte
-                val valueString = zelle.eingabeValue.toString()
-
-                val zuNutzendeFarbe = if (zelle.buttonEingabe) textFarbe else textFarbe
-                val textBounds = Rect()
-                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
-                val textWidth = textFarbe.measureText(valueString)
-                val textHeight = textBounds.height()
-
-                canvas.drawText(
-                    valueString,
-                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
-                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
-                )
-
-            } else if (richtigType) {
-                val zeile = zelle.zeile
-                val spalte = zelle.spalte
-                val valueString = zelle.value.toString()
-
-                val zuNutzendeFarbe = if (zelle.istRichtig) textFarbe else textFarbe
-                val textBounds = Rect()
-                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
-                val textWidth = textFarbe.measureText(valueString)
-                val textHeight = textBounds.height()
-
-                canvas.drawText(
-                    valueString,
-                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
-                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
-                )
-            } else if (falschType) {
-                val zeile = zelle.zeile
-                val spalte = zelle.spalte
-                val valueString = ""
-
-                val zuNutzendeFarbe = if (zelle.istFalsch) textFarbe else textFarbe
-                val textBounds = Rect()
-                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
-                val textWidth = textFarbe.measureText(valueString)
-                val textHeight = textBounds.height()
-
-                canvas.drawText(
-                    valueString,
-                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
-                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
-                )
-            }*/
+            }
 
         }
     }

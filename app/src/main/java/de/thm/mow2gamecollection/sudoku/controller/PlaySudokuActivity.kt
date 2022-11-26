@@ -61,10 +61,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         mittel = findViewById(R.id.mittel)
         schwer = findViewById(R.id.schwer)
 
-        //SudokuGame().schwierigkeitsAuswahl(leicht, 42)
-        //SudokuGame().schwierigkeitsAuswahl(mittel, 32)
-        //SudokuGame().schwierigkeitsAuswahl(schwer, 22)
-
 
         zahlenButtons = listOf(
             findViewById(R.id.oneButton),
@@ -94,15 +90,15 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         loesenButton.setOnClickListener { viewModel.sudokuGame.loesen() }
         leicht.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(42)
+            viewModel.sudokuGame.sudokuFelderVorgeben(80)
         }
         mittel.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(32)
+            viewModel.sudokuGame.sudokuFelderVorgeben(80)
         }
         schwer.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(22)
+            viewModel.sudokuGame.sudokuFelderVorgeben(80)
         }
 
 
