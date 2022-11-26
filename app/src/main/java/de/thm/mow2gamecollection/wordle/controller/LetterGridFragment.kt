@@ -9,7 +9,6 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-import de.thm.mow2gamecollection.wordle.view.TileView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,35 +46,14 @@ class WordleLetterGridFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        context?.let {
-            for (i in 0 until rows*columns) {
-//                val tile = TileView(it)
-                val tile = TileFragment()
-//                tile.update(LetterStatus.BLANK)
-//
-//                tile.layoutParams = GridLayout.LayoutParams().apply {
-//                    rowSpec = spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
-//                    columnSpec = spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
-//                    width = 0
-//                    height = 0
-////                    setMargins((4 * resources.displayMetrics.density).toInt())
-//                    setMargins(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2F, resources.displayMetrics)
-//                        .toInt())
-//                }
-//
-//                tile.updatePadding(0,50,0,0)
-//
-//                // automatically scale text size (API >25)
-//                TextViewCompat.setAutoSizeTextTypeWithDefaults(tile,  TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM)
-
-                val tileFragment = TileFragment()
-
+        // create all the tiles for the grid and add them to the tileFragmentList.
+        for (i in 0 until rows*columns) {
+            TileFragment().let {
                 childFragmentManager.beginTransaction()
-                    .add(R.id.letterGridContainer, tileFragment)
+                    .add(R.id.letterGridContainer, it)
                     .commit()
 
-                tileFragmentList.add(tileFragment)
-//                tileList.add(tile)
+                tileFragmentList.add(it)
             }
         }
     }
@@ -85,30 +63,15 @@ class WordleLetterGridFragment : Fragment() {
         return tileFragmentList.get(position)
     }
 
-//    fun getTileView(row: Int, index: Int) : TileView {
-//        val position = row * columns + index
-//        return tileList.get(position)
-//    }
-
     fun resetAllTiles() {
-//        tileList.forEach {
-//            resetTile(it)
-//        }
         tileFragmentList.forEach {
             it.reset()
         }
     }
 
     private fun resetTile(row: Int, index: Int) {
-//        val tileView = getTileView(row, index)
-//        resetTile(tileView)
         val tileFragment = getTileFragment(row, index)
         tileFragment.reset()
-    }
-
-    private fun resetTile(tile: TileView) {
-        // TODO: not working like that
-        tile.update(LetterStatus.BLANK)
     }
 
     fun removeLetter(row: Int, index: Int) {
@@ -116,7 +79,6 @@ class WordleLetterGridFragment : Fragment() {
     }
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
-//        getTileView(row, index).update(status, letter)
         getTileFragment(row, index).apply{
             update(status, letter)
         }

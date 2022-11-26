@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.gridlayout.widget.GridLayout
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
@@ -30,6 +31,17 @@ class TileFragment : Fragment() {
         }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // apply LayoutParams to ensure GridLayout children (TileFragments) take up all the available space
+        view.layoutParams = GridLayout.LayoutParams().apply {
+            rowSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
+            columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
+            width = 0
+            height = 0
+        }
     }
 
     fun flip() {
