@@ -10,6 +10,7 @@
     tools:context=".wordle.controller.WordleLetterGridFragment">
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/letterGridContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="2dp"

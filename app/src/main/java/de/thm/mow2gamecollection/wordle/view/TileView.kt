@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
+import androidx.core.widget.TextViewCompat
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
@@ -16,12 +18,19 @@ class TileView : androidx.appcompat.widget.AppCompatTextView {
         super.onAttachedToWindow()
         gravity = Gravity.CENTER
         isAllCaps = true
+
+        // shift letter using padding to center it properly
+        updatePadding(25, 50, 0, 0)
+
+        // automatically scale text size (API >25)
+        // TODO: solution for API <=25?!
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(this,  TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM)
     }
 
     fun update(status: LetterStatus, letter: Char? = null) {
         when (status) {
             LetterStatus.BLANK -> {
-                setBackgroundColor(ContextCompat.getColor(context, R.color.mid_dark_bluish_grey))
+                setBackgroundColor(ContextCompat.getColor(context, R.color.wordle_empty_panel_background))
                 setTextColor(ContextCompat.getColor(context, R.color.white))
                 setShadowLayer(10F, 0F, 0F, ContextCompat.getColor(context, R.color.black))
                 text = ""
