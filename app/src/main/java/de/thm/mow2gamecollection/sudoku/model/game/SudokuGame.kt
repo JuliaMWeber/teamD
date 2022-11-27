@@ -75,10 +75,10 @@ class SudokuGame {
     }
 
     fun alleFelderFuellen() {
-        Generator().zellenListeBefuellen()
-        Generator().genValueEntfernen()
+        Generator().zellenBearbeiten()
+        Generator().zellenEinordnen()
         for (i in 0 until 81) {
-            zellen[i].istStartzelle
+            zellen[i].istStartzelle = true
             zellenLiveData.postValue(board.zellen)
 
         }
@@ -86,14 +86,13 @@ class SudokuGame {
 
     fun sudokuFelderVorgeben(schweregrad: Int) {
         for (i in 0..schweregrad) {
-            Generator().genValueEntfernen()
-            //var zufallszahl: Int = (0..80).random()
+            var zufallszahl: Int = (0..80).random()
             if (!zellen[i].istStartzelle) {
                 zellen[i].istStartzelle = true
                 zellenLiveData.postValue(board.zellen)
             } else if (zellen[i].istStartzelle) {
-                //zufallszahl=(0..80).random()
-                //zellen[zufallszahl].istStartzelle=true
+                zufallszahl=(0..80).random()
+                zellen[zufallszahl].istStartzelle=true
             }
         }
         for (h in 0 until 81) {
