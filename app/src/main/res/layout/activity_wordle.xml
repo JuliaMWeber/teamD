@@ -4,19 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.MainActivity"
-    android:background="@drawable/hintergrund">
+    tools:context=".controller.MainActivity">
+
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="4:29"
+        android:textColor="@color/text_light_primary"
+        app:layout_constraintBottom_toTopOf="@+id/letterGrid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/letterGrid"
-        android:name="de.thm.mow2gamecollection.wordle.controller.WordleLetterGridFragment"
+        android:name="de.thm.mow2gamecollection.wordle.controller.LetterGridFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/keyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/timerTextView"
         tools:layout="@layout/fragment_wordle_letter_grid" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -24,9 +36,9 @@
         android:name="de.thm.mow2gamecollection.wordle.controller.WordleKeyboardFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout="@layout/fragment_wordle_keyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
