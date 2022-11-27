@@ -16,16 +16,15 @@
 
     <!-- Text -->
     <color name="text_light_primary">@android:color/white</color>
-    <color name="text_accent">@color/thm_primary</color>
+    <color name="text_accent">@color/thm_orange</color>
     <color name="text_dark_primary">@android:color/black</color>
     <color name="text_dark_secondary">#FF222A2F</color>
 
-
     <!-- Wordle -->
-    <color name="wordle_empty_panel_background">@color/dark_bluish_grey</color>
+    <color name="wordle_empty_panel_background">@color/mid_dark_bluish_grey</color>
     <color name="wordle_unknown_panel_background">@color/thm_secondary</color>
-    <color name="wordle_correct_panel_background">#80BA24</color>
-    <color name="wordle_wrong_panel_background">#3A3A3A</color>
+    <color name="wordle_correct_panel_background">@color/thm_primary</color>
+    <color name="wordle_wrong_panel_background">@color/darker_bluish_grey</color>
     <color name="wordle_wrong_panel_text">@color/thm_secondary</color>
     <color name="wordle_wrong_position_panel_background">#F4AA00</color>
 
