@@ -1,16 +1,21 @@
 package de.thm.mow2gamecollection.wordle.controller
 
+import android.animation.ValueAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.controller.KeyboardActivity
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,7 +73,7 @@ class WordleKeyboardFragment : Fragment() {
         keyboardLayouts[selectedKeyboardLayout]?.let {
             for (i in it.indices) {
                 for (keyLabel in it[i]) {
-                    val button = Button(context).apply {
+                    val button = Button(ContextThemeWrapper(context, R.style.greenKeyboardButton), null, 0).apply {
                         text = keyLabel.toString()
                         layoutParams = LayoutParams(
                             LayoutParams.WRAP_CONTENT,
@@ -88,7 +93,7 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     private fun handleButtonClick(button: Button) {
-        (activity as WordleActivity).handleKeyboardClick(button)
+        (activity as KeyboardActivity).handleKeyboardClick(button)
     }
 
     fun updateButton(char: Char, letterStatus: LetterStatus) {

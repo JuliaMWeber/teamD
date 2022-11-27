@@ -1,6 +1,7 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +19,10 @@ private const val TAG = "LetterGridFragment"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [WordleLetterGridFragment.newInstance] factory method to
+ * Use the [LetterGridFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class WordleLetterGridFragment : Fragment() {
+class LetterGridFragment : Fragment() {
     private var rows: Int = MAX_TRIES
     private var columns: Int = WORD_LENGTH
 //    private val tileList = mutableListOf<TileView>()
@@ -39,11 +40,13 @@ class WordleLetterGridFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_wordle_letter_grid, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         // create all the tiles for the grid and add them to the tileFragmentList.
@@ -102,7 +105,7 @@ class WordleLetterGridFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(rows: Int, columns: Int) =
-            WordleLetterGridFragment().apply {
+            LetterGridFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_ROWS, rows)
                     putInt(ARG_COLUMNS, columns)

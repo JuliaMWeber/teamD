@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
+import de.thm.mow2gamecollection.controller.KeyboardActivity
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -18,15 +19,15 @@ import de.thm.mow2gamecollection.wordle.model.grid.Tile
 // debugging
 private const val TAG = "WordleActivity"
 private const val DEBUG = false
+private const val TARGET_WORD_KEY = "targetWord"
+private const val USER_GUESSES_KEY = "userGuesses"
 
-class WordleActivity : AppCompatActivity() {
+class WordleActivity : AppCompatActivity(), KeyboardActivity {
     // val GAME_STATE_KEY = "gameState"
-    val TARGET_WORD_KEY = "targetWord"
-    val USER_GUESSES_KEY = "userGuesses"
 
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
-    private lateinit var wordleLetterGridFragment: WordleLetterGridFragment
+    private lateinit var letterGridFragment: LetterGridFragment
 
     // var gameState: String? = null
 
@@ -46,7 +47,7 @@ class WordleActivity : AppCompatActivity() {
         // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboard) as WordleKeyboardFragment
         // TODO: Use the [WordleLetterGridFragment.newInstance] factory method to create Fragment instead
-        wordleLetterGridFragment = supportFragmentManager.findFragmentById(R.id.letterGrid) as WordleLetterGridFragment
+        letterGridFragment = supportFragmentManager.findFragmentById(R.id.letterGrid) as LetterGridFragment
     }
 
     // This callback is called only when there is a saved instance that is previously saved by using
@@ -163,7 +164,7 @@ class WordleActivity : AppCompatActivity() {
     }
 
     fun removeLetter(row: Int, index: Int) {
-        wordleLetterGridFragment.removeLetter(row, index)
+        letterGridFragment.removeLetter(row, index)
     }
 
     // handle user input
@@ -185,11 +186,11 @@ class WordleActivity : AppCompatActivity() {
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
         if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
-        wordleLetterGridFragment.updateTile(row, index, letter, status)
+        letterGridFragment.updateTile(row, index, letter, status)
     }
 
     fun revealRow(row: Int) {
-        wordleLetterGridFragment.reveal(row)
+        letterGridFragment.reveal(row)
     }
 
 //    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
@@ -220,14 +221,14 @@ class WordleActivity : AppCompatActivity() {
             GameEvent.LOST -> showDialog(GameEvent.LOST)
             GameEvent.WON -> showDialog(GameEvent.WON)
             GameEvent.RESTART -> {
-                wordleLetterGridFragment.resetAllTiles()
+                letterGridFragment.resetAllTiles()
                 wordleKeyboardFragment.resetKeyboard()
             }
             GameEvent.GIVE_UP -> giveUp()
         }
     }
 
-    fun handleKeyboardClick(button: Button) {
+    override fun handleKeyboardClick(button: Button) {
         if (DEBUG) Log.d(TAG, "handleKeyboardClick $button.text")
         when (button.text) {
             "✓" -> {
