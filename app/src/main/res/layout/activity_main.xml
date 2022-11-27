@@ -20,10 +20,11 @@
 
     <Button
         android:id="@+id/startButton"
-        style="@style/mediumButtonThmPrimary"
+        style="@style/mediumOvalButtonThmPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:paddingTop="5dp"
         android:text="@string/playButtonLabel"
         app:layout_constraintBottom_toTopOf="@id/keyboard"
         app:layout_constraintEnd_toEndOf="parent"

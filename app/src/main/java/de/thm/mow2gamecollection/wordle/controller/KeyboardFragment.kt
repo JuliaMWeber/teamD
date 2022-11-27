@@ -1,11 +1,9 @@
 package de.thm.mow2gamecollection.wordle.controller
 
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -73,7 +71,7 @@ class WordleKeyboardFragment : Fragment() {
         keyboardLayouts[selectedKeyboardLayout]?.let {
             for (i in it.indices) {
                 for (keyLabel in it[i]) {
-                    val button = Button(ContextThemeWrapper(context, R.style.greenKeyboardButton), null, 0).apply {
+                    val button = Button(ContextThemeWrapper(context, R.style.smallSquareButtonLightGrey), null, 0).apply {
                         text = keyLabel.toString()
                         layoutParams = LayoutParams(
                             LayoutParams.WRAP_CONTENT,
