@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/startButton"
-        style="@style/greenButton"
+        style="@style/mediumButtonThmPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
