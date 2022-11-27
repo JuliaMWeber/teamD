@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="whiteText"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="greenButton"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_oval</item>
+        <item name="android:textColor">@color/white</item>
+
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="greenKeyboardButton"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_square</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>
