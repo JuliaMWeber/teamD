@@ -176,11 +176,16 @@ class Generator {
         var eintragevalue = 1
         var aktuelleZellen = genValueEntfernen(random, eintragevalue)
 
+        for (l in 0 until 9){
+            eintragevalue+=1
+            aktuelleZellen=genValueEntfernen(aktuelleZellen.random(), eintragevalue)
+        }
+
         for (k in 0 until 81) {
-            //println("Index: $k " + zellen[k].genValueList.toString())
+            println("Index: $k " + zellen[k].genValueList.toString())
         }
         for (k in 0 until 81) {
-            //println("Zelle: $k , Wert: " + zellen[k].genValue.toString())
+            println("Zelle: $k , Wert: " + zellen[k].genValue.toString())
         }
         println("aktuelleZellen: " + aktuelleZellen)
     }
