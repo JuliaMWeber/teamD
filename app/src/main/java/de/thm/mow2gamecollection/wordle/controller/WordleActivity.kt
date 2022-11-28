@@ -5,9 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.controller.KeyboardActivity
@@ -22,7 +20,7 @@ private const val DEBUG = false
 private const val TARGET_WORD_KEY = "targetWord"
 private const val USER_GUESSES_KEY = "userGuesses"
 
-class WordleActivity : AppCompatActivity(), KeyboardActivity {
+class WordleActivity : KeyboardActivity() {
     // val GAME_STATE_KEY = "gameState"
 
     private lateinit var model: WordleModel
@@ -97,82 +95,26 @@ class WordleActivity : AppCompatActivity(), KeyboardActivity {
         super.onStop()
     }
 
-    // handle physical keyboard input
-    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        when (keyCode) {
-            in 29..54 -> {
-                event?.let {
-                    model.addLetter(event.unicodeChar.toChar())
-                }
-            }
-            KeyEvent.KEYCODE_DEL -> {
-                model.removeLetter()
-            }
-            KeyEvent.KEYCODE_ENTER -> {
-                if (DEBUG) Log.d(TAG, "KEYCODE_ENTER")
-                handleSubmitButtonClick()
-                // TODO: not working as expected, q button gains focus
-            }
-            else -> {
-                event?.keyCode.let {
-                    if (DEBUG) Log.d(TAG, "keyCode: ${it.toString()}")
-                }
-                super.onKeyUp(keyCode, event)
-            }
-        }
-        return true
-    }
-
-    // creates the "letter grid" by adding TableRows and TextViews to the TableLayout
-//    fun createTiles(cols: Int, rows: Int) {
-//        if (DEBUG) Log.d(TAG, "createTiles($cols, $rows)")
-//        val tableLayout : LinearLayout = findViewById(R.id.tableLayout)
-//
-//        for (i in 1..rows) {
-//            val tableRow = TableRow(this)
-//            tableRow.layoutParams = TableLayout.LayoutParams(
-//                TableLayout.LayoutParams.MATCH_PARENT,
-//                TableLayout.LayoutParams.WRAP_CONTENT
-//            )
-//            tableRow.gravity = Gravity.CENTER
-//            tableLayout.addView(tableRow)
-//            repeat(cols) {
-//                val tile = TextView(this)
-//                val layoutParams = TableRow.LayoutParams(
-//                    TableRow.LayoutParams.WRAP_CONTENT,
-//                    TableRow.LayoutParams.WRAP_CONTENT,
-//                )
-//                layoutParams.setMargins(2, 2, 2, 2)
-//                tile.layoutParams = layoutParams
-//                tile.setPadding(50, 50, 50, 0)
-//                tile.minEms = 1
-//                tile.textSize = 52F
-//                tile.gravity = Gravity.CENTER
-//                resetTile(tile)
-//
-//                tableRow.addView(tile)
-//            }
-//        }
-//    }
-
-
-
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
     // for now, simply show a Toast message
     fun displayInformation(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    fun removeLetter(row: Int, index: Int) {
-        letterGridFragment.removeLetter(row, index)
+    override fun addLetter(char: Char) {
+        model.addLetter(char)
     }
 
-    // handle user input
-    private fun handleSubmitButtonClick() {
-        if (DEBUG) Log.d(TAG, "handleSubmitButtonClick")
-        // val userInput = guessEditText.text
-        // model.checkGuess(userInput)
+    override fun removeLetter() {
+        model.removeLetter()
+    }
+
+    override fun submit() {
         model.onGuessSubmitted()
+    }
+
+    fun removeLetter(row: Int, index: Int) {
+        letterGridFragment.removeLetter(row, index)
     }
 
     fun updateTileAndKey(row: Int, index: Int, letter: Char, status: LetterStatus) {
@@ -193,28 +135,6 @@ class WordleActivity : AppCompatActivity(), KeyboardActivity {
         letterGridFragment.reveal(row)
     }
 
-//    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
-//        getTileView(tile).text = letter.toString().uppercase()
-//        when (status) {
-//            LetterStatus.UNKNOWN ->
-//                getTileView(tile).setBackgroundColor(
-//                    ContextCompat.getColor(this, R.color.wordle_unknown_panel_background)
-//                )
-//            LetterStatus.CORRECT ->
-//                getTileView(tile).setBackgroundColor(
-//                    ContextCompat.getColor(this, R.color.wordle_correct_panel_background)
-//                )
-//            LetterStatus.WRONG_POSITION ->
-//                getTileView(tile).setBackgroundColor(
-//                    ContextCompat.getColor(this, R.color.wordle_wrong_position_panel_background)
-//                )
-//            else ->
-//                getTileView(tile).setBackgroundColor(
-//                    ContextCompat.getColor(this, R.color.wordle_wrong_panel_background)
-//                )
-//        }
-//    }
-
     // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
         when (e) {
@@ -225,22 +145,6 @@ class WordleActivity : AppCompatActivity(), KeyboardActivity {
                 wordleKeyboardFragment.resetKeyboard()
             }
             GameEvent.GIVE_UP -> giveUp()
-        }
-    }
-
-    override fun handleKeyboardClick(button: Button) {
-        if (DEBUG) Log.d(TAG, "handleKeyboardClick $button.text")
-        when (button.text) {
-            "✓" -> {
-                model.onGuessSubmitted()
-            }
-            "←" -> {
-                model.removeLetter()
-            }
-            else -> {
-                val char = button.text.first()
-                model.addLetter(char)
-            }
         }
     }
 

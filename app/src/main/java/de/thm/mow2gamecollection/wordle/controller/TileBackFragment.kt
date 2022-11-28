@@ -19,7 +19,7 @@ class TileBackFragment(val status: LetterStatus, val letter: Char) : Fragment() 
     ): View {
         val view = inflater.inflate(R.layout.fragment_tile_back, container, false)
         context?.applicationContext?.resources?.displayMetrics?.density?.let {
-            view.cameraDistance = 5000 * it
+            view.cameraDistance = resources.getInteger(R.integer.tile_flip_camera_distance) * it
         }
         return view
     }

@@ -4,6 +4,24 @@
         parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
     </style>
+    <style name="smallTextWhite"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
+    <style name="mediumTextWhite"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
+    <style name="largeTextWhite"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
     <style name="mediumOvalButtonThmPrimary"
         parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/pixel_button_small_oval_thm_primary</item>
