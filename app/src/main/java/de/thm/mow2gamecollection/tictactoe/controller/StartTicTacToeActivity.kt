@@ -20,14 +20,21 @@ class StartTicTacToeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_tic_tac_toe)
 
-        val btn1 = findViewById<Button>(R.id.easyButton)
-        btn1.setOnClickListener{
+        val bnt1 = findViewById<Button>(R.id.singleButton)
+        bnt1.setOnClickListener{
+            val intent = Intent(this, TicTacToeActivity::class.java)
+            intent.putExtra("gameMode", GameMode.SINGLE.toString())
+            startActivity(intent, )
+        }
+
+        val btn2 = findViewById<Button>(R.id.easyButton)
+        btn2.setOnClickListener{
             val intent = Intent(this, TicTacToeActivity::class.java)
             intent.putExtra("gameMode", GameMode.SOFT.toString())
             startActivity(intent, )
         }
-        val btn2 = findViewById<Button>(R.id.hardButton)
-        btn2.setOnClickListener{
+        val btn3 = findViewById<Button>(R.id.hardButton)
+        btn3.setOnClickListener{
             val intent = Intent(this, TicTacToeActivity::class.java)
             intent.putExtra("gameMode", GameMode.HARD.toString())
             startActivity(intent, )

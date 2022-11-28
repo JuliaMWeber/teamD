@@ -1,7 +1,9 @@
 package de.thm.mow2gamecollection.tictactoe.controller
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -14,6 +16,9 @@ import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
 import de.thm.mow2gamecollection.tictactoe.model.Position
 import de.thm.mow2gamecollection.tictactoe.model.WinningLine
+import kotlinx.android.synthetic.main.activity_network_service_discovery.*
+import kotlinx.android.synthetic.main.activity_tic_tac_toe.*
+//import kotlinx.coroutines.DefaultExecutor.isEmpty
 
 // DEBUGGING
 private const val TAG = "TicTacToeActivity"
@@ -26,6 +31,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     private lateinit var binding: ActivityTicTacToeBinding
     private lateinit var gameManagerTTT: GameManagerTTT
 
+    //changing between easy and hard
     private lateinit var gameMode: GameMode;
 
     //private var currentPlayer = "x"
@@ -38,8 +44,8 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         )
     }
 
-    // lateinit var gameManager: GameManager
-    // private lateinit var timer: CountDownTimer
+
+    private lateinit var countDownTimer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,33 +83,97 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                 }
             }
         }
-
+        if (this.gameMode === GameMode.SINGLE){
+            autoplay()
+        }
 
         binding.startNewGameButton.setOnClickListener {
             it.visibility = View.GONE
             gameManagerTTT.reset()
             resetFields()
-           // if(btn2.setOnClickListener(this))
-             //   //ctimer()
         }
         updatePoints()
 
     }
     private fun ctimer() {
-        object : CountDownTimer(5000, 1000) {
+        countDownTimer = object : CountDownTimer(5000, 1000) {
+        //object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-
+                Log.d(TAG, "onTick")
                 binding.countdown.text = "übrige Zeit: ${millisUntilFinished / 1000}"
+
             }
 
             override fun onFinish() {
-
+                Log.d(TAG, "onFinish")
                 binding.countdown.text = "Zeit abgelaufen"
-                resetFields()
+                //resetFields()
+                //updatePoints()
             }
         }.start()
     }
 
+    var player1 = ArrayList<Int>()
+    var player2 = ArrayList<Int>()
+
+
+    private fun autoplay() {
+        var emptyCells = ArrayList<Int>()
+
+        val rnd = (1..9).random()
+        if (emptyCells.contains(rnd)) {
+            autoplay()
+        } else {
+            val fieldSelected : TextView
+            fieldSelected = when(rnd) {
+                1 -> f0
+                2 -> f1
+                3 -> f2
+                4 -> f3
+                5 -> f4
+                6 -> f5
+                7 -> f6
+                8 -> f7
+                9 -> f8
+                else -> {
+                    f0
+                }
+            }
+            emptyCells.add(rnd)
+            fieldSelected.text = "O"
+            fieldSelected.setTextColor(Color.parseColor("#D22BB804"))
+            player2.add(rnd)
+            fieldSelected.isEnabled = false
+
+           // var checkWinner =  checkWinner()
+           // if (checkWinner == 1)
+            //    Handler().postDelayed(Runnable { reset() }, 2000)
+        }
+    }
+
+/*
+    private fun autoplay(){
+        val rnd = (1..9).random()
+        if (emptyCells.contains(rnd)){
+            autoplay()
+        }else{
+            val buttonselected : Button?
+            buttonselected = when(rnd){
+                1 -> button
+                else -> {button}
+            }
+            emptyCells.add(rnd)
+            buttonselected.setTextColor(Color.parseColor("#D22BB804"))
+            player2.add(rnd)
+            buttonselected.isEnabled =false
+            if(checkWinner == 1){
+                Handler().postDelayed(Runnable { reset() } , 2000)
+            }
+        }
+    }
+
+
+ */
 /*
     countdown = findViewById(R.id.countdown)
     countdown.text = "timer"
@@ -153,7 +223,6 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
             // send move to opponent
             sendNetworkMessage("${position.row};${position.column}")
-
             val winningLine = gameManagerTTT.makeMove(position)
             if (winningLine != null) {
                 updatePoints()
