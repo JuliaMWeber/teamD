@@ -1,8 +1,8 @@
 package de.thm.mow2gamecollection.tictactoe.model
 
-import android.os.CountDownTimer
-import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.tictactoe.controller.GameMode
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
+import java.util.*
 
 class GameManagerTTT (val controller: TicTacToeActivity){
     //x is starting
@@ -20,6 +20,17 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         intArrayOf(0,0,0),
         intArrayOf(0,0,0)
     )
+    private fun randomPosition() : Position {
+        val rnd = (1..9).random()
+        //val row = (0..2).random()
+        //val column = (0..2).random()
+       // if(state[row][column] != 0) {
+        if (state.contains(rnd))
+            randomPosition()
+        //}
+           // return Position(row, column)
+
+    }
 
     fun makeMove (position: Position) : WinningLine? {
         //fun makeMove (position: Position) : Boolean {
@@ -27,6 +38,13 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         val winningLine = hasGameEnded()
         if (winningLine == null) {
             currentPlayer = 3 - currentPlayer
+            //change game mode
+            //fix
+            if(this.controller.gameMode == GameMode.SINGLE){
+                if(currentPlayer == 2)
+                makeMove(randomPosition())
+                controller.onFieldClick(position)
+            }
         }else{
             when(currentPlayer){
                 1 -> player1Points++
@@ -34,6 +52,7 @@ class GameManagerTTT (val controller: TicTacToeActivity){
             }
         }
         return winningLine
+        
     }
     fun reset() {
         state = arrayOf(

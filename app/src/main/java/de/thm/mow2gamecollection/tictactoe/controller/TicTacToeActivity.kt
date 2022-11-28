@@ -25,14 +25,14 @@ private const val TAG = "TicTacToeActivity"
 private const val DEBUG = false // set to true to print debug logs
 
 
-class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
+class TicTacToeActivity : AppCompatActivity(),EmulatorEnabledMultiplayerGame {
 
     override var emulatorNetworkingService: EmulatorNetworkingService? = null
     private lateinit var binding: ActivityTicTacToeBinding
     private lateinit var gameManagerTTT: GameManagerTTT
 
     //changing between easy and hard
-    private lateinit var gameMode: GameMode;
+    lateinit var gameMode: GameMode;
 
     //private var currentPlayer = "x"
     private var playerNumber: Int? = null
@@ -77,15 +77,15 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                     val field = row[j]
                     field.setOnClickListener {
                     onFieldClick(
-                        it as TextView,
+                        //it as TextView,
                         Position(i, j)
                     )
                 }
             }
         }
-        if (this.gameMode === GameMode.SINGLE){
-            autoplay()
-        }
+        //if (this.gameMode === GameMode.SINGLE){
+        //    autoplay()
+        //}
 
         binding.startNewGameButton.setOnClickListener {
             it.visibility = View.GONE
@@ -112,10 +112,9 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             }
         }.start()
     }
-
+/*
     var player1 = ArrayList<Int>()
     var player2 = ArrayList<Int>()
-
 
     private fun autoplay() {
         var emptyCells = ArrayList<Int>()
@@ -151,29 +150,9 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         }
     }
 
-/*
-    private fun autoplay(){
-        val rnd = (1..9).random()
-        if (emptyCells.contains(rnd)){
-            autoplay()
-        }else{
-            val buttonselected : Button?
-            buttonselected = when(rnd){
-                1 -> button
-                else -> {button}
-            }
-            emptyCells.add(rnd)
-            buttonselected.setTextColor(Color.parseColor("#D22BB804"))
-            player2.add(rnd)
-            buttonselected.isEnabled =false
-            if(checkWinner == 1){
-                Handler().postDelayed(Runnable { reset() } , 2000)
-            }
-        }
-    }
-
 
  */
+
 /*
     countdown = findViewById(R.id.countdown)
     countdown.text = "timer"
@@ -217,7 +196,8 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         binding.playerTwoScore.text = "Punkte o: ${gameManagerTTT.player2Points}"
     }
 
-    private fun onFieldClick(field: TextView, position: Position){
+    fun onFieldClick(position: Position){
+        val field = getField(position.row, position.column)
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
 
@@ -277,33 +257,17 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         }
     }
 
+
     override fun handleNetworkMessage(msg: String) {
         if (DEBUG) Log.d(TAG, "received message: $msg")
         val msgList = msg.split(";")
         val row = msgList[0].toInt()
         val col = msgList[1].toInt()
-        onFieldClick(getField(row, col), Position(row, col))
+        //onFieldClick(getField(row, col), Position(row, col))
+        onFieldClick(Position(row,col))
     }
 }
 
-
-
-
-
-/*
-private fun onFieldClick(field: TextView) {
-    if (field.text == "") {
-        field.text = currentPlayer
-
-        if (checkWin()) {
-            statusText.text = "Spieler $currentPlayer hat gewonnen"
-        } else {
-            currentPlayer = if (currentPlayer == "x") "o" else "x"
-            statusText.text = "Spieler $currentPlayer ist dran"
-        }
-    }
-}
-*/
 
 
 
