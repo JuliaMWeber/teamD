@@ -5,14 +5,6 @@ class Generator {
 
     var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, null, null) }
     val volleWerteListe = mutableListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
-    val eineZahlEntfernt: MutableList<Int> = mutableListOf(2, 3, 4, 5, 6, 7, 8, 9)
-    val zweiZahlenEntfernt: MutableList<Int> = mutableListOf(3, 4, 5, 6, 7, 8, 9)
-    val dreiZahlenEntfernt: MutableList<Int> = mutableListOf(4, 5, 6, 7, 8, 9)
-    val vierZahlenEntfernt: MutableList<Int> = mutableListOf(5, 6, 7, 8, 9)
-    val fuenfZahlenEntfernt: MutableList<Int> = mutableListOf(6, 7, 8, 9)
-    val sechsZahlenEntfernen: MutableList<Int> = mutableListOf(7, 8, 9)
-    val siebenZahlenEntfernen: MutableList<Int> = mutableListOf(8, 9)
-    val achtZahlenEntfernen: MutableList<Int> = mutableListOf(9)
 
     fun zellenListeBefuellen() {
 
@@ -168,43 +160,16 @@ class Generator {
 
     }
 
-    fun zellenEinordnen() : Any {
-        for (z in 0..80) {
-            if (zellen[z].equals(volleWerteListe)) {
-                val zellenMitVollerListe = listOf(zellen[z])
-                return zellenMitVollerListe
-            } else if (zellen[z].equals(eineZahlEntfernt)) {
-                val zellenMitAchtWerten = listOf(zellen[z])
-                return zellenMitAchtWerten
-            } else if (zellen[z].equals(zweiZahlenEntfernt)) {
-                val zellenMitSiebenWerten = listOf(zellen[z])
-                return zellenMitSiebenWerten
-            } else if (zellen[z].equals(dreiZahlenEntfernt)) {
-                val zellenMitSechsWerten = listOf(zellen[z])
-                return zellenMitSechsWerten
-            } else if (zellen[z].equals(vierZahlenEntfernt)) {
-                val zellenMitFuenfWerten = listOf(zellen[z])
-                return zellenMitFuenfWerten
-            } else if (zellen[z].equals(fuenfZahlenEntfernt)) {
-                val zellenMitVierWerten = listOf(zellen[z])
-                return zellenMitVierWerten
-            } else if (zellen[z].equals(sechsZahlenEntfernen)) {
-                val zellenMitDreiWerten = listOf(zellen[z])
-                return zellenMitDreiWerten
-            } else if (zellen[z].equals(siebenZahlenEntfernen)) {
-                val zellenMitZweiWerten = listOf(zellen[z])
-                return zellenMitZweiWerten
-            } else if (zellen[z].equals(achtZahlenEntfernen)) {
-                val zellenMitEinemWert = listOf(zellen[z])
-                zellen[z].genValue = zellen[z].genValueList.toString().toInt()
-            }
-        }
-        return true
-    }
 
     fun zellenBearbeiten() {
-        val random = (0..80).random()
-        genValueEntfernen(random, eineZahlEntfernt)
+        //Schleife die aktuelle Indexwerte der Zahlen übergibt
+        var eintrageZahl=1
+        for (i in 0 until 9) {
+            val random = (0..80).random()
+            //val abzugsliste= volleWerteListe.removeAt()
+            zellen[random].genValueList
+            //genValueEntfernen(random)
+        }
 
     }
 }
