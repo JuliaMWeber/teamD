@@ -69,7 +69,7 @@ class WordleKeyboardFragment : Fragment() {
         keyboardLayouts[selectedKeyboardLayout]?.let {
             for (i in it.indices) {
                 for (keyLabel in it[i]) {
-                    val button = Button(ContextThemeWrapper(context, R.style.smallSquareButtonLightGrey), null, 0).apply {
+                    val button = Button(ContextThemeWrapper(context, R.style.keyboardButton), null, 0).apply {
                         text = keyLabel.toString()
                         layoutParams = LayoutParams(
                             LayoutParams.WRAP_CONTENT,
@@ -113,14 +113,16 @@ class WordleKeyboardFragment : Fragment() {
                         keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_unknown_panel_background)
                     }
                     LetterStatus.CORRECT -> {
-                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_correct_panel_background)
+                        keyView.setBackgroundResource(R.drawable.pixel_button_small_square_thm_primary)
+                        keyView.setTextAppearance(R.style.keyboardLabelLight)
                     }
                     LetterStatus.WRONG_POSITION -> {
-                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_position_panel_background
-                        )
+                        keyView.setBackgroundResource(R.drawable.pixel_button_small_square_thm_orange)
+                        keyView.setTextAppearance(R.style.keyboardLabelLight)
                     }
                     LetterStatus.WRONG -> {
-                    keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_wrong_panel_background)
+                        keyView.setBackgroundResource(R.drawable.pixel_button_small_square_dark_grey)
+                        keyView.setTextAppearance(R.style.keyboardLabelGrey)
                 }
                     else -> return
                 }

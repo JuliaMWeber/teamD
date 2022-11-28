@@ -13,6 +13,8 @@
     <color name="mid_dark_bluish_grey">#364852</color>
     <color name="dark_bluish_grey">#22343E</color>
     <color name="darker_bluish_grey">#FF222A2F</color>
+    <color name="grey">#D1D1D1</color>
+    <color name="medium_grey">#999999</color>
 
     <!-- Text -->
     <color name="text_light_primary">@android:color/white</color>
