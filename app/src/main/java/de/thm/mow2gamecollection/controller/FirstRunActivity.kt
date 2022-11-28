@@ -3,16 +3,20 @@ package de.thm.mow2gamecollection.controller
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.preference.PreferenceManager
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.databinding.ActivityMainBinding
+import de.thm.mow2gamecollection.model.FirstRunModel
+import de.thm.mow2gamecollection.model.UserSettings
 import de.thm.mow2gamecollection.wordle.controller.LetterGridFragment
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
 // DEBUGGING
 private const val DEBUG = true
-private const val TAG = "MainActivity"
+private const val TAG = "FirstRunActivity"
 
-class MainActivity : KeyboardActivity() {
+class FirstRunActivity : KeyboardActivity() {
+    private lateinit var model: FirstRunModel
     private lateinit var binding: ActivityMainBinding
     private var playerName = ""
     private val nameInput: LetterGridFragment by lazy { binding.nameInput.getFragment() }
@@ -34,10 +38,21 @@ class MainActivity : KeyboardActivity() {
         }
 
         binding.startButton.setOnClickListener{
-            Log.d(TAG, "startButton")
-            val intent = Intent(this@MainActivity, GamesListActivity::class.java)
-            startActivity(intent)
+            if(playerName.isNotEmpty()) {
+                PreferenceManager.getDefaultSharedPreferences(this).edit().apply {
+                    putBoolean(UserSettings.IS_FIRST_RUN_KEY, false)
+                }.apply()
+                model.saveUserName(playerName)
+                val intent = Intent(this@FirstRunActivity, GamesListActivity::class.java)
+                startActivity(intent)
+            }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "saved userName: ${UserSettings.getUserName(this)}")
+        model = FirstRunModel(this)
     }
 
     override fun addLetter(char: Char) {
