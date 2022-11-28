@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.databinding.FragmentWordleLetterGridBinding
 import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
@@ -23,9 +26,9 @@ private const val TAG = "LetterGridFragment"
  * create an instance of this fragment.
  */
 class LetterGridFragment : Fragment() {
+    private lateinit var binding: FragmentWordleLetterGridBinding
     private var rows: Int = MAX_TRIES
     private var columns: Int = WORD_LENGTH
-//    private val tileList = mutableListOf<TileView>()
     private val tileFragmentList = mutableListOf<TileFragment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,16 +36,28 @@ class LetterGridFragment : Fragment() {
         arguments?.let {
             rows = it.getInt(ARG_ROWS)
             columns = it.getInt(ARG_COLUMNS)
+
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d(TAG, "onCreateView")
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wordle_letter_grid, container, false)
+//        return inflater.inflate(R.layout.fragment_wordle_letter_grid, container, false)
+        binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
+
+        binding.letterGrid.apply {
+            rowCount = rows
+            columnCount = columns
+            updateLayoutParams<ConstraintLayout.LayoutParams> {
+                dimensionRatio = "$columns:$rows"
+            }
+        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +68,7 @@ class LetterGridFragment : Fragment() {
         for (i in 0 until rows*columns) {
             TileFragment().let {
                 childFragmentManager.beginTransaction()
-                    .add(R.id.letterGridContainer, it)
+                    .add(R.id.letterGrid, it)
                     .commit()
 
                 tileFragmentList.add(it)
