@@ -75,8 +75,7 @@ class SudokuGame {
     }
 
     fun alleFelderFuellen() {
-        Generator().zellenBearbeiten()
-        Generator().zellenEinordnen()
+        Generator().zellenWaehlen()
         for (i in 0 until 81) {
             zellen[i].istStartzelle = true
             zellenLiveData.postValue(board.zellen)
