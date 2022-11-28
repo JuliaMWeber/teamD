@@ -165,7 +165,43 @@
             android:textAllCaps="true" />
 
         <Button
-            style="@style/smallSquareButtonGrey"
+            style="@style/smallSquareButtonThmOrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmLightBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmDarkBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -178,6 +214,30 @@
 
         <Button
             style="@style/smallSquareButtonLightGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonDarkGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
