@@ -14,7 +14,6 @@ import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_ROWS = "rows"
 private const val ARG_COLUMNS = "columns"
@@ -36,7 +35,6 @@ class LetterGridFragment : Fragment() {
         arguments?.let {
             rows = it.getInt(ARG_ROWS)
             columns = it.getInt(ARG_COLUMNS)
-
         }
     }
 
@@ -47,7 +45,6 @@ class LetterGridFragment : Fragment() {
         Log.d(TAG, "onCreateView")
 
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_wordle_letter_grid, container, false)
         binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
 
         binding.letterGrid.apply {
@@ -64,16 +61,50 @@ class LetterGridFragment : Fragment() {
         Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
-        // create all the tiles for the grid and add them to the tileFragmentList.
-        for (i in 0 until rows*columns) {
-            TileFragment().let {
-                childFragmentManager.beginTransaction()
-                    .add(R.id.letterGrid, it)
-                    .commit()
+        if (savedInstanceState == null) {
+            // create all the tiles for the grid and add them to the tileFragmentList.
+            for (i in 0 until rows*columns) {
+                TileFragment().let {
+                    childFragmentManager.beginTransaction()
+                        .add(R.id.letterGrid, it)
+                        .commit()
 
-                tileFragmentList.add(it)
+                    tileFragmentList.add(it)
+                }
             }
         }
+    }
+
+    override fun onStart() {
+        Log.d(TAG, "onStart")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.d(TAG, "onStop")
+        super.onStop()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d(TAG, "onSaveInstanceState")
+//        outState.putParcelableArrayList("tileFragmentList", ArrayList(tileFragmentList))
+        super.onSaveInstanceState(outState)
+        // TODO
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewStateRestored")
+        super.onViewStateRestored(savedInstanceState)
     }
 
     fun getTileFragment(row: Int, index: Int) : TileFragment {

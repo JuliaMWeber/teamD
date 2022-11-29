@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="2dp"
-    tools:context=".wordle.controller.TileBackFragment">
+    tools:context=".wordle.controller.TileFaceFragment">
 
     <de.thm.mow2gamecollection.wordle.view.TileView
-        android:id="@+id/backTileView"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/wordle_empty_panel_background"

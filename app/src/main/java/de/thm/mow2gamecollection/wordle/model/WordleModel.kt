@@ -64,14 +64,6 @@ class WordleModel(val controller : WordleActivity) {
 
     private fun checkGuess(input: String = userInput) {
         if (DEBUG) Log.d(TAG, "checkGuess: $input")
-        if (input.length != WORD_LENGTH) {
-            if (input.length < WORD_LENGTH) {
-                controller.displayInformation("word too short!")
-            } else {
-                controller.displayInformation("word too long!")
-            }
-            return
-        }
 
         val remainingLetterOccurrences = HashMap<Char, Int>()
         // count occurrences of letters in targetWord
@@ -223,6 +215,11 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     fun onGuessSubmitted() {
+        if (userInput.length != WORD_LENGTH) {
+            controller.displayInformation("word too short!")
+            return
+        }
+
         // TODO: check if the word (user's guess) is in the dictionary
 
         userGuesses.add(userInput)

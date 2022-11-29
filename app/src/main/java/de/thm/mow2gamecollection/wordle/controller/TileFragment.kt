@@ -9,16 +9,10 @@ import androidx.gridlayout.widget.GridLayout
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
-private const val TAG = "TileFragment"
-
 class TileFragment : Fragment() {
-    private val frontFragment = TileFrontFragment()
-    private lateinit var backFragment: TileBackFragment
+    private val frontFragment = TileFaceFragment(LetterStatus.BLANK, null)
+    private lateinit var backFragment: TileFaceFragment
     private var isShowingBack = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,12 +83,12 @@ class TileFragment : Fragment() {
         when (letter) {
             null -> {
                 // reset front
-                frontFragment.update()
+                frontFragment.update(LetterStatus.BLANK, null)
             }
             else -> {
-                // update front and back
-                frontFragment.update(letter)
-                backFragment = TileBackFragment(status, letter)
+                // update front and create back
+                frontFragment.update(LetterStatus.UNKNOWN, letter)
+                backFragment = TileFaceFragment(status, letter)
             }
         }
     }
