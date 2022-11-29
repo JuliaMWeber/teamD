@@ -43,11 +43,12 @@
         tools:targetApi="31" >
         <activity
             android:name=".tictactoe.controller.StartTicTacToeActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.GameCollection.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".controller.WifiDirectActivity"
@@ -69,10 +70,10 @@
             android:name=".controller.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.GameCollection" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".controller.GamesListActivity"

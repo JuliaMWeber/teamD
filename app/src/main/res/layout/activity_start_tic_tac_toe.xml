@@ -7,52 +7,37 @@
     tools:context=".tictactoe.controller.StartTicTacToeActivity">
 
   <Button
-      android:id="@+id/singleButton"
+      android:id="@+id/singlePlayerButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
       android:text="Einzelspieler"
+      app:layout_constraintBottom_toTopOf="@+id/hotseatButton"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.537"
+      app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed" />
 
   <Button
-      android:id="@+id/multiButton"
+      android:id="@+id/hotseatButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="32dp"
-      android:text="Mehrspieler"
+      android:text="Hotseat-Modus"
+      app:layout_constraintBottom_toTopOf="@+id/multiplayerButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/singlePlayerButton" />
+
+  <Button
+      android:id="@+id/multiplayerButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Mehrspieler (Netzwerk)"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toBottomOf="@+id/hotseatButton" />
 
-  <Button
-      android:id="@+id/easyButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:layout_marginBottom="32dp"
-      android:text="Einfach"
-      app:layout_constraintBottom_toTopOf="@+id/hardButton"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.511"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.971" />
-
-  <Button
-      android:id="@+id/hardButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:layout_marginBottom="32dp"
-      android:text="schwer"
-      app:layout_constraintBottom_toTopOf="@+id/multiButton"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.873" />
 </androidx.constraintlayout.widget.ConstraintLayout>
