@@ -23,8 +23,11 @@ class WordleModel(val controller : WordleActivity) {
     private var tries = 0
     private var userInput : String = ""
     private var userGuesses = mutableListOf<String>()
+    private var correctLetters = mutableListOf<Char>()
+    private var wrongPositionLetters = mutableListOf<Char>()
+
     var targetWord : String? = null
-    private val recentTargetWords = CircularFifoQueue<String>(NUMBER_OF_RECENT_TARGET_WORDS) // List<String>(3, { i -> (i.toString())})
+    private val recentTargetWords = CircularFifoQueue<String>(NUMBER_OF_RECENT_TARGET_WORDS)
     private val dictionary = Dictionary()
 
     init {
@@ -90,12 +93,26 @@ class WordleModel(val controller : WordleActivity) {
             val char = input[i]
             val occurrences = remainingLetterOccurrences.getOrDefault(input[i], 0)
             if (targetWord!![i] == char) {
-                controller.updateTileAndKey(tile, char, LetterStatus.CORRECT)
+                // letter correct
+                correctLetters.add(char)
+                controller.updateTile(tile, char, LetterStatus.CORRECT)
+                controller.updateKey(char, LetterStatus.CORRECT)
             } else if (occurrences > 0) {
-                controller.updateTileAndKey(tile, char, LetterStatus.WRONG_POSITION)
+                // wrong position
                 remainingLetterOccurrences[char] = occurrences - 1
+                if (!correctLetters.contains(char)) {
+                    wrongPositionLetters.add(char)
+                }
+                controller.updateTile(tile, char, LetterStatus.WRONG_POSITION)
+                if (!correctLetters.contains(char)) {
+                    controller.updateKey(char, LetterStatus.WRONG_POSITION)
+                }
             } else {
-                controller.updateTileAndKey(tile, char, LetterStatus.WRONG)
+                // wrong letter
+                controller.updateTile(tile, char, LetterStatus.WRONG)
+                if (!correctLetters.contains(char) && !wrongPositionLetters.contains(char)) {
+                    controller.updateKey(char, LetterStatus.WRONG)
+                }
             }
         }
 

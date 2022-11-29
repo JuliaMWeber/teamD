@@ -110,7 +110,8 @@ class WordleKeyboardFragment : Fragment() {
                 keyView.setTextColor(ContextCompat.getColor(it, R.color.white))
                 when (letterStatus) {
                     LetterStatus.UNKNOWN -> {
-                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_unknown_panel_background)
+                        keyView.setBackgroundResource(R.drawable.pixel_button_small_square_light_grey)
+                        keyView.setTextAppearance(R.style.keyboardLabelDark)
                     }
                     LetterStatus.CORRECT -> {
                         keyView.setBackgroundResource(R.drawable.pixel_button_small_square_thm_primary)

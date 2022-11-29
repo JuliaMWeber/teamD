@@ -34,7 +34,7 @@ class WordleActivity : KeyboardActivity() {
         super.onCreate(savedInstanceState)
 
         // get saved game state
-        // gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+        // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
         val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
         if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
         val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
@@ -117,18 +117,17 @@ class WordleActivity : KeyboardActivity() {
         letterGridFragment.removeLetter(row, index)
     }
 
-    fun updateTileAndKey(row: Int, index: Int, letter: Char, status: LetterStatus) {
-            updateTile(row, index, letter, status)
-    }
-
-    fun updateTileAndKey(tile: Tile, letter: Char, status: LetterStatus) {
-        updateTile(tile.position.row, tile.position.index, letter, status)
-        wordleKeyboardFragment.updateButton(letter, status)
-    }
-
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
         if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
         letterGridFragment.updateTile(row, index, letter, status)
+    }
+
+    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
+        letterGridFragment.updateTile(tile.position.row, tile.position.index, letter, status)
+    }
+
+    fun updateKey(letter: Char, status: LetterStatus) {
+        wordleKeyboardFragment.updateButton(letter, status)
     }
 
     fun revealRow(row: Int) {
