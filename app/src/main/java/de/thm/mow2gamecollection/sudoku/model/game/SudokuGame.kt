@@ -51,6 +51,7 @@ class SudokuGame {
         buttonEingabenLiveData.postValue(buttonEingabe)
 
 
+
         alleFelderFuellen()
 
 
