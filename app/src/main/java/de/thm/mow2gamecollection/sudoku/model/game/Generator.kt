@@ -6,7 +6,7 @@ class Generator {
     var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, null, null) }
 
 
-    fun genValueEntfernen(random: Int, entfernterIndex: Int): MutableList<Int> {
+    fun genValueEntfernen(random: Int): MutableList<Int> {
         //Quads
         val quad1 = mutableListOf(0, 1, 2, 9, 10, 11, 18, 19, 20)
         val quad2 = mutableListOf(3, 4, 5, 12, 13, 14, 21, 22, 23)
@@ -28,7 +28,31 @@ class Generator {
             startwerteListe += startwert
         }
 
+
+        var random = random
+        var aktuelleZellen: MutableList<Int> = mutableListOf()
+        var aktuellesQuad: MutableList<Int> = mutableListOf()
+        var aktuelleSpalte: MutableList<Int> = mutableListOf()
+        var aktuelleZeile: MutableList<Int> = mutableListOf()
+        for (i in 0 until 9) {
+            when {
+                random == quad1[i] -> aktuellesQuad += quad1
+                random == quad2[i] -> aktuellesQuad += quad2
+                random == quad3[i] -> aktuellesQuad += quad3
+                random == quad4[i] -> aktuellesQuad += quad4
+                random == quad5[i] -> aktuellesQuad += quad5
+                random == quad6[i] -> aktuellesQuad += quad6
+                random == quad7[i] -> aktuellesQuad += quad7
+                random == quad8[i] -> aktuellesQuad += quad8
+                random == quad9[i] -> aktuellesQuad += quad9
+
+            }
+
+        }
+        aktuelleZellen.addAll(aktuellesQuad)
+
         //Zeilen
+        val spalte1: MutableList<Int> = mutableListOf(0, 9, 18, 27, 36, 45, 54, 63, 72)
         val spalte2: MutableList<Int> = mutableListOf(1, 10, 19, 28, 37, 46, 55, 64, 73)
         val spalte3: MutableList<Int> = mutableListOf(2, 11, 20, 29, 38, 47, 56, 65, 74)
         val spalte4: MutableList<Int> = mutableListOf(3, 12, 21, 30, 39, 48, 57, 66, 75)
@@ -36,9 +60,97 @@ class Generator {
         val spalte6: MutableList<Int> = mutableListOf(5, 14, 23, 32, 41, 50, 59, 68, 77)
         val spalte7: MutableList<Int> = mutableListOf(6, 15, 24, 33, 42, 51, 60, 69, 78)
         val spalte8: MutableList<Int> = mutableListOf(7, 16, 25, 34, 43, 52, 61, 70, 79)
+        val spalte9: MutableList<Int> = mutableListOf(8, 17, 26, 35, 44, 53, 62, 71, 80)
+
+        for (j in 0 until 9) {
+            when {
+                random == spalte1[j] -> aktuelleSpalte += spalte1
+                random == spalte2[j] -> aktuelleSpalte += spalte2
+                random == spalte3[j] -> aktuelleSpalte += spalte3
+                random == spalte4[j] -> aktuelleSpalte += spalte4
+                random == spalte5[j] -> aktuelleSpalte += spalte5
+                random == spalte6[j] -> aktuelleSpalte += spalte6
+                random == spalte7[j] -> aktuelleSpalte += spalte7
+                random == spalte8[j] -> aktuelleSpalte += spalte8
+                random == spalte9[j] -> aktuelleSpalte += spalte9
+            }
+        }
+        aktuelleZellen.addAll(aktuelleSpalte)
+
+        val zeile1: MutableList<Int> = mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8)
+        val zeile2: MutableList<Int> = mutableListOf(9, 10, 11, 12, 13, 14, 15, 16, 17)
+        val zeile3: MutableList<Int> = mutableListOf(18, 19, 20, 21, 22, 23, 24, 25, 26)
+        val zeile4: MutableList<Int> = mutableListOf(27, 28, 29, 30, 31, 32, 33, 34, 35)
+        val zeile5: MutableList<Int> = mutableListOf(36, 37, 38, 39, 40, 41, 42, 43, 44)
+        val zeile6: MutableList<Int> = mutableListOf(45, 46, 47, 48, 49, 50, 51, 52, 53)
+        val zeile7: MutableList<Int> = mutableListOf(54, 55, 56, 57, 58, 59, 60, 61, 62)
+        val zeile8: MutableList<Int> = mutableListOf(63, 64, 65, 66, 67, 68, 69, 70, 71)
+        val zeile9: MutableList<Int> = mutableListOf(72, 73, 74, 75, 76, 77, 78, 79, 80)
+
+        for (k in 0 until 9) {
+            when {
+                random == zeile1[k] -> aktuelleZeile += zeile1
+                random == zeile2[k] -> aktuelleZeile += zeile2
+                random == zeile3[k] -> aktuelleZeile += zeile3
+                random == zeile4[k] -> aktuelleZeile += zeile3
+                random == zeile5[k] -> aktuelleZeile += zeile4
+                random == zeile6[k] -> aktuelleZeile += zeile5
+                random == zeile7[k] -> aktuelleZeile += zeile6
+                random == zeile8[k] -> aktuelleZeile += zeile8
+                random == zeile9[k] -> aktuelleZeile += zeile9
+            }
+
+        }
+
+        aktuelleZellen.addAll(aktuelleZeile)
+        aktuelleZellen.sort()
+        val aktZellenOhneDopplung = aktuelleZellen.toSet().toMutableList()
+
+        return aktZellenOhneDopplung
+    }
 
 
-        var random = random
+
+    fun zellenWaehlen() {
+        for (j in 0 until 81) {
+            zellen[j].genValueList = mutableListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        }
+
+
+        var random = (0..80).shuffled()
+        var zaehler = 0
+        for (l in 0 until 9) {
+            var zahlZuEntfernen = 1
+            for (j in 0 until 9) {
+                zellen[random[zaehler]].genValue = zellen[random[zaehler]].genValueList[0]
+                zellen[random[zaehler]].genValueList.remove(zahlZuEntfernen)
+                var aktuelleZellen = genValueEntfernen(random[zaehler])
+                for (i in 0 until aktuelleZellen.size){
+                    var aktuelleZelle = aktuelleZellen[i]
+                    println( zellen[aktuelleZelle].genValueList
+                }
+                zahlZuEntfernen++
+                zaehler++
+
+            }
+        }
+
+        for (k in 0 until 81) {
+            println("Index: $k " + zellen[k].genValueList.toString())
+        }
+        for (k in 0 until 81) {
+            println("Zelle: $k , Wert: " + zellen[k].genValue.toString())
+        }
+    }
+}
+
+
+//Kontrollausgabe
+/*
+}*/
+
+
+/*        var random = random
         zellen[random].genValue = entfernterIndex
         zellen[random].genValueList.clear()
         var aktuelleZellen: MutableList<Int> = mutableListOf()
@@ -88,14 +200,13 @@ class Generator {
                 aktuellesQuad += quad8
             } else if (random == quad9[i]) {
                 for (q in 0 until 9) {
-                    zellen[quad9[q]].genValueList.remove(entfernterIndex)
                 }
                 aktuellesQuad += quad9
             }
         }
         aktuelleZellen.addAll(aktuellesQuad)
 
-        for (j in 0 until 9) {
+      /*  for (j in 0 until 9) {
             if (random == startwerteListe[j]) {
                 for (s in 0 until 9) {
                     zellen[startwerteListe[s]].genValueList.remove(entfernterIndex)
@@ -156,46 +267,5 @@ class Generator {
                 break
             }
 
-        }
-
-        aktuelleZellen.addAll(aktuelleZeile)
-        aktuelleZellen.sort()
-        var aktZellenOhneDopplung = aktuelleZellen.toSet().toMutableList()
-
-        return aktZellenOhneDopplung
-    }
-
-
-    fun zellenWaehlen() {
-        for (j in 0 until 81) {
-            zellen[j].genValueList = mutableListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
-        }
-
-        var random = (0..80).random()
-        println(random)
-        var eintragevalue = 1
-        var aktuelleZellen = genValueEntfernen(random, eintragevalue)
-
-        for (l in 0 until 9){
-            eintragevalue+=1
-            aktuelleZellen=genValueEntfernen(aktuelleZellen.random(), eintragevalue)
-        }
-
-        for (k in 0 until 81) {
-            println("Index: $k " + zellen[k].genValueList.toString())
-        }
-        for (k in 0 until 81) {
-            println("Zelle: $k , Wert: " + zellen[k].genValue.toString())
-        }
-        println("aktuelleZellen: " + aktuelleZellen)
-    }
-}
-
-
-//Kontrollausgabe
-/*
-}*/
-
-
-/* }*/
+        } */ }*/
 
