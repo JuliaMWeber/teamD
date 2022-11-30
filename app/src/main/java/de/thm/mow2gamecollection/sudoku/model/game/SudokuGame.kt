@@ -33,7 +33,7 @@ class SudokuGame {
     var sudokuGen = Array(9) { i -> Array(9) { j -> 0 } }
 
 
-    //val genSudoku = gen.createArray()
+    val genSudoku = Generator().zellenWaehlen()
 
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
@@ -42,7 +42,7 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, null, null) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, genSudoku[f%9], null) }
 
     init {
         board = Board(9, zellen)
@@ -75,7 +75,7 @@ class SudokuGame {
     }
 
     fun alleFelderFuellen() {
-        Generator().zellenWaehlen()
+        Generator().test()
         for (i in 0 until 81) {
             zellen[i].istStartzelle = true
             zellenLiveData.postValue(board.zellen)
