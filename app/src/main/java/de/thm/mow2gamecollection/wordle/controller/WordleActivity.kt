@@ -16,7 +16,7 @@ import de.thm.mow2gamecollection.wordle.model.grid.Tile
 
 // debugging
 private const val TAG = "WordleActivity"
-private const val DEBUG = false
+private const val DEBUG = true
 private const val TARGET_WORD_KEY = "targetWord"
 private const val USER_GUESSES_KEY = "userGuesses"
 

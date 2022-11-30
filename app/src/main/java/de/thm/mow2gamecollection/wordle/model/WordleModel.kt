@@ -41,9 +41,9 @@ class WordleModel(val controller : WordleActivity) {
 //        controller.createTiles(WORD_LENGTH, MAX_TRIES)
 
         // add retrieved userGuesses to UI
-        for(guess in userGuesses) {
-            checkGuess(guess)
-        }
+//        for(guess in userGuesses) {
+//            checkGuess(guess)
+//        }
         // TODO: start timer
     }
 
@@ -204,13 +204,8 @@ class WordleModel(val controller : WordleActivity) {
             retrievedGuesses.split(", ").forEach {
                 userGuesses.add(it)
             }
+            tries = userGuesses.size
         } ?: run { if (DEBUG) Log.d(TAG, "no user guesses saved") }
-
-        // get number of tries
-        preferences.getInt(TRIES_KEY, 0).let { retrievedNumberOfTries ->
-            if (DEBUG) Log.d(TAG, "number of tries retrieved: $retrievedNumberOfTries")
-//            tries = retrievedNumberOfTries
-        }
 
         // get recent target words
         preferences.getString(RECENT_TARGET_WORDS_KEY, null)?.let { retrievedRecentTargetWords ->

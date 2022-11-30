@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.children
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.findFragment
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.databinding.FragmentWordleLetterGridBinding
 import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
@@ -68,13 +66,18 @@ class LetterGridFragment : Fragment() {
             for (i in 0 until rows*columns) {
                 TileFragment().let {
                     childFragmentManager.beginTransaction()
-                        .add(R.id.letterGrid, it)
+                        .add(R.id.letterGrid, it, "tile$i")
                         .commit()
-
                     tileFragmentList.add(it)
                 }
             }
+        } else {
+            savedInstanceState.getStringArray("tileFragmentTags")?.forEach {
+                tileFragmentList.add(childFragmentManager.findFragmentByTag(it) as TileFragment)
+            }
         }
+        Log.d(TAG, "tileFragmentList:\nlength: ${tileFragmentList.size}\n$tileFragmentList")
+        Log.d(TAG, "child fragments: ${childFragmentManager.fragments.size}")
     }
 
     override fun onStart() {
@@ -99,19 +102,19 @@ class LetterGridFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         Log.d(TAG, "onSaveInstanceState")
-//        outState.putParcelableArrayList("tileFragmentList", ArrayList(tileFragmentList))
         super.onSaveInstanceState(outState)
+
+        val tileFragmentTags = ArrayList<String>()
+        tileFragmentList.forEach {
+            Log.d(TAG, "adding tile id: ${it.tag}")
+            it.tag?.let { tag -> tileFragmentTags.add(tag) }
+        }
+        outState.putStringArray("tileFragmentTags", tileFragmentTags.toTypedArray())
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewStateRestored")
         super.onViewStateRestored(savedInstanceState)
-
-        if (savedInstanceState != null) {
-            binding.letterGrid.children.forEach {
-                tileFragmentList.add(it.findFragment())
-            }
-        }
     }
 
     fun getTileFragment(row: Int, index: Int) : TileFragment {
@@ -135,6 +138,9 @@ class LetterGridFragment : Fragment() {
     }
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
+        Log.d(TAG, "updateTile($row, $index, $letter, $status)")
+        Log.d(TAG, "\tposition in tileFragmentList: ${row * columns + index}/${tileFragmentList.size - 1}")
+        Log.d(TAG, "\tchild count: ${binding.letterGrid.childCount}")
         getTileFragment(row, index).apply{
             update(status, letter)
         }
@@ -142,6 +148,7 @@ class LetterGridFragment : Fragment() {
 
     fun reveal(row: Int) {
         for (index in 0 until WORD_LENGTH) {
+            // TODO: uncomment
             getTileFragment(row, index).flip()
         }
     }
