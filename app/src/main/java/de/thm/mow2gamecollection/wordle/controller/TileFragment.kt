@@ -1,6 +1,7 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,11 @@ import androidx.gridlayout.widget.GridLayout
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
+private const val TAG = "TileFragment"
+
 class TileFragment : Fragment() {
-    private val frontFragment = TileFaceFragment(LetterStatus.BLANK, null)
+    private val frontFragment = TileFaceFragment.newInstance("FRONT", LetterStatus.BLANK, null)
+//    private val backFragment = TileFaceFragment.newInstance("BACK", LetterStatus.CORRECT, '*')
     private lateinit var backFragment: TileFaceFragment
     private var isShowingBack = false
 
@@ -18,11 +22,9 @@ class TileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (savedInstanceState == null) {
-            childFragmentManager.beginTransaction()
-                .add(R.id.container, frontFragment)
-                .commit()
-        }
+        childFragmentManager.beginTransaction()
+            .add(R.id.container, frontFragment)
+            .commit()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tile, container, false)
     }
@@ -36,6 +38,20 @@ class TileFragment : Fragment() {
             width = 0
             height = 0
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("isShowingBack", isShowingBack)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let {
+            isShowingBack = it.getBoolean("isShowingBack")
+        }
+        Log.d(TAG, "showing back? $isShowingBack")
+        if (isShowingBack) flip()
     }
 
     fun flip() {
@@ -79,22 +95,17 @@ class TileFragment : Fragment() {
             .commit()
     }
 
-    fun update(status: LetterStatus, letter: Char? = null) {
-        when (letter) {
-            null -> {
-                // reset front
-                frontFragment.update(LetterStatus.BLANK, null)
-            }
-            else -> {
-                // update front and create back
-                frontFragment.update(LetterStatus.UNKNOWN, letter)
-                backFragment = TileFaceFragment(status, letter)
-            }
-        }
+    fun update(status: LetterStatus, letter: Char) {
+        Log.d(TAG, "--- update $status $letter")
+
+        frontFragment.update(LetterStatus.UNKNOWN, letter)
+//        backFragment.update(status, letter)
+        backFragment = TileFaceFragment.newInstance("BACK", status, letter)
     }
 
+
     fun reset() {
-        update(LetterStatus.BLANK)
+        frontFragment.update(LetterStatus.BLANK, null)
         if (isShowingBack) flip()
     }
 }

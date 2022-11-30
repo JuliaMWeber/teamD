@@ -170,6 +170,8 @@
     </style>
     <style name="keyboardButton"
         parent="smallSquareButtonLightGrey">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
     <style name="keyboardButtonDarkGrey"
         parent="smallSquareButtonDarkGrey">

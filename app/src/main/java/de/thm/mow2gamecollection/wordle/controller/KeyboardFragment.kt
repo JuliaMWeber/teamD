@@ -1,6 +1,7 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,7 +74,7 @@ class WordleKeyboardFragment : Fragment() {
                         text = keyLabel.toString()
                         layoutParams = LayoutParams(
                             LayoutParams.WRAP_CONTENT,
-                            LayoutParams.WRAP_CONTENT,
+                            LayoutParams.MATCH_PARENT,
                             1F
                         )
                     }
@@ -88,6 +89,7 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     private fun handleButtonClick(button: Button) {
+        Log.d("KeyboardFragment", "handleButtonClick")
         val activity = activity as KeyboardActivity
         when (button.text) {
             "✓" -> {

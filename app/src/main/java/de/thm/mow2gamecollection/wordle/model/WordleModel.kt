@@ -12,10 +12,11 @@ import de.thm.mow2gamecollection.wordle.helper.*
 
 // debugging
 private const val TAG = "WordleModel"
-private const val DEBUG = false
+private const val DEBUG = true
 // keys for SharedPreferences
 private const val TARGET_WORD_KEY = "targetWord"
 private const val USER_GUESSES_KEY = "userGuesses"
+private const val TRIES_KEY = "tries"
 private const val RECENT_TARGET_WORDS_KEY = "recentTargetWords"
 
 class WordleModel(val controller : WordleActivity) {
@@ -31,6 +32,7 @@ class WordleModel(val controller : WordleActivity) {
     private val dictionary = Dictionary()
 
     init {
+        Log.d(TAG, "init")
         retrieveSaveGame()
         targetWord ?: run {
             pickTargetWord()
@@ -150,10 +152,7 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     fun addLetter(letter: Char) {
-        if (userInput.length >= WORD_LENGTH) {
-            // display Toast?
-            return
-        }
+        if (userInput.length >= WORD_LENGTH) return
         controller.updateTile(tries, userInput.length, letter, LetterStatus.UNKNOWN)
         userInput += letter
     }
@@ -176,9 +175,11 @@ class WordleModel(val controller : WordleActivity) {
             // remove saved game state from Shared Preferences (if existent)
             editor.remove(TARGET_WORD_KEY)
             editor.remove(USER_GUESSES_KEY)
+            editor.remove(TRIES_KEY)
         } else {
             editor.putString(TARGET_WORD_KEY, targetWord)
             editor.putString(USER_GUESSES_KEY, userGuesses.joinToString())
+            editor.putInt(TRIES_KEY, tries)
         }
 
         editor.putString(RECENT_TARGET_WORDS_KEY, recentTargetWords.joinToString())
@@ -204,6 +205,12 @@ class WordleModel(val controller : WordleActivity) {
                 userGuesses.add(it)
             }
         } ?: run { if (DEBUG) Log.d(TAG, "no user guesses saved") }
+
+        // get number of tries
+        preferences.getInt(TRIES_KEY, 0).let { retrievedNumberOfTries ->
+            if (DEBUG) Log.d(TAG, "number of tries retrieved: $retrievedNumberOfTries")
+//            tries = retrievedNumberOfTries
+        }
 
         // get recent target words
         preferences.getString(RECENT_TARGET_WORDS_KEY, null)?.let { retrievedRecentTargetWords ->

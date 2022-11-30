@@ -7,17 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.findFragment
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.databinding.FragmentWordleLetterGridBinding
 import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val TAG = "LetterGridFragment"
+// fragment initialization parameters
 private const val ARG_ROWS = "rows"
 private const val ARG_COLUMNS = "columns"
-private const val TAG = "LetterGridFragment"
 
 /**
  * A simple [Fragment] subclass.
@@ -43,7 +45,6 @@ class LetterGridFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         Log.d(TAG, "onCreateView")
-
         // Inflate the layout for this fragment
         binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
 
@@ -54,6 +55,7 @@ class LetterGridFragment : Fragment() {
                 dimensionRatio = "$columns:$rows"
             }
         }
+
         return binding.root
     }
 
@@ -99,12 +101,17 @@ class LetterGridFragment : Fragment() {
         Log.d(TAG, "onSaveInstanceState")
 //        outState.putParcelableArrayList("tileFragmentList", ArrayList(tileFragmentList))
         super.onSaveInstanceState(outState)
-        // TODO
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewStateRestored")
         super.onViewStateRestored(savedInstanceState)
+
+        if (savedInstanceState != null) {
+            binding.letterGrid.children.forEach {
+                tileFragmentList.add(it.findFragment())
+            }
+        }
     }
 
     fun getTileFragment(row: Int, index: Int) : TileFragment {
@@ -131,7 +138,6 @@ class LetterGridFragment : Fragment() {
         getTileFragment(row, index).apply{
             update(status, letter)
         }
-
     }
 
     fun reveal(row: Int) {

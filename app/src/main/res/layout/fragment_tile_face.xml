@@ -7,7 +7,7 @@
     tools:context=".wordle.controller.TileFaceFragment">
 
     <de.thm.mow2gamecollection.wordle.view.TileView
-        android:id="@+id/textView"
+        android:id="@+id/tileView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/wordle_empty_panel_background"
