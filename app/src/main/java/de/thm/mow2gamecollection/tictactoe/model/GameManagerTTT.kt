@@ -17,7 +17,7 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         }
 
     lateinit var fieldSize : FieldSize
-/*
+
     private var state3x3 = arrayOf(
                 intArrayOf(0,0,0),
                 intArrayOf(0,0,0),
@@ -30,12 +30,8 @@ class GameManagerTTT (val controller: TicTacToeActivity){
                 intArrayOf(0,0,0,0,0),
                 intArrayOf(0,0,0,0,0),
                 intArrayOf(0,0,0,0,0))
-*/
-    private var state = arrayOf(
-        intArrayOf(0,0,0),
-        intArrayOf(0,0,0),
-        intArrayOf(0,0,0)
-    )
+
+    private var state = state3x3
 
     fun makeMove (position: Position) : WinningLine? {
         //fun makeMove (position: Position) : Boolean {
@@ -53,14 +49,8 @@ class GameManagerTTT (val controller: TicTacToeActivity){
     }
 
     fun reset() {
-            //state = state3x3
-        state = arrayOf(
-            intArrayOf(0,0,0),
-            intArrayOf(0,0,0),
-            intArrayOf(0,0,0)
-        )
-            currentPlayer = 1
-        }
+        state = state3x3
+        currentPlayer = 1
     }
 
     private fun hasGameEnded(): WinningLine? {
