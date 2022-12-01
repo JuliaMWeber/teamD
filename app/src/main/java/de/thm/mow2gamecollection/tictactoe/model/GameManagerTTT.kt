@@ -72,6 +72,7 @@ class GameManagerTTT (val controller: TicTacToeActivity){
             return WinningLine.DIAGONAL_RIGHT
         }
         return null
+
     }
 
 }

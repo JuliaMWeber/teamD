@@ -295,7 +295,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
     
     private fun checkWinner5x5(winningLine: WinningLine) {
-        // @TODO fix this shit for 5
+        // @TODO fix it
         val (winningFields, background) = when (winningLine) {
             WinningLine.ROW_0 -> Pair(listOf(binding5x5.f0, binding5x5.f1, binding5x5.f2), R.drawable.horizontal_line)
             WinningLine.ROW_1 -> Pair(listOf(binding5x5.f3, binding5x5.f4, binding5x5.f5), R.drawable.horizontal_line)

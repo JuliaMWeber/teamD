@@ -25,8 +25,30 @@
       android:layout_marginBottom="504dp"
       android:text="Schwer"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
-
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
+
+  <Button
+      android:id="@+id/threeButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="64dp"
+      android:text="Einfach"
+      android:background="@drawable/pixel_button_small_oval_thm_primary"
+      app:layout_constraintBottom_toTopOf="@+id/hardButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+  <Button
+      android:id="@+id/fiveButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="64dp"
+      android:text="Einfach"
+      android:background="@drawable/pixel_button_small_oval_thm_primary"
+      app:layout_constraintBottom_toTopOf="@+id/hardButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:ignore="InvalidId" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

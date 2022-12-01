@@ -32,6 +32,18 @@ class StartTicTacToeActivity : AppCompatActivity() {
             intent.putExtra("gameMode", GameMode.HARD.toString())
             startActivity(intent, )
         }
+        val btn3 = findViewById<Button>(R.id.hardButton)
+        btn3.setOnClickListener{
+            val intent = Intent(this, TicTacToeActivity::class.java)
+            intent.putExtra("3x3", FieldSize.THREE.toString())
+            startActivity(intent, )
+        }
+        val btn4 = findViewById<Button>(R.id.hardButton)
+        btn4.setOnClickListener{
+            val intent = Intent(this, TicTacToeActivity::class.java)
+            intent.putExtra("5x5", FieldSize.FIVE.toString())
+            startActivity(intent, )
+        }
 
 
     }
