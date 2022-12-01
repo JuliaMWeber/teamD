@@ -6,53 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".tictactoe.controller.StartTicTacToeActivity">
 
-  <Button
-      android:id="@+id/singleButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="Einzelspieler"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.537"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-  <Button
-      android:id="@+id/multiButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="32dp"
-      android:text="Mehrspieler"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
 
   <Button
       android:id="@+id/easyButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:layout_marginBottom="32dp"
+      android:layout_marginBottom="64dp"
       android:text="Einfach"
+      android:background="@drawable/pixel_button_small_oval_thm_primary"
       app:layout_constraintBottom_toTopOf="@+id/hardButton"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.511"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.971" />
+      app:layout_constraintStart_toStartOf="parent" />
 
   <Button
       android:id="@+id/hardButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:layout_marginBottom="32dp"
-      android:text="schwer"
-      app:layout_constraintBottom_toTopOf="@+id/multiButton"
+      android:layout_marginBottom="504dp"
+      android:text="Schwer"
+      android:background="@drawable/pixel_button_small_oval_thm_primary"
+
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.873" />
+      app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

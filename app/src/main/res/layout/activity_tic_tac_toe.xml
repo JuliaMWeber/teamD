@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toStartOf="@+id/f8"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/f6"
-        app:layout_constraintTop_toBottomOf="@+id/f4" />
+        app:layout_constraintTop_toBottomOf="@+id/f3" />
 
     <TextView
         android:id="@+id/f3"
@@ -76,7 +76,7 @@
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/f4"
+        app:layout_constraintEnd_toStartOf="@+id/f3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -144,11 +144,11 @@
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/f4"
+        app:layout_constraintStart_toEndOf="@+id/f3"
         app:layout_constraintTop_toBottomOf="@+id/f2" />
 
     <TextView
-        android:id="@+id/f4"
+        android:id="@+id/f3"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:gravity="center"
@@ -194,7 +194,7 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/button"
+        android:background="@drawable/pixel_button_small_oval_thm_primary"
         android:text="@string/restartButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

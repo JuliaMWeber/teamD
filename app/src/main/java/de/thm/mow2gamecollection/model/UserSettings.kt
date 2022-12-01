@@ -1,8 +1,9 @@
 package de.thm.mow2gamecollection.model
 
 import android.content.Context
+import android.preference.PreferenceManager
 import android.util.Log
-import androidx.preference.PreferenceManager
+//import androidx.preference.PreferenceManager
 
 
 // DEBUGGING
