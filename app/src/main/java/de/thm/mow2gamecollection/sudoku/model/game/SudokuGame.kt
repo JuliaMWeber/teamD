@@ -42,7 +42,7 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, genSudoku[f/9][f%9], null) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, genSudoku[f%9], null) }
 
     init {
         board = Board(9, zellen)

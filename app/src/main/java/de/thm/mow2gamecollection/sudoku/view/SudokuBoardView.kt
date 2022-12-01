@@ -33,7 +33,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private val dickeLinieZeichnen = Paint().apply {
         style = Style.STROKE
         color = Color.BLACK
-        strokeWidth = 6F
+        strokeWidth = 15F
     }
 
 
