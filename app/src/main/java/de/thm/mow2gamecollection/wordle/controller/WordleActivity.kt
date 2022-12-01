@@ -26,6 +26,7 @@ class WordleActivity : KeyboardActivity() {
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
     private lateinit var letterGridFragment: LetterGridFragment
+    private var loadSaveGameFromSharedPreferences = false
 
     // var gameState: String? = null
 
@@ -34,10 +35,15 @@ class WordleActivity : KeyboardActivity() {
         super.onCreate(savedInstanceState)
 
         // get saved game state
-        // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
-        val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
-        val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
-        if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
+        savedInstanceState?.let {
+            // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+            val targetWord = savedInstanceState.getString(TARGET_WORD_KEY)
+            val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
+            if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
+        } ?: run {
+            // nothing saved to savedInstanceState. Check sharedPreferences
+            loadSaveGameFromSharedPreferences = true
+        }
 
         setContentView(R.layout.activity_wordle)
 
@@ -71,6 +77,10 @@ class WordleActivity : KeyboardActivity() {
         if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
         model = WordleModel(this)
+        if (loadSaveGameFromSharedPreferences) {
+            model.init()
+        }
+
     }
 
     override fun onPause() {

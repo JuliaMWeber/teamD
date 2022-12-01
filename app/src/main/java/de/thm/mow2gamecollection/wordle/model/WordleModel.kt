@@ -31,7 +31,7 @@ class WordleModel(val controller : WordleActivity) {
     private val recentTargetWords = CircularFifoQueue<String>(NUMBER_OF_RECENT_TARGET_WORDS)
     private val dictionary = Dictionary()
 
-    init {
+    fun init() {
         Log.d(TAG, "init")
         retrieveSaveGame()
         targetWord ?: run {
@@ -41,9 +41,9 @@ class WordleModel(val controller : WordleActivity) {
 //        controller.createTiles(WORD_LENGTH, MAX_TRIES)
 
         // add retrieved userGuesses to UI
-//        for(guess in userGuesses) {
-//            checkGuess(guess)
-//        }
+        for(guess in userGuesses) {
+            checkGuess(guess)
+        }
         // TODO: start timer
     }
 
@@ -204,7 +204,6 @@ class WordleModel(val controller : WordleActivity) {
             retrievedGuesses.split(", ").forEach {
                 userGuesses.add(it)
             }
-            tries = userGuesses.size
         } ?: run { if (DEBUG) Log.d(TAG, "no user guesses saved") }
 
         // get recent target words

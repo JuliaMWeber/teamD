@@ -10,6 +10,8 @@ import androidx.gridlayout.widget.GridLayout
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
+// DEBUGGING
+private const val DEBUG = false
 private const val TAG = "TileFragment"
 
 class TileFragment : Fragment() {
@@ -23,15 +25,15 @@ class TileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
+        if (DEBUG) Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
         if (savedInstanceState != null) {
             isShowingBack = savedInstanceState.getBoolean("isShowingBack")
             childFragmentManager.findFragmentById(savedInstanceState.getInt("frontFragmentId"))?.let {
                 frontFragment = it as TileFaceFragment
-            } ?: run { Log.d(TAG, "frontFragmentId not found in savedInstanceState")}
+            } ?: run { if (DEBUG) Log.d(TAG, "frontFragmentId not found in savedInstanceState")}
             childFragmentManager.findFragmentById(savedInstanceState.getInt("backFragmentId"))?.let {
                 backFragment =  it as TileFaceFragment
-            } ?: run { Log.d(TAG,"backFragmentId not found in savedInstanceState") }
+            } ?: run { if (DEBUG) Log.d(TAG,"backFragmentId not found in savedInstanceState") }
         }
         else {
             frontFragment = TileFaceFragment.newInstance("FRONT", LetterStatus.BLANK, null)
@@ -122,7 +124,7 @@ class TileFragment : Fragment() {
     }
 
     fun update(letterStatus: LetterStatus, letter: Char) {
-        Log.d(TAG, "---\nupdate $letterStatus $letter\n${this}")
+        if (DEBUG) Log.d(TAG, "---\nupdate $letterStatus $letter\n${this}")
         getCurrentFragment().update(letterStatus, letter)
         this.letterStatus = letterStatus
         this.letter = letter
