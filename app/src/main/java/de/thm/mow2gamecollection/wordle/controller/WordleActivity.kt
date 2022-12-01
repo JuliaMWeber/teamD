@@ -36,9 +36,8 @@ class WordleActivity : KeyboardActivity() {
         // get saved game state
         // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
         val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
-        if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
         val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
-        if (DEBUG) Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
+        if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
 
         setContentView(R.layout.activity_wordle)
 

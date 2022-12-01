@@ -66,7 +66,9 @@ class TileFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean("isShowingBack", isShowingBack)
-        outState.putInt("frontFragmentId", frontFragment.id)
+        if (this::frontFragment.isInitialized) {
+            outState.putInt("frontFragmentId", frontFragment.id)
+        }
         if (this::backFragment.isInitialized) {
             outState.putInt("backFragmentId", backFragment.id)
         }
@@ -81,14 +83,14 @@ class TileFragment : Fragment() {
             // Flip to the front.
             isShowingBack = false
 
-            // create new front
+            // create new front Fragment
             frontFragment = TileFaceFragment.newInstance("front", LetterStatus.BLANK, null)
             replacement = frontFragment
-
         } else {
             // Flip to the back.
             isShowingBack = true
 
+            // create new back Fragment
             backFragment = TileFaceFragment.newInstance("front", letterStatus, letter)
             replacement = backFragment
         }
