@@ -2,6 +2,7 @@ package de.thm.mow2gamecollection.tictactoe.model
 
 import android.os.CountDownTimer
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.tictactoe.controller.FieldSize
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 
 class GameManagerTTT (val controller: TicTacToeActivity){
@@ -15,6 +16,21 @@ class GameManagerTTT (val controller: TicTacToeActivity){
             return if (currentPlayer == 1) "x" else "o"
         }
 
+    lateinit var fieldSize : FieldSize
+/*
+    private var state3x3 = arrayOf(
+                intArrayOf(0,0,0),
+                intArrayOf(0,0,0),
+                intArrayOf(0,0,0)
+            )
+
+    private var state5x5 = arrayOf(
+                intArrayOf(0,0,0,0,0),
+                intArrayOf(0,0,0,0,0),
+                intArrayOf(0,0,0,0,0),
+                intArrayOf(0,0,0,0,0),
+                intArrayOf(0,0,0,0,0))
+*/
     private var state = arrayOf(
         intArrayOf(0,0,0),
         intArrayOf(0,0,0),
@@ -35,14 +51,18 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         }
         return winningLine
     }
+
     fun reset() {
+            //state = state3x3
         state = arrayOf(
             intArrayOf(0,0,0),
             intArrayOf(0,0,0),
             intArrayOf(0,0,0)
         )
-        currentPlayer = 1
+            currentPlayer = 1
+        }
     }
+
     private fun hasGameEnded(): WinningLine? {
         if (state[0][0] == currentPlayer && state[0][1] == currentPlayer && state[0][2] == currentPlayer) {
             return WinningLine.ROW_0

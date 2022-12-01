@@ -26,15 +26,22 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     private lateinit var binding: ActivityTicTacToeBinding
     private lateinit var gameManagerTTT: GameManagerTTT
 
-    private lateinit var gameMode: GameMode;
+    private lateinit var gameMode: GameMode
+    private lateinit var fieldSize: FieldSize
 
     //private var currentPlayer = "x"
     private var playerNumber: Int? = null
     private val allFields by lazy {
-        arrayOf(
+        when (fieldSize){
+            FieldSize.THREE -> arrayOf(
             arrayOf(binding.f0, binding.f1, binding.f2),
             arrayOf(binding.f3, binding.f4, binding.f5),
             arrayOf(binding.f6, binding.f7, binding.f8)
+        )
+            FieldSize.FIVE-> arrayOf(
+            arrayOf(binding.f27, binding.f0, binding.f1,binding.f2, binding.f9),
+            arrayOf(binding.f11, )
+
         )
     }
 
