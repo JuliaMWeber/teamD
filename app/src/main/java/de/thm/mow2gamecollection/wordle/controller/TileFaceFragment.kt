@@ -12,6 +12,7 @@ import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.view.TileView
 
     // fragment initialization parameters
+    private const val ARG_SIDE = "side"
     private const val ARG_STATUS = "status"
     private const val ARG_LETTER = "letter"
 
@@ -65,9 +66,9 @@ class TileFaceFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         if (DEBUG) Log.d(TAG, "onSaveInstanceState $status $letter")
 //        Log.d(TAG, "tileViewId: ${tileView.id}")
-        outState.putString("side", side)
-        outState.putString("status", status.toString())
-        outState.putString("letter", letter.toString())
+        outState.putString(ARG_SIDE, side)
+        outState.putString(ARG_STATUS, status.toString())
+        outState.putString(ARG_LETTER, letter.toString())
         super.onSaveInstanceState(outState)
     }
 
@@ -77,11 +78,11 @@ class TileFaceFragment : Fragment() {
 //        Log.d(TAG, "tileViewID: $tileViewId")
 //        tileViewId?.let {
         savedInstanceState?.apply {
-            side = getString("side")
-            getString("status")?.let {
+            side = getString(ARG_SIDE)
+            getString(ARG_STATUS)?.let {
                 status = LetterStatus.valueOf(it)
             }
-            getString("letter")?.let {
+            getString(ARG_LETTER)?.let {
                 letter = it.first()
             }
             Log.d(TAG, "onViewStateRestored $side $letter $status")
@@ -181,7 +182,7 @@ class TileFaceFragment : Fragment() {
             Log.d(TAG, "newInstance($side, $status, $letter)")
             return TileFaceFragment().apply {
                 arguments = Bundle().apply {
-                    putString("side", side)
+                    putString(ARG_SIDE, side)
                     putString(ARG_STATUS, status.toString())
                     letter?.let {
                         putChar(ARG_LETTER, it)

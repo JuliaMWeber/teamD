@@ -14,6 +14,8 @@ import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
+// DEBUGGING
+private const val DEBUG = false
 private const val TAG = "LetterGridFragment"
 // fragment initialization parameters
 private const val ARG_ROWS = "rows"
@@ -42,7 +44,7 @@ class LetterGridFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG, "onCreateView")
+        if (DEBUG) Log.d(TAG, "onCreateView")
         // Inflate the layout for this fragment
         binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
 
@@ -58,7 +60,7 @@ class LetterGridFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated")
+        if (DEBUG) Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null) {
@@ -76,44 +78,44 @@ class LetterGridFragment : Fragment() {
                 tileFragmentList.add(childFragmentManager.findFragmentByTag(it) as TileFragment)
             }
         }
-        Log.d(TAG, "tileFragmentList:\nlength: ${tileFragmentList.size}\n$tileFragmentList")
-        Log.d(TAG, "child fragments: ${childFragmentManager.fragments.size}")
+        if (DEBUG) Log.d(TAG, "tileFragmentList:\nlength: ${tileFragmentList.size}\n$tileFragmentList")
+        if (DEBUG) Log.d(TAG, "child fragments: ${childFragmentManager.fragments.size}")
     }
 
     override fun onStart() {
-        Log.d(TAG, "onStart")
+        if (DEBUG) Log.d(TAG, "onStart")
         super.onStart()
     }
 
     override fun onResume() {
-        Log.d(TAG, "onResume")
+        if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
     }
 
     override fun onPause() {
-        Log.d(TAG, "onPause")
+        if (DEBUG) Log.d(TAG, "onPause")
         super.onPause()
     }
 
     override fun onStop() {
-        Log.d(TAG, "onStop")
+        if (DEBUG) Log.d(TAG, "onStop")
         super.onStop()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Log.d(TAG, "onSaveInstanceState")
+        if (DEBUG) Log.d(TAG, "onSaveInstanceState")
         super.onSaveInstanceState(outState)
 
         val tileFragmentTags = ArrayList<String>()
         tileFragmentList.forEach {
-            Log.d(TAG, "adding tile id: ${it.tag}")
+            if (DEBUG) Log.d(TAG, "adding tile id: ${it.tag}")
             it.tag?.let { tag -> tileFragmentTags.add(tag) }
         }
         outState.putStringArray("tileFragmentTags", tileFragmentTags.toTypedArray())
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewStateRestored")
+        if (DEBUG) Log.d(TAG, "onViewStateRestored")
         super.onViewStateRestored(savedInstanceState)
     }
 
@@ -138,9 +140,7 @@ class LetterGridFragment : Fragment() {
     }
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
-        Log.d(TAG, "updateTile($row, $index, $letter, $status)")
-        Log.d(TAG, "\tposition in tileFragmentList: ${row * columns + index}/${tileFragmentList.size - 1}")
-        Log.d(TAG, "\tchild count: ${binding.letterGrid.childCount}")
+        if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status)")
         getTileFragment(row, index).apply{
             update(status, letter)
         }

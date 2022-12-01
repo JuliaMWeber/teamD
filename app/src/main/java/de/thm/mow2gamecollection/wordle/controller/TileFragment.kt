@@ -26,14 +26,15 @@ class TileFragment : Fragment() {
         Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
         if (savedInstanceState != null) {
             isShowingBack = savedInstanceState.getBoolean("isShowingBack")
-            frontFragment = childFragmentManager.findFragmentById(savedInstanceState.getInt("frontFragmentId")) as TileFaceFragment
-//            childFragmentManager.findFragmentById(savedInstanceState.getInt("backFragmentId"))?.let {
-//                backFragment =  it as TileFaceFragment
-//            }
+            childFragmentManager.findFragmentById(savedInstanceState.getInt("frontFragmentId"))?.let {
+                frontFragment = it as TileFaceFragment
+            } ?: run { Log.d(TAG, "frontFragmentId not found in savedInstanceState")}
+            childFragmentManager.findFragmentById(savedInstanceState.getInt("backFragmentId"))?.let {
+                backFragment =  it as TileFaceFragment
+            } ?: run { Log.d(TAG,"backFragmentId not found in savedInstanceState") }
         }
         else {
-                frontFragment = TileFaceFragment.newInstance("FRONT", LetterStatus.BLANK, null)
-//                backFragment = TileFaceFragment.newInstance("BACK", LetterStatus.CORRECT, '*')
+            frontFragment = TileFaceFragment.newInstance("FRONT", LetterStatus.BLANK, null)
             childFragmentManager.beginTransaction()
                 .add(R.id.container, frontFragment)
                 .commit()
@@ -66,21 +67,31 @@ class TileFragment : Fragment() {
         super.onSaveInstanceState(outState)
         outState.putBoolean("isShowingBack", isShowingBack)
         outState.putInt("frontFragmentId", frontFragment.id)
-//        outState.putInt("backFragmentId", backFragment.id)
+        if (this::backFragment.isInitialized) {
+            outState.putInt("backFragmentId", backFragment.id)
+        }
 //        outState.putString("letterStatus", letterStatus.toString())
 //        letter?.let { outState.putChar("letterStatus", it) }
     }
 
     fun flip() {
+        val replacement: TileFaceFragment
+
         if (isShowingBack) {
-            childFragmentManager.popBackStack()
+            // Flip to the front.
             isShowingBack = false
-            return
+
+            // create new front
+            frontFragment = TileFaceFragment.newInstance("front", LetterStatus.BLANK, null)
+            replacement = frontFragment
+
+        } else {
+            // Flip to the back.
+            isShowingBack = true
+
+            backFragment = TileFaceFragment.newInstance("front", letterStatus, letter)
+            replacement = backFragment
         }
-
-        // Flip to the back.
-        isShowingBack = true
-
 
         // Create and commit a new fragment transaction that adds the fragment for
         // the back of the card, uses custom animations, and is part of the fragment
@@ -102,27 +113,32 @@ class TileFragment : Fragment() {
             // Replace any fragments currently in the container view with a
             // fragment representing the next page (indicated by the
             // just-incremented currentPage variable).
-            .replace(R.id.container, backFragment)
-
-            // Add this transaction to the back stack, allowing users to press
-            // Back to get to the front of the card.
-            .addToBackStack(null)
+            .replace(R.id.container, replacement)
 
             // Commit the transaction.
             .commit()
     }
 
-    fun update(status: LetterStatus, letter: Char) {
-        Log.d(TAG, "---\nupdate $status $letter\n${this}")
-
-        frontFragment.update(status, letter)
-//        backFragment.update(status, letter)
-        backFragment = TileFaceFragment.newInstance("BACK", status, letter)
+    fun update(letterStatus: LetterStatus, letter: Char) {
+        Log.d(TAG, "---\nupdate $letterStatus $letter\n${this}")
+        getCurrentFragment().update(letterStatus, letter)
+        this.letterStatus = letterStatus
+        this.letter = letter
+//        frontFragment.update(LetterStatus.UNKNOWN, letter)
+//        backFragment = TileFaceFragment.newInstance("BACK", status, letter)
     }
 
+    fun getCurrentFragment() : TileFaceFragment {
+        return if (isShowingBack) backFragment else frontFragment
+    }
 
     fun reset() {
-        frontFragment.update(LetterStatus.BLANK, null)
+        if (this::frontFragment.isInitialized) {
+            frontFragment.update(LetterStatus.BLANK, null)
+        }
+        if (this::backFragment.isInitialized) {
+            backFragment.update(LetterStatus.BLANK, null)
+        }
         if (isShowingBack) flip()
     }
 }
