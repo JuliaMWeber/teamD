@@ -5,7 +5,7 @@ class Zelle(
     val spalte: Int,
     var value: Int?,
     var genValue : Int,
-    var eingabeValue:Any?,
+    var eingabeValue:Int?,
     var istStartzelle: Boolean = false,
     var istLeer: Boolean = false,
     var buttonEingabe: Boolean = false,

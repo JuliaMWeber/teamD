@@ -42,7 +42,7 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, genSudoku[f%9], null) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, sudoku[f/9][f%9], 0, null) }
 
     init {
         board = Board(9, zellen)
@@ -52,7 +52,7 @@ class SudokuGame {
 
 
 
-        alleFelderFuellen()
+        //alleFelderFuellen()
 
 
     }
@@ -71,6 +71,7 @@ class SudokuGame {
         for (i in 0 until 81) {
             zellen[i].istStartzelle = false
             zellen[i].buttonEingabe = false
+            zellen[i].eingabeValue = null
             zellenLiveData.postValue(board.zellen)
         }
     }
@@ -85,10 +86,11 @@ class SudokuGame {
     }
 
     fun sudokuFelderVorgeben(schweregrad: Int) {
-        for (i in 0..schweregrad) {
-            var zufallszahl: Int = (0..80).random()
-            if (!zellen[i].istStartzelle) {
-                zellen[i].istStartzelle = true
+        for (i in 0..schweregrad/2) {
+            var zufallszahl = (0..40).random()
+            if (!zellen[zufallszahl].istStartzelle) {
+                zellen[zufallszahl].istStartzelle = true
+                zellen[80-zufallszahl].istStartzelle = true
                 zellenLiveData.postValue(board.zellen)
             } else if (zellen[i].istStartzelle) {
                 zufallszahl=(0..80).random()

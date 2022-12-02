@@ -90,15 +90,15 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         loesenButton.setOnClickListener { viewModel.sudokuGame.loesen() }
         leicht.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(80)
+            viewModel.sudokuGame.sudokuFelderVorgeben(42)
         }
         mittel.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(80)
+            viewModel.sudokuGame.sudokuFelderVorgeben(32)
         }
         schwer.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(80)
+            viewModel.sudokuGame.sudokuFelderVorgeben(22)
         }
 
 

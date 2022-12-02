@@ -240,7 +240,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             } else if (type || buttonType || richtigType || falschType) {
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
-                val valueString = zelle.genValue.toString()
+                val valueString = zelle.value.toString()
 
                 val zuNutzendeFarbe = textFarbe
                 val textBounds = Rect()
