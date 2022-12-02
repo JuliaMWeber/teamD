@@ -237,7 +237,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     )
 
                 }
-            } else if (type || buttonType || richtigType || falschType) {
+            } else if (type || richtigType || falschType) {
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
                 val valueString = zelle.value.toString()
@@ -254,6 +254,22 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
                 )
 
+            } else if (buttonType){
+                val zeile = zelle.zeile
+                val spalte = zelle.spalte
+                val valueString = zelle.eingabeValue.toString()
+
+                val zuNutzendeFarbe = textFarbe
+                val textBounds = Rect()
+                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
+                val textWidth = textFarbe.measureText(valueString)
+                val textHeight = textBounds.height()
+
+                canvas.drawText(
+                    valueString,
+                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
+                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
+                )
             }
 
         }

@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RadioButton
@@ -78,6 +79,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             button.setOnClickListener {
                 viewModel.sudokuGame.handleInput(index + 1)
                 viewModel.sudokuGame.felderAendern(index + 1)
+                Log.d("Buttons", "$index")
 
             }
         }
@@ -90,18 +92,19 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         loesenButton.setOnClickListener { viewModel.sudokuGame.loesen() }
         leicht.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(42)
+            viewModel.sudokuGame.neuesSudokuEingeben()
+            viewModel.sudokuGame.sudokuFelderVorgeben(52)
         }
         mittel.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(32)
+            viewModel.sudokuGame.neuesSudokuEingeben()
+            viewModel.sudokuGame.sudokuFelderVorgeben(42)
         }
         schwer.setOnClickListener {
             viewModel.sudokuGame.zellenLeeren()
-            viewModel.sudokuGame.sudokuFelderVorgeben(22)
+            viewModel.sudokuGame.neuesSudokuEingeben()
+            viewModel.sudokuGame.sudokuFelderVorgeben(32)
         }
-
-
     }
 
 
