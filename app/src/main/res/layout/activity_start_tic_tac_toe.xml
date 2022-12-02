@@ -11,44 +11,78 @@
       android:id="@+id/easyButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="64dp"
-      android:text="Einfach"
+      android:layout_marginBottom="24dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
+      android:text="Einfach"
       app:layout_constraintBottom_toTopOf="@+id/hardButton"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.526"
       app:layout_constraintStart_toStartOf="parent" />
 
   <Button
       android:id="@+id/hardButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="504dp"
-      android:text="Schwer"
+      android:layout_marginBottom="88dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
 
-  <Button
-      android:id="@+id/threeButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="64dp"
-      android:text="Einfach"
-      android:background="@drawable/pixel_button_small_oval_thm_primary"
-      app:layout_constraintBottom_toTopOf="@+id/hardButton"
+      android:text="Schwer"
+      app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
-  <Button
-      android:id="@+id/fiveButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="64dp"
-      android:text="Einfach"
-      android:background="@drawable/pixel_button_small_oval_thm_primary"
-      app:layout_constraintBottom_toTopOf="@+id/hardButton"
+      app:layout_constraintHorizontal_bias="0.52"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:ignore="MissingConstraints" />
+
+  <EditText
+      android:id="@+id/editTextTextPersonName"
+      android:layout_width="56dp"
+      android:layout_height="51dp"
+      android:ems="10"
+      android:inputType="textPersonName"
+      android:text="3x3"
+      app:layout_constraintBottom_toTopOf="@+id/easyButton"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      tools:ignore="InvalidId" />
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="MissingConstraints" />
 
+  <EditText
+      android:id="@+id/editTextTextPersonName2"
+      android:layout_width="75dp"
+      android:layout_height="47dp"
+      android:layout_marginBottom="48dp"
+      android:ems="10"
+      android:inputType="textPersonName"
+      android:text="5x5"
+      app:layout_constraintBottom_toTopOf="@+id/easyButton5x5"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.538"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:ignore="MissingConstraints" />
+
+  <Button
+      android:id="@+id/easyButton5x5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="20dp"
+      android:background="@drawable/pixel_button_small_oval_thm_primary"
+      android:text="Einfach"
+      app:layout_constraintBottom_toTopOf="@+id/hardButton5x5"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.526"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:ignore="MissingConstraints" />
+
+  <Button
+      android:id="@+id/hardButton5x5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="176dp"
+      android:background="@drawable/pixel_button_small_oval_thm_primary"
+      android:text="Button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.526"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
