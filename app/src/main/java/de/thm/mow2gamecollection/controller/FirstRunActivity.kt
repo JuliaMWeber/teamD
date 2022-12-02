@@ -48,6 +48,10 @@ class FirstRunActivity : KeyboardActivity() {
             }
         }
     }
+    /*Preference aktienlistePref = findPreference(getString(R.string.preference_aktienliste_key));
+    aktienlistePref.setOnPreferenceChangeListener(this);
+    
+     */
 
     override fun onResume() {
         super.onResume()
