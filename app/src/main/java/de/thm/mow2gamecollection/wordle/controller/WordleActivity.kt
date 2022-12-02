@@ -6,27 +6,36 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.activity.viewModels
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.controller.KeyboardActivity
-import de.thm.mow2gamecollection.wordle.model.WordleModel
+import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
+import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
+import de.thm.mow2gamecollection.wordle.viewmodel.WordleViewModel
 
 // debugging
 private const val TAG = "WordleActivity"
 private const val DEBUG = true
+
 private const val TARGET_WORD_KEY = "targetWord"
 private const val USER_GUESSES_KEY = "userGuesses"
 
 class WordleActivity : KeyboardActivity() {
     // val GAME_STATE_KEY = "gameState"
 
-    private lateinit var model: WordleModel
+//    private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
     private lateinit var letterGridFragment: LetterGridFragment
-    private var loadSaveGameFromSharedPreferences = false
+
+    private val maxTries = MAX_TRIES
+    private val wordLength = WORD_LENGTH
+
+    private var loadSaveGameFromSharedPreferences = true
+    val viewModel by viewModels<WordleViewModel>()
 
     // var gameState: String? = null
 
@@ -34,17 +43,26 @@ class WordleActivity : KeyboardActivity() {
         if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
-        // get saved game state
-        savedInstanceState?.let {
-            // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
-            val targetWord = savedInstanceState.getString(TARGET_WORD_KEY)
-            val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
-            if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
-        } ?: run {
-            // nothing saved to savedInstanceState. Check sharedPreferences
-            loadSaveGameFromSharedPreferences = true
+        viewModel.userGuesses.observe(this) {
+            Log.d(TAG, "CHANGE IN USERGUESSES OBSERVED!")
+            val row = it.size - 1
+            val currentInput = it[row]
+            val index = currentInput.length - 1
+            val char = currentInput[index]
+            // get LetterStatus from viewModel.tileStatusList
+//            val status = viewModel.tileStatusArray[(row-1) * index + index]
+            // update Tile
+//            updateTile(row, index, char, status)
         }
 
+        // get saved game state
+        savedInstanceState?.let {
+            loadSaveGameFromSharedPreferences = false
+            // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+            val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
+            val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
+            if (DEBUG) Log.d(TAG, "savedInstanceState: $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
+        }
         setContentView(R.layout.activity_wordle)
 
         // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
@@ -64,29 +82,28 @@ class WordleActivity : KeyboardActivity() {
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
-    override fun onSaveInstanceState(outState: Bundle) {
-        if (DEBUG) Log.d(TAG, "onSaveInstanceState")
-        // outState.putString(GAME_STATE_KEY, gameState)
-        outState.putString(TARGET_WORD_KEY, model.targetWord)
-        outState.putString(USER_GUESSES_KEY, model.getUserGuessesAsString())
-        // call superclass to save any view hierarchy
-        super.onSaveInstanceState(outState)
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        if (DEBUG) Log.d(TAG, "onSaveInstanceState")
+//        // outState.putString(GAME_STATE_KEY, gameState)
+//        outState.putString(TARGET_WORD_KEY, model.targetWord)
+//        outState.putString(USER_GUESSES_KEY, model.getUserGuessesAsString())
+//        // call superclass to save any view hierarchy
+//        super.onSaveInstanceState(outState)
+//    }
 
     override fun onResume() {
         if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
-        model = WordleModel(this)
+//        model = WordleModel(this)
         if (loadSaveGameFromSharedPreferences) {
-            model.init()
+            viewModel.model.init()
         }
-
     }
 
     override fun onPause() {
         if (DEBUG) Log.d(TAG, "onPause")
         super.onPause()
-        model.saveGameState()
+        viewModel.model.saveGameState()
     }
 
     override fun onRestart() {
@@ -111,23 +128,34 @@ class WordleActivity : KeyboardActivity() {
     }
 
     override fun addLetter(char: Char) {
-        model.addLetter(char)
+        if (viewModel.addLetter(char)) {
+            updateTile(viewModel.tries, viewModel.userInput.length-1, char, LetterStatus.UNKNOWN)
+        }
     }
 
     override fun removeLetter() {
-        model.removeLetter()
+        viewModel.removeLetter()
+        removeLetter(viewModel.tries, viewModel.userInput.length)
     }
 
     override fun submit() {
-        model.onGuessSubmitted()
+        if (viewModel.userInput.length != WORD_LENGTH) {
+            displayInformation("word too short!")
+            return
+        }
+        viewModel.model.checkGuess(viewModel.userInput)
+        viewModel.onSubmitGuess()
     }
 
     fun removeLetter(row: Int, index: Int) {
+        if (index < 0) {
+            return
+        }
         letterGridFragment.removeLetter(row, index)
     }
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
-        if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
+        if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status)")
         letterGridFragment.updateTile(row, index, letter, status)
     }
 
@@ -164,7 +192,7 @@ class WordleActivity : KeyboardActivity() {
                 builder.setTitle("You won!")
                     .setMessage("Do you want to play again?")
                     .setPositiveButton("Yes") { _, _ ->
-                        model.restartGame()
+                        viewModel.model.restartGame()
                     }
                     .setNegativeButton("No") { _, _ ->
                         intent = Intent(this, GamesListActivity::class.java)
@@ -176,7 +204,7 @@ class WordleActivity : KeyboardActivity() {
                 builder.setTitle("Bad luck!")
                     .setMessage("Do you want to try again?")
                     .setPositiveButton("Yes") { _, _ ->
-                        model.restartGame()
+                        viewModel.model.restartGame()
                     }
                     .setNegativeButton("No") { _, _ ->
                         startActivity(Intent(this, GamesListActivity::class.java))

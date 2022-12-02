@@ -6,26 +6,58 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.gridlayout.widget.GridLayout
+import androidx.lifecycle.Observer
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
+import de.thm.mow2gamecollection.wordle.viewmodel.WordleViewModel
 
 // DEBUGGING
-private const val DEBUG = false
+private const val DEBUG = true
 private const val TAG = "TileFragment"
+// fragment initialization parameters
+private const val ARG_ROW = "row"
+private const val ARG_COLUMN = "column"
 
 class TileFragment : Fragment() {
+    private val viewModel: WordleViewModel by activityViewModels()
+    private var row: Int? = null
+    private var column: Int? = null
     private lateinit var frontFragment: TileFaceFragment
     private lateinit var backFragment: TileFaceFragment
     private var isShowingBack = false
     private var letter: Char? = null
     private var letterStatus = LetterStatus.BLANK
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            row = it.getInt(ARG_ROW)
+            column = it.getInt(ARG_COLUMN)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // observe tileStatusArray in the WordleViewModel
+        viewModel.tileStatusArray.observe(viewLifecycleOwner) {
+            if (DEBUG) Log.d(TAG,"CHANGE TO TILESTATUSARRAY OBSERVED!\n\ttag:${this.tag}, row: $row, column: $column\n\t${viewModel.userGuesses.value}")
+            if (DEBUG) Log.d(TAG, "${viewModel.tileLetterArray.value}")
+            it[row!!].get(column!!).let { letterStatus ->
+                if (letterStatus != this.letterStatus) {
+                    val newLetter = viewModel.tileLetterArray.value?.get(row!!)?.get(column!!) ?: '?'
+                    update(letterStatus, newLetter)
+//                    flip() // TODO: BUG
+                }
+            }
+        }
+
         if (DEBUG) Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
+
         if (savedInstanceState != null) {
             isShowingBack = savedInstanceState.getBoolean("isShowingBack")
             childFragmentManager.findFragmentById(savedInstanceState.getInt("frontFragmentId"))?.let {
@@ -144,5 +176,24 @@ class TileFragment : Fragment() {
             backFragment.update(LetterStatus.BLANK, null)
         }
         if (isShowingBack) flip()
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param row row in grid
+         * @param column column in grid
+         * @return A new instance of fragment WordleLetterGridFragment.
+         */
+        @JvmStatic
+        fun newInstance(row: Int, column: Int) =
+            TileFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_ROW, row)
+                    putInt(ARG_COLUMN, column)
+                }
+            }
     }
 }

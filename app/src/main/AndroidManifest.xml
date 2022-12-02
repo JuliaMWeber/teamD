@@ -75,10 +75,10 @@
             android:name=".controller.GamesListActivity"
             android:exported="true"
             android:theme="@style/Theme.GameCollection" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".sudoku.controller.PlaySudokuActivity"
@@ -86,10 +86,15 @@
             android:theme="@style/Theme.GameCollection.NoActionBar" />
         <activity
             android:name=".wordle.controller.WordleActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="fullSensor"
             android:label="@string/title_activity_wordle"
-            android:theme="@style/Theme.GameCollection" />
+            android:theme="@style/Theme.GameCollection" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".tictactoe.controller.StartTicTacToeNetworkMultiplayerActivity"
             android:exported="false"

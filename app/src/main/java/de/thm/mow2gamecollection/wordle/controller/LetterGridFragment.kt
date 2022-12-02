@@ -45,6 +45,7 @@ class LetterGridFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         if (DEBUG) Log.d(TAG, "onCreateView")
+
         // Inflate the layout for this fragment
         binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
 
@@ -65,12 +66,14 @@ class LetterGridFragment : Fragment() {
 
         if (savedInstanceState == null) {
             // create all the tiles for the grid and add them to the tileFragmentList.
-            for (i in 0 until rows*columns) {
-                TileFragment().let {
-                    childFragmentManager.beginTransaction()
-                        .add(R.id.letterGrid, it, "tile$i")
-                        .commit()
-                    tileFragmentList.add(it)
+            for (row in 0 until rows) {
+                for (column in 0 until columns) {
+                    TileFragment.newInstance(row, column).let {
+                        childFragmentManager.beginTransaction()
+                            .add(R.id.letterGrid, it, "tile[$row][$column]")
+                            .commit()
+                        tileFragmentList.add(it)
+                    }
                 }
             }
         } else {
