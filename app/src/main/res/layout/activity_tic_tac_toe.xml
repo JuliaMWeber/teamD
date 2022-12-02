@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tictactoe.controller.TicTacToeActivity">
+    tools:context=".tictactoe.controller.TicTacToeActivity"
+    tools:layout_editor_absoluteX="-9dp"
+    tools:layout_editor_absoluteY="481dp">
 
     <TextView
         android:id="@+id/playerOneScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="500dp"
         android:text="Player x:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +23,8 @@
         android:id="@+id/playerTwoScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:text="Player o:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
