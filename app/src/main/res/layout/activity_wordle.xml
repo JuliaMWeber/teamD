@@ -4,64 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.MainActivity"
-    android:background="@drawable/hintergrund">
+    tools:context=".controller.FirstRunActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/timerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Wordle!"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="time"
+        android:textColor="@color/thm_orange"
+        app:layout_constraintBottom_toTopOf="@+id/timerTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintVertical_bias="0.0" />
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="4:29"
+        android:textColor="@color/text_light_primary"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/letterGrid"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"/>
-
-    <!-- <LinearLayout
-        android:id="@+id/inputLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/guessEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="enter your guess"
-            android:imeOptions="actionSend"
-            android:minHeight="48dp"
-            android:singleLine="true"
-            android:textColorHint="#616161"
-            tools:ignore="TextContrastCheck" />
-
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Enter" />
-
-    </LinearLayout> -->
+        app:layout_constraintTop_toBottomOf="@id/timerLabel"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/keyboardContainer"
+        android:id="@+id/letterGrid"
+        android:name="de.thm.mow2gamecollection.wordle.controller.LetterGridFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/keyboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerTextView"
+        tools:layout="@layout/fragment_wordle_letter_grid" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/keyboard"
         android:name="de.thm.mow2gamecollection.wordle.controller.WordleKeyboardFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout="@layout/fragment_wordle_keyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,11 +13,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="playButton">Start</string>
-    <string name="restartButton">Restart</string>
+    <string name="restartButton">Neustart</string>
 
 
     <string name="title_activity_nsd_prototype">NsdPrototype</string>
-    <string name="Schwierigkeit">Schwierigkeit</string>
-    <string name="Notiz">Notizen</string>
-    <string name="Entfernen">Entfernen</string>
+    <string name="playButtonLabel">Play</string>
+    <string name="enter_your_name">Enter your name:</string>
 </resources>

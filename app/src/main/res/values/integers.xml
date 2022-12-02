@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="max_user_name_length">8</integer>
+
+    <!-- Wordle animation config -->
+    <integer name="tile_flip_camera_distance">10000</integer>
+    <integer name="tile_flip_time_full">300</integer>
+    <integer name="tile_flip_time_half">150</integer>
+</resources>

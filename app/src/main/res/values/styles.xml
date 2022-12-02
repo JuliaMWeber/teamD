@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="whiteText"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="smallTextWhite"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
+    <style name="mediumTextWhite"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
+    <style name="largeTextWhite"
+        parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
+    <style name="mediumOvalButtonThmPrimary"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_thm_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonThmSecondary"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_thm_secondary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonWhite"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonLightGrey"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_light_grey</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonThmOrange"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_thm_orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonThmRed"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_thm_red</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonThmLightBlue"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_thm_light_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="mediumOvalButtonThmDarkBlue"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_oval_thm_dark_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="smallSquareButtonThmPrimary"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_thm_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonThmSecondary"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_thm_secondary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonThmOrange"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_thm_orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonThmRed"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_thm_red</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonThmLightBlue"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_thm_light_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonThmDarkBlue"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_thm_dark_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonLightGrey"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_light_grey</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonGrey"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_grey</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="smallSquareButtonDarkGrey"
+        parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/pixel_button_small_square_dark_grey</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
+    <!-- KEYBOARD -->
+    <style name="keyboardLabelLight">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="keyboardLabelDark">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="keyboardLabelGrey">
+        <item name="android:textColor">@color/medium_grey</item>
+    </style>
+    <style name="keyboardButton"
+        parent="smallSquareButtonLightGrey">
+    </style>
+    <style name="keyboardButtonDarkGrey"
+        parent="smallSquareButtonDarkGrey">
+    </style>
+    <style name="keyboardButtonGreen"
+        parent="smallSquareButtonThmPrimary">
+    </style>
+
+</resources>

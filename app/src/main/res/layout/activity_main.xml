@@ -4,20 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.MainActivity"
-    android:background="@drawable/startseite">
+    tools:context=".controller.FirstRunActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/mediumTextWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_your_name"
+        app:layout_constraintBottom_toTopOf="@+id/nameInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nameInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/startButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_wordle_letter_grid" />
 
     <Button
         android:id="@+id/startButton"
+        style="@style/mediumOvalButtonThmPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:paddingTop="5dp"
+        android:text="@string/playButtonLabel"
+        app:layout_constraintBottom_toTopOf="@id/keyboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        android:text="Start"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/keyboard"
+        android:name="de.thm.mow2gamecollection.wordle.controller.WordleKeyboardFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/pixel12x10"
-        android:background="@drawable/button_grundlage_xxs"/>
+        tools:layout="@layout/fragment_wordle_keyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
