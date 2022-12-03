@@ -104,21 +104,21 @@ class GameManagerTTT (val controller: TicTacToeActivity){
     }
 
     private fun hasGameEnded5x5(): WinningLine5x5? {
-        if (state5x5[0][0] == currentPlayer && state5x5[0][1] == currentPlayer && state5x5[0][2] == currentPlayer) {
+        if (state5x5[0][0] == currentPlayer && state5x5[0][1] == currentPlayer && state5x5[0][2] == currentPlayer && state5x5[0][3] == currentPlayer && state5x5[0][4] == currentPlayer) {
             return WinningLine5x5.ROW_0
-        } else if (state5x5[1][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[1][2] == currentPlayer) {
+        } else if (state5x5[1][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[1][2] == currentPlayer && state5x5[1][3] == currentPlayer &&state5x5[1][4] == currentPlayer) {
             return WinningLine5x5.ROW_1
         } else if (state5x5[2][0] == currentPlayer && state5x5[2][1] == currentPlayer && state5x5[2][2] == currentPlayer) {
             return WinningLine5x5.ROW_2
-        } else if (state5x5[0][0] == currentPlayer && state5x5[1][0] == currentPlayer && state5x5[2][0] == currentPlayer) {
+        } else if (state5x5[0][0] == currentPlayer && state5x5[1][0] == currentPlayer && state5x5[2][0] == currentPlayer && state5x5[3][0] == currentPlayer &&state5x5[4][0] == currentPlayer) {
             return WinningLine5x5.COLUMN_0
-        } else if (state5x5[0][1] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][1] == currentPlayer) {
+        } else if (state5x5[0][1] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][1] == currentPlayer&& state5x5[3][1] == currentPlayer && state5x5[4][1] == currentPlayer) {
             return WinningLine5x5.COLUMN_1
-        } else if (state5x5[0][2] == currentPlayer && state5x5[1][2] == currentPlayer && state5x5[2][2] == currentPlayer) {
+        } else if (state5x5[0][2] == currentPlayer && state5x5[1][2] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][2] == currentPlayer && state5x5[4][2] == currentPlayer) {
             return WinningLine5x5.COLUMN_2
-        } else if (state5x5[0][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][2] == currentPlayer) {
+        } else if (state5x5[0][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
             return WinningLine5x5.DIAGONAL_LEFT
-        } else if (state5x5[0][2] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][0] == currentPlayer) {
+        } else if (state5x5[4][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[1][3] == currentPlayer && state5x5[4][0] == currentPlayer) {
             return WinningLine5x5.DIAGONAL_RIGHT
         }
         return null

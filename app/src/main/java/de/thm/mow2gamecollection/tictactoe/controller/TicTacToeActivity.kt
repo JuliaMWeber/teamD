@@ -318,34 +318,11 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                     R.drawable.right_diagonal_line
                 )
             }
-
             winningFields.forEach { field ->
                 field.background = ContextCompat.getDrawable(this, background)
             }
     }
-    /*
-    private fun checkWinner3x3(winningLine: WinningLine) {
-        val (winningFields, background) = when (winningLine) {
-            WinningLine.ROW_0 -> Pair(listOf(binding3x3.f0, binding3x3.f1, binding3x3.f2, ), R.drawable.horizontal_line)
-            WinningLine.ROW_1 -> Pair(listOf(binding3x3.f3, binding3x3.f4, binding3x3.f5), R.drawable.horizontal_line)
-            WinningLine.ROW_2 -> Pair(listOf(binding3x3.f6, binding3x3.f7, binding3x3.f8), R.drawable.horizontal_line)
-            WinningLine.COLUMN_0 -> Pair(listOf(binding3x3.f0, binding3x3.f3, binding3x3.f6), R.drawable.vertical_line)
-            WinningLine.COLUMN_1 -> Pair(listOf(binding3x3.f1, binding3x3.f4, binding3x3.f7), R.drawable.vertical_line)
-            WinningLine.COLUMN_2 -> Pair(listOf(binding3x3.f2, binding3x3.f5, binding3x3.f8), R.drawable.vertical_line)
-            WinningLine.DIAGONAL_LEFT -> Pair(listOf(binding3x3.f0, binding3x3.f4, binding3x3.f8),
-                R.drawable.left_diagonal_line
-            )
-            WinningLine.DIAGONAL_RIGHT -> Pair(listOf(binding3x3.f2, binding3x3.f4, binding3x3.f6),
-                R.drawable.right_diagonal_line
-            )
-        }
-        winningFields.forEach { field ->
-            field.background = ContextCompat.getDrawable(this, background)
-        }
-    }
 
-
-     */
     override fun handleNetworkMessage(msg: String) {
         if (DEBUG) Log.d(TAG, "received message: $msg")
         val msgList = msg.split(";")
@@ -354,25 +331,6 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         onFieldClick(getField(row, col), Position(row, col))
     }
 }
-
-
-
-
-
-/*
-private fun onFieldClick(field: TextView) {
-    if (field.text == "") {
-        field.text = currentPlayer
-
-        if (checkWin()) {
-            statusText.text = "Spieler $currentPlayer hat gewonnen"
-        } else {
-            currentPlayer = if (currentPlayer == "x") "o" else "x"
-            statusText.text = "Spieler $currentPlayer ist dran"
-        }
-    }
-}
-*/
 
 
 
