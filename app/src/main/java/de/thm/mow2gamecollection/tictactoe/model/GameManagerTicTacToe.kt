@@ -1,11 +1,9 @@
 package de.thm.mow2gamecollection.tictactoe.model
 
-import android.os.CountDownTimer
-import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 
-class GameManagerTTT (val controller: TicTacToeActivity){
-    //x is starting
+class GameManagerTicTacToe (val controller: TicTacToeActivity){
+
     private var currentPlayer = 1
     var player1Points = 0
     var player2Points  = 0
@@ -21,21 +19,38 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         intArrayOf(0,0,0)
     )
 
+    /**
+     * Sets chosen position for player and checks if win or draw happened
+     * @param position[row,column] Position in grid
+     * @return null if no win otherwise a WinningLine or WinningLine.NOWINNER for a draw
+     */
     fun makeMove (position: Position) : WinningLine? {
-        //fun makeMove (position: Position) : Boolean {
         state[position.row][position.column] = currentPlayer
         val winningLine = hasGameEnded()
         if (winningLine == null) {
-            currentPlayer = 3 - currentPlayer
+            changeActivePlayer()
         }else{
-            when(currentPlayer){
-                1 -> player1Points++
-                2 -> player2Points++
-            }
+            if (currentPlayer == 1) player1Points++ else player2Points++
+            controller.updatePoints()
         }
         return winningLine
     }
-    fun reset() {
+
+    /**
+     * Changes the active Player and restarts timer on hardmode
+     */
+    fun changeActivePlayer() {
+        currentPlayer = if (currentPlayer==1) 2 else 1
+        controller.showActivePlayer()
+        if (controller.getGameMode() === GameMode.HARD){
+            controller.restartTimer()
+        }
+    }
+
+    /**
+     * Resets the grid
+     */
+    fun resetGrid() {
         state = arrayOf(
             intArrayOf(0,0,0),
             intArrayOf(0,0,0),
@@ -43,7 +58,18 @@ class GameManagerTTT (val controller: TicTacToeActivity){
         )
         currentPlayer = 1
     }
+
+    /**
+     * Checks if game ended
+     * @return a winningline if win or draw happens
+     */
     private fun hasGameEnded(): WinningLine? {
+        if (
+            state[0][0] != 0 && state[1][0] != 0  && state[2][0] != 0  &&
+            state[0][1] != 0 && state[1][1] != 0  && state[2][1] != 0  &&
+            state[0][2] != 0 && state[1][2] != 0  && state[2][2] != 0
+        ) return WinningLine.NOWINNER
+
         if (state[0][0] == currentPlayer && state[0][1] == currentPlayer && state[0][2] == currentPlayer) {
             return WinningLine.ROW_0
         } else if (state[1][0] == currentPlayer && state[1][1] == currentPlayer && state[1][2] == currentPlayer) {
