@@ -9,4 +9,6 @@ enum class WinningLine {
     COLUMN_2,
     DIAGONAL_LEFT,
     DIAGONAL_RIGHT,
+    NOWINNER
+
 }

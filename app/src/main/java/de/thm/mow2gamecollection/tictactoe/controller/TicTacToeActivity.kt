@@ -1,5 +1,6 @@
 package de.thm.mow2gamecollection.tictactoe.controller
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -11,10 +12,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
 import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
 import de.thm.mow2gamecollection.service.EmulatorNetworkingService
-import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
-import de.thm.mow2gamecollection.tictactoe.model.GameMode
-import de.thm.mow2gamecollection.tictactoe.model.Position
-import de.thm.mow2gamecollection.tictactoe.model.WinningLine
+import de.thm.mow2gamecollection.tictactoe.model.*
 
 // DEBUGGING
 private const val TAG = "TicTacToeActivity"
@@ -25,11 +23,10 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
     override var emulatorNetworkingService: EmulatorNetworkingService? = null
     private lateinit var binding: ActivityTicTacToeBinding
-    private lateinit var gameManagerTTT: GameManagerTTT
+    private lateinit var gameManagerTTT: GameManagerTicTacToe
+    private lateinit var gameMode: GameMode
+    private lateinit var roundTimer: CountDownTimer
 
-    private lateinit var gameMode: GameMode;
-
-    //private var currentPlayer = "x"
     private var playerNumber: Int? = null
     private val allFields by lazy {
         arrayOf(
@@ -39,100 +36,62 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         )
     }
 
-    // lateinit var gameManager: GameManager
-    // private lateinit var timer: CountDownTimer
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameModeString: String? = intent.getStringExtra("gameMode")
         this.gameMode = gameModeString?.let { GameMode.valueOf(it) }!!
 
-        gameManagerTTT = GameManagerTTT(this)
+        gameManagerTTT = GameManagerTicTacToe(this)
         binding = ActivityTicTacToeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val networkMultiplayerMode = intent.getBooleanExtra("networkMultiplayerMode", false)
         if (DEBUG) Log.d(TAG, "networkMultiplayerMode: $networkMultiplayerMode")
-        if(networkMultiplayerMode) {
+        if (networkMultiplayerMode) {
             playerNumber = intent.getIntExtra("playerNumber", 0)
             if (DEBUG) Log.d(TAG, "playerNumber: $playerNumber")
             initEmulatorNetworkingService(this, intent.getBooleanExtra("isServer", false))
         }
+        initializeFields()
+        initTimer()
+    }
 
-        /*
-        for(field in allFields){
-            field.setOnClickListener{
-                onFieldClick (it as TextView)
-            }
-            */
-
+    fun initializeFields() {
         for (i in allFields.indices) {
             val row = allFields[i]
-                for (j in row.indices) {
-                    val field = row[j]
-                    field.setOnClickListener {
+            for (j in row.indices) {
+                val field = row[j]
+                field.setOnClickListener {
                     onFieldClick(
-                        it as TextView,
                         Position(i, j)
                     )
                 }
             }
         }
-
-
         binding.startNewGameButton.setOnClickListener {
             it.visibility = View.GONE
-            gameManagerTTT.reset()
+            gameManagerTTT.resetGrid()
             resetFields()
-           // if(btn2.setOnClickListener(this))
-             //   //ctimer()
+            if (this.gameMode === GameMode.HARD) {
+                roundTimer.cancel()
+                roundTimer.onFinish()
+                roundTimer.start()
+            }
         }
-        updatePoints()
-
     }
-    private fun ctimer() {
-        object : CountDownTimer(5000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
 
+    private fun initTimer() {
+        roundTimer = object : CountDownTimer(5000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
                 binding.countdown.text = "übrige Zeit: ${millisUntilFinished / 1000}"
             }
 
             override fun onFinish() {
-
                 binding.countdown.text = "Zeit abgelaufen"
-                resetFields()
+                gameManagerTTT.changeActivePlayer()
             }
-        }.start()
-    }
-
-/*
-    countdown = findViewById(R.id.countdown)
-    countdown.text = "timer"
-    //val textView = findViewById(R.id.countdown)
-    timer =
-    object : CountDownTimer(5_000, 100) {
-        override fun onTick(remaining: Long) {
-            if (DEBUG) Log.d("TicTacToeActivity", "onTick")
-            countdown.text = remaining.toString()
-
-
         }
-
-        override fun onFinish() {
-            countdown.text = "Zeit ist abgelaufen"
-        }
-
-
-    override fun onStart() {
-        super.onStart()
-        timer.start()
     }
-
-    override fun onStop() {
-        super.onStop()
-        timer.cancel()
-    }
-    */
 
     override fun onStop() {
         super.onStop()
@@ -143,12 +102,14 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         return allFields[row][col]
     }
 
-    private fun updatePoints() {
+    fun updatePoints() {
         binding.playerOneScore.text = "Punkte x: ${gameManagerTTT.player1Points}"
         binding.playerTwoScore.text = "Punkte o: ${gameManagerTTT.player2Points}"
     }
 
-    private fun onFieldClick(field: TextView, position: Position){
+    private fun onFieldClick(position: Position){
+        Log.d(TAG, "onFieldClick ${position}")
+        val field = getField(position.row,position.column)
         if (field.text.isEmpty()) {
             field.text = gameManagerTTT.currentPlayerMark
 
@@ -156,24 +117,49 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             sendNetworkMessage("${position.row};${position.column}")
 
             val winningLine = gameManagerTTT.makeMove(position)
-            if (winningLine != null) {
-                updatePoints()
+            if (winningLine != null && winningLine != WinningLine.NOWINNER) {
                 binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
                 disableFields()
                 binding.startNewGameButton.visibility = View.VISIBLE
                 showWinner(winningLine)
-                //binding.statusText.visibility = View.GONE
-            }else{
-                if (this.gameMode === GameMode.HARD){
-                    ctimer()
+            } else if (winningLine == WinningLine.NOWINNER) {
+                binding.statusText.text = "Game over"
+                disableFields()
+                if (this.gameMode === GameMode.HARD) {
+                    roundTimer.cancel()
                 }
-                binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
                 binding.startNewGameButton.visibility = View.VISIBLE
+            } else {
+                if (this.gameMode === GameMode.HARD){
+                    roundTimer.start()
+                }
+                showActivePlayer()
             }
-
-
         }
     }
+
+    fun showActivePlayer() {
+
+        if (gameManagerTTT.currentPlayerMark == "x") {
+            binding.XTurn.visibility = View.VISIBLE
+            binding.OTurn.visibility = View.INVISIBLE
+        } else {
+            binding.XTurn.visibility = View.INVISIBLE
+            binding.OTurn.visibility = View.VISIBLE
+        }
+        binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
+        binding.startNewGameButton.visibility = View.VISIBLE
+    }
+
+    fun getGameMode() :GameMode {
+        return this.gameMode
+    }
+
+    fun restartTimer() {
+        roundTimer.cancel()
+        roundTimer.start()
+    }
+
     private fun resetFields () {
         allFields.forEach { row ->
             row.forEach {
@@ -192,6 +178,9 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun showWinner(winningLine: WinningLine) {
+        if (this.gameMode === GameMode.HARD) {
+            roundTimer.cancel()
+        }
         val (winningFields, background) = when (winningLine) {
             WinningLine.ROW_0 -> Pair(listOf(binding.f0, binding.f1, binding.f2), R.drawable.horizontal_line)
             WinningLine.ROW_1 -> Pair(listOf(binding.f3, binding.f4, binding.f5), R.drawable.horizontal_line)
@@ -205,6 +194,9 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             WinningLine.DIAGONAL_RIGHT -> Pair(listOf(binding.f2, binding.f4, binding.f6),
                 R.drawable.right_diagonal_line
             )
+            WinningLine.NOWINNER -> Pair(listOf(binding.f0,binding.f1, binding.f2, binding.f3, binding.f4, binding.f5, binding.f6, binding.f7, binding.f8),
+                R.drawable.horizontal_line
+            )
         }
         winningFields.forEach { field ->
             field.background = ContextCompat.getDrawable(this, background)
@@ -216,28 +208,11 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         val msgList = msg.split(";")
         val row = msgList[0].toInt()
         val col = msgList[1].toInt()
-        onFieldClick(getField(row, col), Position(row, col))
+        //onFieldClick(getField(row, col), Position(row, col))
+        onFieldClick(Position(row, col))
     }
 }
 
-
-
-
-
-/*
-private fun onFieldClick(field: TextView) {
-    if (field.text == "") {
-        field.text = currentPlayer
-
-        if (checkWin()) {
-            statusText.text = "Spieler $currentPlayer hat gewonnen"
-        } else {
-            currentPlayer = if (currentPlayer == "x") "o" else "x"
-            statusText.text = "Spieler $currentPlayer ist dran"
-        }
-    }
-}
-*/
 
 
 
