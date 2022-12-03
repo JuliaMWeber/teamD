@@ -48,7 +48,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             zellenUpdate(it)
         }
         viewModel.sudokuGame.notizenMachenLiveData.observe(this) {
-            updateNotizenGemachtUI(it)
+            //updateNotizenGemachtUI(it)
         }
         viewModel.sudokuGame.buttonEingabenLiveData.observe(this) {
 
@@ -115,19 +115,20 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         sudokuBoardView.updategewaelteZelleUI(cell.first, cell.second)
     }
 
-    private fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
+    @SuppressLint("ResourceAsColor")
+    /*private fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
         if (it) {
-            notizButton.setBackgroundColor(
-                ContextCompat.getColor(
+            notizButton.setImageDrawable(
+                ContextCompat.getDrawable(
                     this,
-                    androidx.appcompat.R.color.abc_color_highlight_material
+                    R.color.primary_variant
                 )
             )
         } else {
-            notizButton.setBackgroundColor(Color.LTGRAY)
+            notizButton.setBackgroundColor(R.color.secondary_variant)
 
         }
-    }
+    }*/
 
     private fun updateHervorgehobeneSchluessel(set: Set<Int?>) = set?.let {
         zahlenButtons.forEachIndexed { index, button ->
