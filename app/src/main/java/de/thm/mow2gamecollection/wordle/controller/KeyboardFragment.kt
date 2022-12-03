@@ -11,9 +11,12 @@ import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.KeyboardActivity
+import de.thm.mow2gamecollection.wordle.model.KeyboardLayout
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
+import de.thm.mow2gamecollection.wordle.viewmodel.WordleActivityViewModel
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,26 +38,12 @@ private const val KEYBOARD_STATE_VALUES_KEY = "keyboardStateValues"
  */
 class WordleKeyboardFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var keyboardLayout: KeyboardLayout? = KeyboardLayout.QWERTZ
+    private var keyboardLayout: KeyboardLayout = KeyboardLayout.QWERTZ
     private var swapFunctionButtons: Boolean? = false
-    private var keyStateMap = mutableMapOf<Char, LetterStatus>()
 
-    private val keyboardLayouts: HashMap<KeyboardLayout, Array<CharArray>> = hashMapOf(
-        KeyboardLayout.QWERTZ to arrayOf(
-            charArrayOf('q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p'),
-            charArrayOf('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'),
-            charArrayOf('←', 'y', 'x', 'c', 'v', 'b', 'n', 'm', '✓')
-        ),
-        KeyboardLayout.QWERTY to arrayOf(
-            charArrayOf('q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'),
-            charArrayOf('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'),
-            charArrayOf('←', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '✓')
-        )
-    )
+    private val viewModel: WordleActivityViewModel by activityViewModels()
 
-    private val selectedKeyboardLayout = KeyboardLayout.QWERTZ
-
-    private val keyIDs = HashMap<Char, Int>()
+    private val keyViewIDs = HashMap<Char, Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,60 +58,41 @@ class WordleKeyboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        observeViewModel()
         return inflater.inflate(R.layout.fragment_wordle_keyboard, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        savedInstanceState?.let {
-            val keys = it.getCharArray(KEYBOARD_STATE_KEYS_KEY)
-            val values = it.getStringArray(KEYBOARD_STATE_VALUES_KEY)
-            for (i in 0 until keys!!.size) {
-                keyStateMap.put(keys[i], LetterStatus.valueOf(values!![i]))
-            }
-            if (DEBUG) Log.d(TAG, keyStateMap.toString())
-        }
+//        savedInstanceState?.let {
+//            val keys = it.getCharArray(KEYBOARD_STATE_KEYS_KEY)
+//            val values = it.getStringArray(KEYBOARD_STATE_VALUES_KEY)
+//            for (i in 0 until keys!!.size) {
+//                keyStates.put(keys[i], LetterStatus.valueOf(values!![i]))
+//            }
+//            if (DEBUG) Log.d(TAG, keyStates.toString())
+//        }
 
-        keyboardLayouts[selectedKeyboardLayout]?.let {
-            for (row in it.indices) {
-                val rowLayout = (getView() as LinearLayout).getChildAt(row) as LinearLayout
-                for (keyLabel in it[row]) {
-
-                    val button = Button(
-                        ContextThemeWrapper(context, R.style.keyboardButton),
-                        null,
-                        0
-                    ).apply {
-                        text = keyLabel.toString()
-                        layoutParams = LayoutParams(
-                            LayoutParams.WRAP_CONTENT,
-                            LayoutParams.MATCH_PARENT,
-                            1F
-                        )
-                    }
-                    button.id = View.generateViewId()
-                    keyIDs[keyLabel] = button.id
-                    button.setOnClickListener { handleButtonClick(button) }
-                    rowLayout.addView(button)
-                    keyStateMap.get(keyLabel)?.let {
-                        updateButton(keyLabel, it)
-                    }
-                }
-            }
-        }
+        initializeKeys()
     }
 
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//
+//        val keyStateMapValues = mutableListOf<String>()
+//        for (value in keyStates.values) {
+//            keyStateMapValues.add(value.toString())
+//        }
+//        outState.putCharArray(KEYBOARD_STATE_KEYS_KEY, keyStates.keys.toCharArray())
+//        outState.putStringArray(KEYBOARD_STATE_VALUES_KEY, keyStateMapValues.toTypedArray())
+//    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        val keyStateMapValues = mutableListOf<String>()
-        for (value in keyStateMap.values) {
-            keyStateMapValues.add(value.toString())
+    private fun observeViewModel() {
+        // observe tileStatusArray in the WordleViewModel
+        viewModel.keyStateMap.observe(viewLifecycleOwner) {
+            Log.d(TAG, "CHANGE IN VIEWMODEL.KEYSTATEMAP OBSERVED!")
         }
-        outState.putCharArray(KEYBOARD_STATE_KEYS_KEY, keyStateMap.keys.toCharArray())
-        outState.putStringArray(KEYBOARD_STATE_VALUES_KEY, keyStateMapValues.toTypedArray())
     }
 
     private fun handleButtonClick(button: Button) {
@@ -143,9 +113,9 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     fun updateButton(char: Char, letterStatus: LetterStatus) {
-        keyIDs[char]?.let {
-            // update keyStateMap
-            keyStateMap.put(char, letterStatus)
+        keyViewIDs[char]?.let {
+//            // update keyStateMap
+//            keyStates.put(char, letterStatus)
             val keyView = requireView().findViewById<Button>(it)
             context?.let {
                 keyView.setTextColor(ContextCompat.getColor(it, R.color.white))
@@ -173,10 +143,40 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     fun resetKeyboard() {
-        keyboardLayouts[selectedKeyboardLayout]?.let {
+        keyboardLayout.getKeys().let {
             for (keyboardRow in it) {
                 for (keyLabel in keyboardRow) {
                     updateButton(keyLabel, LetterStatus.UNKNOWN)
+                }
+            }
+        }
+    }
+
+    fun initializeKeys() {
+        keyboardLayout.getKeys().let {
+            for (row in it.indices) {
+                val rowLayout = (getView() as LinearLayout).getChildAt(row) as LinearLayout
+                for (keyLabel in it[row]) {
+
+                    val button = Button(
+                        ContextThemeWrapper(context, R.style.keyboardButton),
+                        null,
+                        0
+                    ).apply {
+                        text = keyLabel.toString()
+                        layoutParams = LayoutParams(
+                            LayoutParams.WRAP_CONTENT,
+                            LayoutParams.MATCH_PARENT,
+                            1F
+                        )
+                    }
+                    button.id = View.generateViewId()
+                    keyViewIDs[keyLabel] = button.id
+                    button.setOnClickListener { handleButtonClick(button) }
+                    rowLayout.addView(button)
+//                    keyStates.get(keyLabel)?.let {
+//                        updateButton(keyLabel, it)
+//                    }
                 }
             }
         }
@@ -200,10 +200,5 @@ class WordleKeyboardFragment : Fragment() {
                     putBoolean(ARG_PARAM2, swapFunctionButtons)
                 }
             }
-    }
-
-    enum class KeyboardLayout {
-        QWERTZ,
-        QWERTY
     }
 }

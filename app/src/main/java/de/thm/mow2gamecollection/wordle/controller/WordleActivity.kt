@@ -11,11 +11,12 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.controller.KeyboardActivity
 import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
+import de.thm.mow2gamecollection.wordle.helper.SaveGameHelper
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
-import de.thm.mow2gamecollection.wordle.viewmodel.WordleViewModel
+import de.thm.mow2gamecollection.wordle.viewmodel.WordleActivityViewModel
 
 // debugging
 private const val TAG = "WordleActivity"
@@ -35,7 +36,7 @@ class WordleActivity : KeyboardActivity() {
     private val wordLength = WORD_LENGTH
 
     private var loadSaveGameFromSharedPreferences = true
-    val viewModel by viewModels<WordleViewModel>()
+    val viewModel by viewModels<WordleActivityViewModel>()
 
     // var gameState: String? = null
 
@@ -43,17 +44,7 @@ class WordleActivity : KeyboardActivity() {
         if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
-        viewModel.userGuesses.observe(this) {
-            Log.d(TAG, "CHANGE IN USERGUESSES OBSERVED!")
-            val row = it.size - 1
-            val currentInput = it[row]
-            val index = currentInput.length - 1
-            val char = currentInput[index]
-            // get LetterStatus from viewModel.tileStatusList
-//            val status = viewModel.tileStatusArray[(row-1) * index + index]
-            // update Tile
-//            updateTile(row, index, char, status)
-        }
+        observeViewModel()
 
         // get saved game state
         savedInstanceState?.let {
@@ -95,15 +86,11 @@ class WordleActivity : KeyboardActivity() {
         if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
 //        model = WordleModel(this)
-        if (loadSaveGameFromSharedPreferences) {
-            viewModel.model.init()
-        }
     }
 
     override fun onPause() {
         if (DEBUG) Log.d(TAG, "onPause")
         super.onPause()
-        viewModel.model.saveGameState()
     }
 
     override fun onRestart() {
@@ -119,6 +106,21 @@ class WordleActivity : KeyboardActivity() {
     override fun onStop() {
         if (DEBUG) Log.d(TAG, "onStop")
         super.onStop()
+        SaveGameHelper.getInstance(applicationContext).saveGameState()
+    }
+
+    fun observeViewModel() {
+        viewModel.userGuesses.observe(this) {
+            Log.d(TAG, "CHANGE IN USERGUESSES OBSERVED!")
+            val row = it.size - 1
+            val currentInput = it[row]
+            val index = currentInput.length - 1
+            val char = currentInput[index]
+            // get LetterStatus from viewModel.tileStatusList
+//            val status = viewModel.tileStatusArray[(row-1) * index + index]
+            // update Tile
+//            updateTile(row, index, char, status)
+        }
     }
 
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
@@ -173,6 +175,7 @@ class WordleActivity : KeyboardActivity() {
 
     // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
+        if (DEBUG) Log.d(TAG, "onGameEvent")
         when (e) {
             GameEvent.LOST -> showDialog(GameEvent.LOST)
             GameEvent.WON -> showDialog(GameEvent.WON)

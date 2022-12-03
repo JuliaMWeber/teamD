@@ -8,10 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.gridlayout.widget.GridLayout
-import androidx.lifecycle.Observer
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-import de.thm.mow2gamecollection.wordle.viewmodel.WordleViewModel
+import de.thm.mow2gamecollection.wordle.viewmodel.WordleActivityViewModel
 
 // DEBUGGING
 private const val DEBUG = true
@@ -21,7 +20,7 @@ private const val ARG_ROW = "row"
 private const val ARG_COLUMN = "column"
 
 class TileFragment : Fragment() {
-    private val viewModel: WordleViewModel by activityViewModels()
+    private val viewModel: WordleActivityViewModel by activityViewModels()
     private var row: Int? = null
     private var column: Int? = null
     private lateinit var frontFragment: TileFaceFragment
@@ -43,18 +42,7 @@ class TileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        // observe tileStatusArray in the WordleViewModel
-        viewModel.tileStatusArray.observe(viewLifecycleOwner) {
-            if (DEBUG) Log.d(TAG,"CHANGE TO TILESTATUSARRAY OBSERVED!\n\ttag:${this.tag}, row: $row, column: $column\n\t${viewModel.userGuesses.value}")
-            if (DEBUG) Log.d(TAG, "${viewModel.tileLetterArray.value}")
-            it[row!!].get(column!!).let { letterStatus ->
-                if (letterStatus != this.letterStatus) {
-                    val newLetter = viewModel.tileLetterArray.value?.get(row!!)?.get(column!!) ?: '?'
-                    update(letterStatus, newLetter)
-//                    flip() // TODO: BUG
-                }
-            }
-        }
+        observeViewModel()
 
         if (DEBUG) Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
 
@@ -108,6 +96,22 @@ class TileFragment : Fragment() {
         }
 //        outState.putString("letterStatus", letterStatus.toString())
 //        letter?.let { outState.putChar("letterStatus", it) }
+    }
+
+    private fun observeViewModel() {
+        // observe tileStatusArray in the WordleViewModel
+        viewModel.tileStatusArray.observe(viewLifecycleOwner) {
+            if (DEBUG) Log.d(TAG,"CHANGE TO TILESTATUSARRAY OBSERVED!\n\ttag:${this.tag}, row: $row, column: $column\n\t${viewModel.userGuesses.value}")
+            if (DEBUG) Log.d(TAG, "${viewModel.tileLetterArray.value}")
+            it[row!!].get(column!!).let { newLetterStatus ->
+                if (newLetterStatus != letterStatus) {
+                    // status has changed, update view
+                    val newLetter = viewModel.tileLetterArray.value?.get(row!!)?.get(column!!) ?: '?'
+                    update(newLetterStatus, newLetter)
+//                    flip() // TODO: BUG
+                }
+            }
+        }
     }
 
     fun flip() {

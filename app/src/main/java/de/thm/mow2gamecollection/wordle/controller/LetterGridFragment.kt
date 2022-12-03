@@ -46,6 +46,8 @@ class LetterGridFragment : Fragment() {
     ): View {
         if (DEBUG) Log.d(TAG, "onCreateView")
 
+        observeViewModel()
+
         // Inflate the layout for this fragment
         binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
 
@@ -120,6 +122,10 @@ class LetterGridFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         if (DEBUG) Log.d(TAG, "onViewStateRestored")
         super.onViewStateRestored(savedInstanceState)
+    }
+
+    fun observeViewModel() {
+
     }
 
     fun getTileFragment(row: Int, index: Int) : TileFragment {

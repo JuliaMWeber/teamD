@@ -1,17 +1,24 @@
 package de.thm.mow2gamecollection.wordle.viewmodel
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
+import de.thm.mow2gamecollection.wordle.helper.SaveGameHelper
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.WordleModel
+import de.thm.mow2gamecollection.wordle.model.WordleViewModel
+import de.thm.mow2gamecollection.wordle.model.game.WordleGame
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
+// Debugging
+private const val DEBUG = true
 private const val TAG = "WordleViewModel"
-class WordleViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+
+class WordleActivityViewModel(
+    application: Application,
+    private val savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application), WordleViewModel {
 
     var tries: Int = 0
         private set
@@ -28,11 +35,13 @@ class WordleViewModel(private val savedStateHandle: SavedStateHandle) : ViewMode
     private val _tileStatusArray : MutableLiveData<Array<Array<LetterStatus>>> = MutableLiveData()
     val tileStatusArray : LiveData<Array<Array<LetterStatus>>> = _tileStatusArray
 
+    private val _keyStateMap : MutableLiveData<MutableMap<Char, LetterStatus>> = MutableLiveData()
+    val keyStateMap : LiveData<MutableMap<Char, LetterStatus>> = _keyStateMap
+
     var model: WordleModel
 
     private var _currentIndex : MutableLiveData<Int> = MutableLiveData()
     val currentIndex: LiveData<Int> = _currentIndex
-
 
     var userInput = ""
         private set
@@ -40,11 +49,16 @@ class WordleViewModel(private val savedStateHandle: SavedStateHandle) : ViewMode
     init {
         Log.d(TAG, "ViewModel created")
         Log.d(TAG, "savedStateHandle: ${savedStateHandle}")
-        model = WordleModel(this)
+        model = WordleModel(this, SaveGameHelper.getInstance(application))
+
         _currentIndex.value = 0
         _tileLetterArray.value = Array(MAX_TRIES) { Array(WORD_LENGTH) { ' ' } }
         _tileStatusArray.value = Array(MAX_TRIES) { Array(WORD_LENGTH) { LetterStatus.BLANK } }
+        _keyStateMap.value = HashMap<Char, LetterStatus>()
+
+        model.init()
     }
+
 
     fun addLetter(letter: Char) : Boolean {
         Log.d(TAG, "addLetter at index ${_currentIndex.value}, \tuserInput: $userInput")
@@ -83,9 +97,19 @@ class WordleViewModel(private val savedStateHandle: SavedStateHandle) : ViewMode
         userInput = ""
     }
 
-    fun updateTileStatus(row: Int, column: Int, letterStatus: LetterStatus) {
-        val newArray: Array<Array<LetterStatus>> = _tileStatusArray.value!!
-        newArray[row][column] = letterStatus
-        _tileStatusArray.value = newArray
+    override fun initializeGrid(game: WordleGame) {
+        for (guess in game.userGuesses) {
+            // TODO
+        }
+    }
+
+    override fun update(row: Int, column: Int, letter: Char, letterStatus: LetterStatus) {
+        val newTileStatusArray: Array<Array<LetterStatus>> = _tileStatusArray.value!!
+        newTileStatusArray[row][column] = letterStatus
+        _tileStatusArray.value = newTileStatusArray
+
+        val newTileLetterArray: Array<Array<Char>> = _tileLetterArray.value!!
+        newTileLetterArray[row][column] = letter
+        _tileLetterArray.value = newTileLetterArray
     }
 }
