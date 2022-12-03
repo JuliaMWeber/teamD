@@ -34,9 +34,12 @@
         android:id="@+id/countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="156dp"
+        android:layout_marginBottom="553dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -207,12 +210,44 @@
 
     <TextView
         android:id="@+id/statusText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/startNewGameButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/playerTwoScore" />
+
+    <ImageView
+        android:id="@+id/OTurn"
+        android:layout_width="102dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="183dp"
+        android:layout_marginBottom="87dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/f0"
+        app:layout_constraintEnd_toStartOf="@+id/XTurn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/activeo" />
+
+    <ImageView
+        android:id="@+id/XTurn"
+        android:layout_width="114dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="88dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/f2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45"
+        app:srcCompat="@drawable/activex" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

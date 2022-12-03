@@ -1,5 +1,6 @@
 package de.thm.mow2gamecollection.tictactoe.controller
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -138,6 +139,14 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     fun showActivePlayer() {
+
+        if (gameManagerTTT.currentPlayerMark == "x") {
+            binding.XTurn.visibility = View.VISIBLE
+            binding.OTurn.visibility = View.INVISIBLE
+        } else {
+            binding.XTurn.visibility = View.INVISIBLE
+            binding.OTurn.visibility = View.VISIBLE
+        }
         binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
         binding.startNewGameButton.visibility = View.VISIBLE
     }
