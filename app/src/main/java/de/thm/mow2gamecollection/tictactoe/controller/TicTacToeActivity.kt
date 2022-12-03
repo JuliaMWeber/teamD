@@ -12,6 +12,7 @@ import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
 import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
 import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
+import de.thm.mow2gamecollection.tictactoe.model.GameMode
 import de.thm.mow2gamecollection.tictactoe.model.Position
 import de.thm.mow2gamecollection.tictactoe.model.WinningLine
 
@@ -169,6 +170,8 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                 binding.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} ist dran"
                 binding.startNewGameButton.visibility = View.VISIBLE
             }
+
+
         }
     }
     private fun resetFields () {
