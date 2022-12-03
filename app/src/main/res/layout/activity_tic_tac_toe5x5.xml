@@ -270,5 +270,29 @@
 
     </androidx.gridlayout.widget.GridLayout>
 
+    <ImageView
+        android:id="@+id/XTurn"
+        android:layout_width="148dp"
+        android:layout_height="87dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/playerTwoScore"
+        app:layout_constraintVertical_bias="0.117"
+        app:srcCompat="@drawable/activex" />
+
+    <ImageView
+        android:id="@+id/OTurn"
+        android:layout_width="90dp"
+        android:layout_height="94dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.122"
+        app:srcCompat="@drawable/activeo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

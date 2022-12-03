@@ -53,14 +53,17 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gameModeString: String? = intent.getStringExtra("gameMode")
+        val fieldSizeString: String? = intent.getStringExtra("fieldSize")
         this.gameMode = gameModeString?.let { GameMode.valueOf(it) }!!
+        this.fieldSize = fieldSizeString?.let { FieldSize.valueOf(it)}!!
+
 
         gameManagerTTT = GameManagerTicTacToe(this)
         if(fieldSize==FieldSize.THREE){
             binding3x3 = ActivityTicTacToeBinding.inflate(layoutInflater)
             setContentView(binding3x3.root)
         } else {
-            binding5x5 = ActivityTicTacToeBinding5x5.inflate(layoutInflater)
+            binding5x5 = ActivityTicTacToe5x5Binding.inflate(layoutInflater)
             setContentView(binding5x5.root)
         }
 
