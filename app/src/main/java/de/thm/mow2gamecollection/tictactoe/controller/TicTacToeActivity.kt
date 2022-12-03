@@ -16,6 +16,7 @@ import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
 import de.thm.mow2gamecollection.tictactoe.model.Position
 import de.thm.mow2gamecollection.tictactoe.model.WinningLine
+import de.thm.mow2gamecollection.tictactoe.model.WinningLine5x5
 
 // DEBUGGING
 private const val TAG = "TicTacToeActivity"
@@ -79,7 +80,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             createFieldset(allFields5x5)
             binding5x5.startNewGameButton.setOnClickListener {
                 it.visibility = View.GONE
-                gameManagerTTT.reset()
+                gameManagerTTT.reset5x5()
                 resetFields()
             }
             updatePoints()
@@ -194,27 +195,30 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
             // send move to opponent
             sendNetworkMessage("${position.row};${position.column}")
-
-            val winningLine = gameManagerTTT.makeMove(position)
-            if (winningLine != null) {
-                updatePoints()
-                if (fieldSize === FieldSize.THREE) {
-                    binding3x3.statusText.text =
-                        "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
-                } else {
-                    binding5x5.statusText.text =
-                        "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
+            var hasWon = false;
+            if (fieldSize === FieldSize.THREE) {
+                val winningLine = gameManagerTTT.makeMove(position)
+                if (winningLine != null) {
+                    hasWon = true;
+                    updatePoints()
+                        binding3x3.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
+                    disableFields()
+                        binding3x3.startNewGameButton.visibility = View.VISIBLE
+                        showWinner(winningLine)
                 }
-                disableFields()
-                if (fieldSize === FieldSize.THREE) {
-                    binding3x3.startNewGameButton.visibility = View.VISIBLE
-                } else {
+            } else {
+                val winningLine5x5 = gameManagerTTT.makeMove5x5(position)
+                if (winningLine5x5 != null) {
+                    hasWon = true;
+                    updatePoints()
+                    binding5x5.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
+                    disableFields()
                     binding5x5.startNewGameButton.visibility = View.VISIBLE
+                    showWinner5x5(winningLine5x5)
                 }
-                showWinner(winningLine)
-                //binding.statusText.visibility = View.GONE
             }
-            else {
+
+            if (!hasWon) {
                 if (this.gameMode === GameMode.HARD){
                     ctimer()
                 }
@@ -267,35 +271,39 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun showWinner(winningLine: WinningLine) {
-        if (fieldSize === FieldSize.THREE) {
-            checkWinner3x3(winningLine)
-        } else {
-            checkWinner5x5(winningLine)
+        checkWinner3x3(winningLine)
+    }
+
+    private fun showWinner5x5(winningLine: WinningLine5x5) {
+        checkWinner5x5(winningLine)
+    }
+
+    private fun checkWinner5x5(winningLine: WinningLine5x5) {
+        val (winningFields, background) = when (winningLine) {
+            WinningLine5x5.ROW_0 -> Pair(listOf(binding5x5.f0, binding5x5.f1, binding5x5.f2, binding5x5.f01, binding5x5.f02), R.drawable.horizontal_line)
+            WinningLine5x5.ROW_1 -> Pair(listOf(binding5x5.f3, binding5x5.f4, binding5x5.f5, binding5x5.f11, binding5x5.f12), R.drawable.horizontal_line)
+            WinningLine5x5.ROW_2 -> Pair(listOf(binding5x5.f6, binding5x5.f7, binding5x5.f8, binding5x5.f20, binding5x5.f21), R.drawable.horizontal_line)
+            WinningLine5x5.ROW_3 -> Pair(listOf(binding5x5.f30, binding5x5.f31, binding5x5.f32, binding5x5.f33, binding5x5.f34), R.drawable.horizontal_line)
+            WinningLine5x5.ROW_4 -> Pair(listOf(binding5x5.f40, binding5x5.f41, binding5x5.f42, binding5x5.f43, binding5x5.f44), R.drawable.horizontal_line)
+            WinningLine5x5.COLUMN_0 -> Pair(listOf(binding5x5.f0, binding5x5.f3, binding5x5.f6,binding5x5.f30, binding5x5.f40), R.drawable.vertical_line)
+            WinningLine5x5.COLUMN_1 -> Pair(listOf(binding5x5.f1, binding5x5.f4, binding5x5.f7,binding5x5.f31,binding5x5.f41), R.drawable.vertical_line)
+            WinningLine5x5.COLUMN_2 -> Pair(listOf(binding5x5.f2, binding5x5.f5, binding5x5.f8,binding5x5.f32,binding5x5.f42), R.drawable.vertical_line)
+            WinningLine5x5.COLUMN_3 -> Pair(listOf(binding5x5.f01, binding5x5.f11, binding5x5.f20,binding5x5.f33,binding5x5.f43), R.drawable.vertical_line)
+            WinningLine5x5.COLUMN_4 -> Pair(listOf(binding5x5.f02, binding5x5.f12, binding5x5.f21,binding5x5.f34,binding5x5.f44), R.drawable.vertical_line)
+            WinningLine5x5.DIAGONAL_LEFT -> Pair(listOf(binding5x5.f0, binding5x5.f4, binding5x5.f8,binding5x5.f33,binding5x5.f44),
+                R.drawable.left_diagonal_line
+            )
+            WinningLine5x5.DIAGONAL_RIGHT -> Pair(listOf(binding5x5.f02, binding5x5.f11, binding5x5.f8,binding5x5.f31,binding5x5.f40),
+                R.drawable.right_diagonal_line
+            )
+        }
+
+        winningFields.forEach { field ->
+            field.background = ContextCompat.getDrawable(this, background)
         }
     }
 
-    private fun checkWinner(winningLine: WinningLine) {
-        if (fieldSize===FieldSize.FIVE){
-            val (winningFields, background) = when (winningLine) {
-                WinningLine.ROW_0 -> Pair(listOf(binding5x5.f0, binding5x5.f1, binding5x5.f2, binding5x5.f01, binding5x5.f02), R.drawable.horizontal_line)
-                WinningLine.ROW_1 -> Pair(listOf(binding5x5.f3, binding5x5.f4, binding5x5.f5, binding5x5.f11, binding5x5.f12), R.drawable.horizontal_line)
-                WinningLine.ROW_2 -> Pair(listOf(binding5x5.f6, binding5x5.f7, binding5x5.f8, binding5x5.f20, binding5x5.f21), R.drawable.horizontal_line)
-                WinningLine.ROW_3 -> Pair(listOf(binding5x5.f30, binding5x5.f31, binding5x5.f32, binding5x5.f33, binding5x5.f34), R.drawable.horizontal_line)
-                WinningLine.ROW_4 -> Pair(listOf(binding5x5.f40, binding5x5.f41, binding5x5.f42, binding5x5.f43, binding5x5.f44), R.drawable.horizontal_line)
-                WinningLine.COLUMN_0 -> Pair(listOf(binding5x5.f0, binding5x5.f3, binding5x5.f6,binding5x5.f30, binding5x5.f40), R.drawable.vertical_line)
-                WinningLine.COLUMN_1 -> Pair(listOf(binding5x5.f1, binding5x5.f4, binding5x5.f7,binding5x5.f31,binding5x5.f41), R.drawable.vertical_line)
-                WinningLine.COLUMN_2 -> Pair(listOf(binding5x5.f2, binding5x5.f5, binding5x5.f8,binding5x5.f32,binding5x5.f42), R.drawable.vertical_line)
-                WinningLine.COLUMN_3 -> Pair(listOf(binding5x5.f01, binding5x5.f11, binding5x5.f20,binding5x5.f33,binding5x5.f43), R.drawable.vertical_line)
-                WinningLine.COLUMN_4 -> Pair(listOf(binding5x5.f02, binding5x5.f12, binding5x5.f21,binding5x5.f34,binding5x5.f44), R.drawable.vertical_line)
-                WinningLine.DIAGONAL_LEFT -> Pair(listOf(binding5x5.f0, binding5x5.f4, binding5x5.f8,binding5x5.f33,binding5x5.f44),
-                    R.drawable.left_diagonal_line
-                )
-                WinningLine.DIAGONAL_RIGHT -> Pair(listOf(binding5x5.f02, binding5x5.11, binding5x5.f8,binding5x5.f31,binding5x5.f40),
-                    R.drawable.right_diagonal_line
-                )
-            }
-        }
-        if(fieldSize===FieldSize.THREE){
+    private fun checkWinner3x3(winningLine: WinningLine) {
             val (winningFields, background) = when (winningLine) {
                 WinningLine.ROW_0 -> Pair(listOf(binding3x3.f0, binding3x3.f1, binding3x3.f2, ), R.drawable.horizontal_line)
                 WinningLine.ROW_1 -> Pair(listOf(binding3x3.f3, binding3x3.f4, binding3x3.f5), R.drawable.horizontal_line)
@@ -310,11 +318,10 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
                     R.drawable.right_diagonal_line
                 )
             }
-        }
-        winningFields.forEach { field ->
-            field.background = ContextCompat.getDrawable(this, background)
-        }
 
+            winningFields.forEach { field ->
+                field.background = ContextCompat.getDrawable(this, background)
+            }
     }
     /*
     private fun checkWinner3x3(winningLine: WinningLine) {
