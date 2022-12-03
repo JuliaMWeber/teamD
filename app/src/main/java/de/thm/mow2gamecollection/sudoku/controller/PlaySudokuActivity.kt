@@ -79,8 +79,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             button.setOnClickListener {
                 viewModel.sudokuGame.handleInput(index + 1)
                 viewModel.sudokuGame.felderAendern(index + 1)
-                Log.d("Buttons", "$index")
-
             }
         }
 
@@ -133,12 +131,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
 
     private fun updateHervorgehobeneSchluessel(set: Set<Int?>) = set?.let {
         zahlenButtons.forEachIndexed { index, button ->
-            val color =
-                if (set.contains(index + 1)) ContextCompat.getColor(
-                    this,
-                    androidx.appcompat.R.color.primary_dark_material_light
-                )
-                else Color.LTGRAY
+            val color = R.drawable.pixel_button_small_oval_thm_secondary
             button.setBackgroundColor(color)
         }
     }

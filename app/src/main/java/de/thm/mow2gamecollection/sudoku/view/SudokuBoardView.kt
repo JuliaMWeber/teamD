@@ -58,13 +58,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.BLACK
     }
 
-
-    private val startzellenTextFarbe = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT_BOLD
-    }
-
     private val notizTextFarbe = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.DKGRAY
@@ -84,28 +77,11 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.parseColor("#CFF0CC")
     }
 
-    private val buttonZelleText = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT_BOLD
-    }
-
-    private val richtigeZelleText = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.GREEN
-        typeface = Typeface.DEFAULT_BOLD
-    }
-
     private val richtigeZelle = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.GREEN
     }
 
-    private val falscheZelleText = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.RED
-        typeface = Typeface.DEFAULT_BOLD
-    }
     private val falscheZelle = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.RED
@@ -119,7 +95,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
 
-    //Malt eine Box, welche die Basis für das Spielfeld ist
     override fun onDraw(canvas: Canvas) {
         updateMeasurements(width)
         zellenFuellen(canvas)

@@ -96,6 +96,7 @@ class SudokuGame {
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         notizenMachenLiveData.postValue(notizenMachen)
         buttonEingabenLiveData.postValue(buttonEingabe)
+        board.getZelle(0, 0)
 
 
         //alleFelderFuellen()
@@ -105,12 +106,11 @@ class SudokuGame {
 
     fun felderAendern(index: Int) {
         val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-        zelle.buttonEingabe = true
-        zelle.eingabeValue = index
-
+        if (gewaehlteZeile < 0 || gewaehlteSpalte < 0) {
+            zelle.buttonEingabe = true
+            zelle.eingabeValue = index
+        }
         zellenLiveData.postValue(board.zellen)
-
-
     }
 
     fun zellenLeeren() {
@@ -118,15 +118,16 @@ class SudokuGame {
             zellen[i].istStartzelle = false
             zellen[i].buttonEingabe = false
             zellen[i].eingabeValue = null
-            zellen[i].value=null
+            zellen[i].value = null
             zellenLiveData.postValue(board.zellen)
         }
     }
-    fun neuesSudokuEingeben(){
-        var sudoku=randomSudoku()
+
+    fun neuesSudokuEingeben() {
+        var sudoku = randomSudoku()
         var zaehler = 0
-        for (i in 0 until 9){
-            for (j in 0 until 9){
+        for (i in 0 until 9) {
+            for (j in 0 until 9) {
                 zellen[zaehler].value = sudoku[i][j]
                 zaehler++
             }
@@ -160,6 +161,7 @@ class SudokuGame {
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istStartzelle) return
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).istLeer) return
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte).buttonEingabe) return
+        if (board.getZelle(gewaehlteZeile, gewaehlteSpalte) != zelle) return
 
 
 
@@ -242,8 +244,6 @@ class SudokuGame {
 
         }
     }
-
-
 }
 
 

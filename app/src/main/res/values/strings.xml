@@ -19,4 +19,5 @@
     <string name="title_activity_nsd_prototype">NsdPrototype</string>
     <string name="playButtonLabel">Play</string>
     <string name="enter_your_name">Enter your name:</string>
+    <string name="Schwierigkeit">Schwierigkeit</string>
 </resources>
