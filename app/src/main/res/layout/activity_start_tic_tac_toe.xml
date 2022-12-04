@@ -11,77 +11,79 @@
       android:id="@+id/easyButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:layout_marginBottom="32dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Einfach"
-      app:layout_constraintBottom_toTopOf="@+id/hardButton"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintBottom_toTopOf="@+id/imageView3"
+      app:layout_constraintEnd_toStartOf="@+id/hardButton"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/imageView2"
-      app:layout_constraintVertical_bias="1.0" />
-
-  <ImageView
-      android:id="@+id/imageView2"
-      android:layout_width="264dp"
-      android:layout_height="127dp"
-      android:layout_marginTop="24dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.496"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:srcCompat="@drawable/start3x3" />
+      app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
   <Button
       android:id="@+id/hardButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="128dp"
-
+      android:layout_marginEnd="64dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Schwer"
       app:layout_constraintBottom_toTopOf="@+id/imageView3"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView2"
       tools:ignore="MissingConstraints" />
+
+  <ImageView
+      android:id="@+id/imageView2"
+      android:layout_width="146dp"
+      android:layout_height="64dp"
+      android:layout_marginTop="112dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.497"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView4"
+      app:srcCompat="@drawable/start3x3" />
+
 
   <Button
       android:id="@+id/easyButton5x5"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="32dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Einfach"
-      app:layout_constraintBottom_toTopOf="@+id/hardButton5x5"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/hardButton5x5"
+      app:layout_constraintHorizontal_bias="0.608"
       app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView3"
       tools:ignore="MissingConstraints" />
 
   <Button
       android:id="@+id/hardButton5x5"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="36dp"
+      android:layout_marginEnd="64dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
-      android:text="Button"
+      android:text="Schwer"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView3"
       tools:ignore="MissingConstraints" />
 
   <ImageView
       android:id="@+id/imageView3"
-      android:layout_width="264dp"
-      android:layout_height="127dp"
-      android:layout_marginBottom="24dp"
-      app:layout_constraintBottom_toTopOf="@+id/easyButton5x5"
+      android:layout_width="146dp"
+      android:layout_height="64dp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.496"
+      app:layout_constraintHorizontal_bias="0.497"
       app:layout_constraintStart_toStartOf="parent"
-      app:srcCompat="@drawable/start5x5" />
+      app:srcCompat="@drawable/start5x5"
+      tools:layout_editor_absoluteY="486dp" />
+
+  <ImageView
+      android:id="@+id/imageView4"
+      android:layout_width="380dp"
+      android:layout_height="132dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/tictactoe" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
