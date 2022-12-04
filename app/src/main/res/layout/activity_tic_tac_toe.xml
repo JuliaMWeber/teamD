@@ -22,7 +22,7 @@
         android:id="@+id/playerTwoScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="32dp"
         android:text="@string/playerTwoScore"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +46,7 @@
         android:id="@+id/startNewGameButton"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/pixel_button_small_oval_thm_primary"
         android:text="@string/restartButton"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +76,7 @@
         <TextView
             android:id="@+id/f2"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="91dp"
             android:layout_height="65dp"
             android:gravity="center"
@@ -86,7 +86,7 @@
         <TextView
             android:id="@+id/f0"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="84dp"
             android:layout_height="72dp"
             android:gravity="center"
@@ -97,7 +97,7 @@
         <TextView
             android:id="@+id/f3"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="89dp"
             android:layout_height="75dp"
             android:gravity="center"
@@ -107,7 +107,7 @@
         <TextView
             android:id="@+id/f4"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="92dp"
             android:layout_height="60dp"
             android:gravity="center"
@@ -117,7 +117,7 @@
         <TextView
             android:id="@+id/f5"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="86dp"
             android:layout_height="61dp"
             android:gravity="center"
@@ -127,7 +127,7 @@
         <TextView
             android:id="@+id/f6"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="88dp"
             android:layout_height="68dp"
             android:gravity="center"
@@ -137,7 +137,7 @@
         <TextView
             android:id="@+id/f8"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="90dp"
             android:layout_height="75dp"
             android:gravity="center"
@@ -147,7 +147,7 @@
         <TextView
             android:id="@+id/f7"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="97dp"
             android:layout_height="71dp"
             android:gravity="center"
@@ -157,7 +157,7 @@
         <TextView
             android:id="@+id/f1"
             android:textColor="@color/thm_primary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:layout_width="92dp"
             android:layout_height="62dp"
             android:gravity="center"
