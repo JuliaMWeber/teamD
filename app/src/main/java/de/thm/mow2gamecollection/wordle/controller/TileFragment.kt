@@ -1,6 +1,7 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,26 +10,46 @@ import androidx.gridlayout.widget.GridLayout
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
+// DEBUGGING
+private const val DEBUG = false
 private const val TAG = "TileFragment"
 
 class TileFragment : Fragment() {
-    private val frontFragment = TileFrontFragment()
-    private lateinit var backFragment: TileBackFragment
+    private lateinit var frontFragment: TileFaceFragment
+    private lateinit var backFragment: TileFaceFragment
     private var isShowingBack = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var letter: Char? = null
+    private var letterStatus = LetterStatus.BLANK
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (savedInstanceState == null) {
+        if (DEBUG) Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
+        if (savedInstanceState != null) {
+            isShowingBack = savedInstanceState.getBoolean("isShowingBack")
+            childFragmentManager.findFragmentById(savedInstanceState.getInt("frontFragmentId"))?.let {
+                frontFragment = it as TileFaceFragment
+            } ?: run { if (DEBUG) Log.d(TAG, "frontFragmentId not found in savedInstanceState")}
+            childFragmentManager.findFragmentById(savedInstanceState.getInt("backFragmentId"))?.let {
+                backFragment =  it as TileFaceFragment
+            } ?: run { if (DEBUG) Log.d(TAG,"backFragmentId not found in savedInstanceState") }
+        }
+        else {
+            frontFragment = TileFaceFragment.newInstance("FRONT", LetterStatus.BLANK, null)
             childFragmentManager.beginTransaction()
                 .add(R.id.container, frontFragment)
                 .commit()
         }
+//        if (isShowingBack == true) {
+//            childFragmentManager.beginTransaction()
+//                .add(R.id.container, backFragment)
+//                .commit()
+//        } else {
+//            childFragmentManager.beginTransaction()
+//                .add(R.id.container, frontFragment)
+//                .commit()
+//        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tile, container, false)
     }
@@ -44,16 +65,37 @@ class TileFragment : Fragment() {
         }
     }
 
-    fun flip() {
-        if (isShowingBack) {
-            childFragmentManager.popBackStack()
-            isShowingBack = false
-            return
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("isShowingBack", isShowingBack)
+        if (this::frontFragment.isInitialized) {
+            outState.putInt("frontFragmentId", frontFragment.id)
         }
+        if (this::backFragment.isInitialized) {
+            outState.putInt("backFragmentId", backFragment.id)
+        }
+//        outState.putString("letterStatus", letterStatus.toString())
+//        letter?.let { outState.putChar("letterStatus", it) }
+    }
 
-        // Flip to the back.
-        isShowingBack = true
+    fun flip() {
+        val replacement: TileFaceFragment
 
+        if (isShowingBack) {
+            // Flip to the front.
+            isShowingBack = false
+
+            // create new front Fragment
+            frontFragment = TileFaceFragment.newInstance("front", LetterStatus.BLANK, null)
+            replacement = frontFragment
+        } else {
+            // Flip to the back.
+            isShowingBack = true
+
+            // create new back Fragment
+            backFragment = TileFaceFragment.newInstance("front", letterStatus, letter)
+            replacement = backFragment
+        }
 
         // Create and commit a new fragment transaction that adds the fragment for
         // the back of the card, uses custom animations, and is part of the fragment
@@ -75,32 +117,32 @@ class TileFragment : Fragment() {
             // Replace any fragments currently in the container view with a
             // fragment representing the next page (indicated by the
             // just-incremented currentPage variable).
-            .replace(R.id.container, backFragment)
-
-            // Add this transaction to the back stack, allowing users to press
-            // Back to get to the front of the card.
-            .addToBackStack(null)
+            .replace(R.id.container, replacement)
 
             // Commit the transaction.
             .commit()
     }
 
-    fun update(status: LetterStatus, letter: Char? = null) {
-        when (letter) {
-            null -> {
-                // reset front
-                frontFragment.update()
-            }
-            else -> {
-                // update front and back
-                frontFragment.update(letter)
-                backFragment = TileBackFragment(status, letter)
-            }
-        }
+    fun update(letterStatus: LetterStatus, letter: Char) {
+        if (DEBUG) Log.d(TAG, "---\nupdate $letterStatus $letter\n${this}")
+        getCurrentFragment().update(letterStatus, letter)
+        this.letterStatus = letterStatus
+        this.letter = letter
+//        frontFragment.update(LetterStatus.UNKNOWN, letter)
+//        backFragment = TileFaceFragment.newInstance("BACK", status, letter)
+    }
+
+    fun getCurrentFragment() : TileFaceFragment {
+        return if (isShowingBack) backFragment else frontFragment
     }
 
     fun reset() {
-        update(LetterStatus.BLANK)
+        if (this::frontFragment.isInitialized) {
+            frontFragment.update(LetterStatus.BLANK, null)
+        }
+        if (this::backFragment.isInitialized) {
+            backFragment.update(LetterStatus.BLANK, null)
+        }
         if (isShowingBack) flip()
     }
 }

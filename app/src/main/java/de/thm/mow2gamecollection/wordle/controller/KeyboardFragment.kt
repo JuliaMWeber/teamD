@@ -1,6 +1,7 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,13 @@ import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 private const val ARG_PARAM1 = "keyboardLayout"
 private const val ARG_PARAM2 = "swapFunctionButtons"
 
+// DEBUGGIN
+private const val TAG = "KeyboardFragment"
+private const val DEBUG = true
+
+private const val KEYBOARD_STATE_KEYS_KEY = "keyboardStateKeys"
+private const val KEYBOARD_STATE_VALUES_KEY = "keyboardStateValues"
+
 /**
  * A simple [Fragment] subclass.
  * Use the [WordleKeyboardFragment.newInstance] factory method to
@@ -29,6 +37,7 @@ class WordleKeyboardFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var keyboardLayout: KeyboardLayout? = KeyboardLayout.QWERTZ
     private var swapFunctionButtons: Boolean? = false
+    private var keyStateMap = mutableMapOf<Char, LetterStatus>()
 
     private val keyboardLayouts: HashMap<KeyboardLayout, Array<CharArray>> = hashMapOf(
         KeyboardLayout.QWERTZ to arrayOf(
@@ -66,28 +75,58 @@ class WordleKeyboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        savedInstanceState?.let {
+            val keys = it.getCharArray(KEYBOARD_STATE_KEYS_KEY)
+            val values = it.getStringArray(KEYBOARD_STATE_VALUES_KEY)
+            for (i in 0 until keys!!.size) {
+                keyStateMap.put(keys[i], LetterStatus.valueOf(values!![i]))
+            }
+            if (DEBUG) Log.d(TAG, keyStateMap.toString())
+        }
+
         keyboardLayouts[selectedKeyboardLayout]?.let {
-            for (i in it.indices) {
-                for (keyLabel in it[i]) {
-                    val button = Button(ContextThemeWrapper(context, R.style.keyboardButton), null, 0).apply {
+            for (row in it.indices) {
+                val rowLayout = (getView() as LinearLayout).getChildAt(row) as LinearLayout
+                for (keyLabel in it[row]) {
+
+                    val button = Button(
+                        ContextThemeWrapper(context, R.style.keyboardButton),
+                        null,
+                        0
+                    ).apply {
                         text = keyLabel.toString()
                         layoutParams = LayoutParams(
                             LayoutParams.WRAP_CONTENT,
-                            LayoutParams.WRAP_CONTENT,
+                            LayoutParams.MATCH_PARENT,
                             1F
                         )
                     }
                     button.id = View.generateViewId()
                     keyIDs[keyLabel] = button.id
                     button.setOnClickListener { handleButtonClick(button) }
-                    val rowLayout = (getView() as LinearLayout).getChildAt(i) as LinearLayout
                     rowLayout.addView(button)
+                    keyStateMap.get(keyLabel)?.let {
+                        updateButton(keyLabel, it)
+                    }
                 }
             }
         }
     }
 
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        val keyStateMapValues = mutableListOf<String>()
+        for (value in keyStateMap.values) {
+            keyStateMapValues.add(value.toString())
+        }
+        outState.putCharArray(KEYBOARD_STATE_KEYS_KEY, keyStateMap.keys.toCharArray())
+        outState.putStringArray(KEYBOARD_STATE_VALUES_KEY, keyStateMapValues.toTypedArray())
+    }
+
     private fun handleButtonClick(button: Button) {
+        Log.d("KeyboardFragment", "handleButtonClick")
         val activity = activity as KeyboardActivity
         when (button.text) {
             "✓" -> {
@@ -105,12 +144,15 @@ class WordleKeyboardFragment : Fragment() {
 
     fun updateButton(char: Char, letterStatus: LetterStatus) {
         keyIDs[char]?.let {
+            // update keyStateMap
+            keyStateMap.put(char, letterStatus)
             val keyView = requireView().findViewById<Button>(it)
             context?.let {
                 keyView.setTextColor(ContextCompat.getColor(it, R.color.white))
                 when (letterStatus) {
                     LetterStatus.UNKNOWN -> {
-                        keyView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.wordle_unknown_panel_background)
+                        keyView.setBackgroundResource(R.drawable.pixel_button_small_square_light_grey)
+                        keyView.setTextAppearance(R.style.keyboardLabelDark)
                     }
                     LetterStatus.CORRECT -> {
                         keyView.setBackgroundResource(R.drawable.pixel_button_small_square_thm_primary)

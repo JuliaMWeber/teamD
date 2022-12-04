@@ -9,38 +9,42 @@ import android.widget.*
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.controller.KeyboardActivity
+import de.thm.mow2gamecollection.databinding.ActivityWordleBinding
+import de.thm.mow2gamecollection.wordle.controller.helper.Stopwatch
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 
-// debugging
-private const val TAG = "WordleActivity"
-private const val DEBUG = false
-private const val TARGET_WORD_KEY = "targetWord"
-private const val USER_GUESSES_KEY = "userGuesses"
-
 class WordleActivity : KeyboardActivity() {
-    // val GAME_STATE_KEY = "gameState"
-
+    private lateinit var binding: ActivityWordleBinding
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
     private lateinit var letterGridFragment: LetterGridFragment
+    private lateinit var stopwatch: Stopwatch
 
-    // var gameState: String? = null
+    // flag indicating whether we need to (try to) load the game state from Shared Preferences
+    private var loadSaveGameFromSharedPreferences = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
-        // get saved game state
-        // gameState = savedInstanceState?.getString(GAME_STATE_KEY)
-        val targetWord = savedInstanceState?.getString(TARGET_WORD_KEY)
-        if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState, targetWord? $targetWord")
-        val userGuesses = savedInstanceState?.getString(USER_GUESSES_KEY)
-        if (DEBUG) Log.d(TAG, userGuesses ?: "savedInstanceState? $savedInstanceState, userGuesses? $userGuesses")
+        binding = ActivityWordleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setContentView(R.layout.activity_wordle)
+        stopwatch = Stopwatch(this, binding.timerTextView)
+
+        // get saved game state
+        savedInstanceState?.let {
+            // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+            val targetWord = savedInstanceState.getString(TARGET_WORD_KEY)
+            val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
+            if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
+        } ?: run {
+            // nothing saved to savedInstanceState. Check sharedPreferences
+            loadSaveGameFromSharedPreferences = true
+        }
 
         // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboard) as WordleKeyboardFragment
@@ -54,7 +58,6 @@ class WordleActivity : KeyboardActivity() {
     // The savedInstanceState Bundle is same as the one used in onCreate().
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         if (DEBUG) Log.d(TAG, "onRestoreInstanceState")
-        val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
         super.onRestoreInstanceState(savedInstanceState)
     }
 
@@ -72,7 +75,16 @@ class WordleActivity : KeyboardActivity() {
         if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
         model = WordleModel(this)
+        if (loadSaveGameFromSharedPreferences) {
+            model.init()
+        }
+
+
+//         start stopwatch
+        stopwatch.onResume()
     }
+
+
 
     override fun onPause() {
         if (DEBUG) Log.d(TAG, "onPause")
@@ -93,6 +105,7 @@ class WordleActivity : KeyboardActivity() {
     override fun onStop() {
         if (DEBUG) Log.d(TAG, "onStop")
         super.onStop()
+        stopwatch.stop()
     }
 
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
@@ -117,18 +130,17 @@ class WordleActivity : KeyboardActivity() {
         letterGridFragment.removeLetter(row, index)
     }
 
-    fun updateTileAndKey(row: Int, index: Int, letter: Char, status: LetterStatus) {
-            updateTile(row, index, letter, status)
-    }
-
-    fun updateTileAndKey(tile: Tile, letter: Char, status: LetterStatus) {
-        updateTile(tile.position.row, tile.position.index, letter, status)
-        wordleKeyboardFragment.updateButton(letter, status)
-    }
-
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
         if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
         letterGridFragment.updateTile(row, index, letter, status)
+    }
+
+    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
+        letterGridFragment.updateTile(tile.position.row, tile.position.index, letter, status)
+    }
+
+    fun updateKey(letter: Char, status: LetterStatus) {
+        wordleKeyboardFragment.updateButton(letter, status)
     }
 
     fun revealRow(row: Int) {
@@ -138,8 +150,14 @@ class WordleActivity : KeyboardActivity() {
     // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
         when (e) {
-            GameEvent.LOST -> showDialog(GameEvent.LOST)
-            GameEvent.WON -> showDialog(GameEvent.WON)
+            GameEvent.LOST -> {
+                stopwatch.stop()
+                showDialog(GameEvent.LOST)
+            }
+            GameEvent.WON -> {
+                stopwatch.stop()
+                showDialog(GameEvent.WON)
+            }
             GameEvent.RESTART -> {
                 letterGridFragment.resetAllTiles()
                 wordleKeyboardFragment.resetKeyboard()
@@ -149,30 +167,28 @@ class WordleActivity : KeyboardActivity() {
     }
 
     private fun showDialog(e: GameEvent) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this).setPositiveButton("Yes") { _, _ ->
+                model.restartGame()
+                stopwatch.apply {
+                    resetTimer()
+                    start()
+                }
+            }
+            .setNegativeButton("No") { _, _ ->
+                stopwatch.resetTimer()
+                intent = Intent(this, GamesListActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
 
         when (e) {
             GameEvent.WON -> {
                 builder.setTitle("You won!")
-                    .setMessage("Do you want to play again?")
-                    .setPositiveButton("Yes") { _, _ ->
-                        model.restartGame()
-                    }
-                    .setNegativeButton("No") { _, _ ->
-                        intent = Intent(this, GamesListActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(intent)
-                    }
+                    .setMessage("Time: ${stopwatch.getTotalTimeString()}\n\nDo you want to play again?")
             }
             GameEvent.LOST -> {
                 builder.setTitle("Bad luck!")
-                    .setMessage("Do you want to try again?")
-                    .setPositiveButton("Yes") { _, _ ->
-                        model.restartGame()
-                    }
-                    .setNegativeButton("No") { _, _ ->
-                        startActivity(Intent(this, GamesListActivity::class.java))
-                    }
+                    .setMessage("Do you want to play again?")
             }
             GameEvent.GIVE_UP -> {
                 // TODO
@@ -186,5 +202,15 @@ class WordleActivity : KeyboardActivity() {
 
     private fun giveUp() {
         // TODO: ???
+    }
+
+    companion object {
+        // debugging
+        private const val TAG = "WordleActivity"
+        private const val DEBUG = true
+
+        // keys for Shared Preferences
+        private const val TARGET_WORD_KEY = "targetWord"
+        private const val USER_GUESSES_KEY = "userGuesses"
     }
 }

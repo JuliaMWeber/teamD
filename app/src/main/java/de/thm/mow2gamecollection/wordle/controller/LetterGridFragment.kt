@@ -14,11 +14,12 @@ import de.thm.mow2gamecollection.wordle.helper.MAX_TRIES
 import de.thm.mow2gamecollection.wordle.helper.WORD_LENGTH
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+// DEBUGGING
+private const val DEBUG = false
+private const val TAG = "LetterGridFragment"
+// fragment initialization parameters
 private const val ARG_ROWS = "rows"
 private const val ARG_COLUMNS = "columns"
-private const val TAG = "LetterGridFragment"
 
 /**
  * A simple [Fragment] subclass.
@@ -36,7 +37,6 @@ class LetterGridFragment : Fragment() {
         arguments?.let {
             rows = it.getInt(ARG_ROWS)
             columns = it.getInt(ARG_COLUMNS)
-
         }
     }
 
@@ -44,10 +44,8 @@ class LetterGridFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG, "onCreateView")
-
+        if (DEBUG) Log.d(TAG, "onCreateView")
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_wordle_letter_grid, container, false)
         binding = FragmentWordleLetterGridBinding.inflate(layoutInflater)
 
         binding.letterGrid.apply {
@@ -57,23 +55,68 @@ class LetterGridFragment : Fragment() {
                 dimensionRatio = "$columns:$rows"
             }
         }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated")
+        if (DEBUG) Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
-        // create all the tiles for the grid and add them to the tileFragmentList.
-        for (i in 0 until rows*columns) {
-            TileFragment().let {
-                childFragmentManager.beginTransaction()
-                    .add(R.id.letterGrid, it)
-                    .commit()
-
-                tileFragmentList.add(it)
+        if (savedInstanceState == null) {
+            // create all the tiles for the grid and add them to the tileFragmentList.
+            for (i in 0 until rows*columns) {
+                TileFragment().let {
+                    childFragmentManager.beginTransaction()
+                        .add(R.id.letterGrid, it, "tile$i")
+                        .commit()
+                    tileFragmentList.add(it)
+                }
+            }
+        } else {
+            savedInstanceState.getStringArray("tileFragmentTags")?.forEach {
+                tileFragmentList.add(childFragmentManager.findFragmentByTag(it) as TileFragment)
             }
         }
+        if (DEBUG) Log.d(TAG, "tileFragmentList:\nlength: ${tileFragmentList.size}\n$tileFragmentList")
+        if (DEBUG) Log.d(TAG, "child fragments: ${childFragmentManager.fragments.size}")
+    }
+
+    override fun onStart() {
+        if (DEBUG) Log.d(TAG, "onStart")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        if (DEBUG) Log.d(TAG, "onResume")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        if (DEBUG) Log.d(TAG, "onPause")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        if (DEBUG) Log.d(TAG, "onStop")
+        super.onStop()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (DEBUG) Log.d(TAG, "onSaveInstanceState")
+        super.onSaveInstanceState(outState)
+
+        val tileFragmentTags = ArrayList<String>()
+        tileFragmentList.forEach {
+            if (DEBUG) Log.d(TAG, "adding tile id: ${it.tag}")
+            it.tag?.let { tag -> tileFragmentTags.add(tag) }
+        }
+        outState.putStringArray("tileFragmentTags", tileFragmentTags.toTypedArray())
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        if (DEBUG) Log.d(TAG, "onViewStateRestored")
+        super.onViewStateRestored(savedInstanceState)
     }
 
     fun getTileFragment(row: Int, index: Int) : TileFragment {
@@ -97,14 +140,15 @@ class LetterGridFragment : Fragment() {
     }
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
+        if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status)")
         getTileFragment(row, index).apply{
             update(status, letter)
         }
-
     }
 
     fun reveal(row: Int) {
         for (index in 0 until WORD_LENGTH) {
+            // TODO: uncomment
             getTileFragment(row, index).flip()
         }
     }
