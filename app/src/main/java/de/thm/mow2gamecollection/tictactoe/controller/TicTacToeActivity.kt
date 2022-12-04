@@ -13,13 +13,14 @@ import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
 import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
 import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.*
+import de.thm.mow2gamecollection.tictactoe.model.game.*
 
 // DEBUGGING
 private const val TAG = "TicTacToeActivity"
 private const val DEBUG = false // set to true to print debug logs
 
 
-class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
+class TicTacToeActivity : AppCompatActivity(), TicTacToeController, EmulatorEnabledMultiplayerGame {
 
     override var emulatorNetworkingService: EmulatorNetworkingService? = null
 
@@ -28,7 +29,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
     private lateinit var fieldSize: FieldSize
 
-    private lateinit var gameManagerTTT: GameManagerTicTacToe
+    private lateinit var gameManagerTTT: TicTacToeModel
     private lateinit var gameMode: GameMode
     private lateinit var roundTimer: CountDownTimer
 
@@ -58,7 +59,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         this.fieldSize = fieldSizeString?.let { FieldSize.valueOf(it)}!!
 
 
-        gameManagerTTT = GameManagerTicTacToe(this)
+        gameManagerTTT = TicTacToeModel(this)
         if(fieldSize== FieldSize.THREE){
             binding3x3 = ActivityTicTacToeBinding.inflate(layoutInflater)
             setContentView(binding3x3.root)
@@ -78,7 +79,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         initTimer()
     }
 
-    fun getFieldsize(): FieldSize {
+    override fun getFieldsize(): FieldSize {
         return fieldSize
     }
 
@@ -193,7 +194,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         return allFields5x5[row][col]
     }
 
-    fun updatePoints() {
+    override fun updatePoints() {
         if(fieldSize== FieldSize.THREE){
             updatePoints3x3()
         } else {
@@ -264,7 +265,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         }
     }
 
-    fun showActivePlayer() {
+    override fun showActivePlayer() {
         if(fieldSize== FieldSize.THREE){
             showActivePlayer3x3()
         } else {
@@ -296,11 +297,11 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         binding5x5.startNewGameButton.visibility = View.VISIBLE
     }
 
-    fun getGameMode() :GameMode {
+    override fun getGameMode() : GameMode {
         return this.gameMode
     }
 
-    fun restartTimer() {
+    override fun restartTimer() {
         roundTimer.cancel()
         roundTimer.start()
     }

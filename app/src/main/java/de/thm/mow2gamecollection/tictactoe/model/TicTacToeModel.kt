@@ -1,8 +1,17 @@
 package de.thm.mow2gamecollection.tictactoe.model
 
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
+import de.thm.mow2gamecollection.tictactoe.model.game.*
 
-class GameManagerTicTacToe (val controller: TicTacToeActivity){
+interface TicTacToeController {
+    fun updatePoints()
+    fun showActivePlayer()
+    fun getGameMode(): GameMode
+    fun getFieldsize(): FieldSize
+    fun restartTimer()
+}
+
+class TicTacToeModel (val controller: TicTacToeActivity){
 
     private var currentPlayer = 1
     var player1Points = 0
@@ -135,7 +144,7 @@ class GameManagerTicTacToe (val controller: TicTacToeActivity){
             return WinningLine5x5.COLUMN_2
         } else if (state5x5[0][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
             return WinningLine5x5.DIAGONAL_LEFT
-        } else if (state5x5[4][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[1][3] == currentPlayer && state5x5[4][0] == currentPlayer) {
+        } else if (state5x5[4][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[1][3] == currentPlayer && state5x5[0][4] == currentPlayer) {
             return WinningLine5x5.DIAGONAL_RIGHT
         }
         return null

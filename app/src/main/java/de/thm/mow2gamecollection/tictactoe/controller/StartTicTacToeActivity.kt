@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.databinding.ActivityStartTicTacToeBinding
-import de.thm.mow2gamecollection.tictactoe.model.FieldSize
+import de.thm.mow2gamecollection.tictactoe.model.game.FieldSize
 //import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
-import de.thm.mow2gamecollection.tictactoe.model.GameMode
+import de.thm.mow2gamecollection.tictactoe.model.game.GameMode
 
 class StartTicTacToeActivity : AppCompatActivity() {
 

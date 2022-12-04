@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.tictactoe.model
+package de.thm.mow2gamecollection.tictactoe.model.game
 
 enum class WinningLine3x3 {
     ROW_0,
