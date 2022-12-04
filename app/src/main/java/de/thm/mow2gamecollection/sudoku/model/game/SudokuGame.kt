@@ -2,6 +2,7 @@ package de.thm.mow2gamecollection.sudoku.model.game
 
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
 
@@ -15,6 +16,8 @@ class SudokuGame {
 
 
     var genSudoku = Sudokus().randomSudoku()
+
+    private lateinit var status: TextView
 
 
     private var gewaehlteZeile = -1
@@ -40,8 +43,8 @@ class SudokuGame {
 
     fun felderAendern(index: Int) {
         val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-            zelle.buttonEingabe = true
-            zelle.eingabeValue = index
+        zelle.buttonEingabe = true
+        zelle.eingabeValue = index
         zellenLiveData.postValue(board.zellen)
     }
 

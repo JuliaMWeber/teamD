@@ -9,8 +9,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.sudoku.model.game.Schwierigkeit
 import de.thm.mow2gamecollection.sudoku.model.game.SudokuGame
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
@@ -24,6 +26,8 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     private lateinit var notizButton: ImageButton
     private lateinit var entfernenButton: ImageButton
     private lateinit var loesenButton: Button
+    private lateinit var schwierigkeit: Schwierigkeit
+    private lateinit var status: TextView
     lateinit var leicht: Button
     lateinit var mittel: Button
     lateinit var schwer: Button
@@ -48,7 +52,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             zellenUpdate(it)
         }
         viewModel.sudokuGame.notizenMachenLiveData.observe(this) {
-            //updateNotizenGemachtUI(it)
+            updateNotizenGemachtUI(it)
         }
         viewModel.sudokuGame.buttonEingabenLiveData.observe(this) {
 
@@ -80,8 +84,11 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             }
         }
 
+        status = findViewById(R.id.status)
         notizButton = findViewById(R.id.notizButton)
-        notizButton.setOnClickListener { viewModel.sudokuGame.aendereNotizstatus() }
+        notizButton.setOnClickListener {
+            viewModel.sudokuGame.aendereNotizstatus()
+        }
         entfernenButton = findViewById(R.id.entfernenButton)
         entfernenButton.setOnClickListener { viewModel.sudokuGame.entfernen() }
         loesenButton = findViewById(R.id.loesenButton)
@@ -113,20 +120,13 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         sudokuBoardView.updategewaelteZelleUI(cell.first, cell.second)
     }
 
-    @SuppressLint("ResourceAsColor")
-    /*private fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
+    private fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
         if (it) {
-            notizButton.setImageDrawable(
-                ContextCompat.getDrawable(
-                    this,
-                    R.color.primary_variant
-                )
-            )
+            status.setText("Du machst Notizen")
         } else {
-            notizButton.setBackgroundColor(R.color.secondary_variant)
-
+            status.setText("Du trägst Zahlen ein")
         }
-    }*/
+    }
 
     override fun zelleTouched(zeile: Int, spalte: Int) {
         viewModel.sudokuGame.gewaehlteZelleUpdaten(zeile, spalte)

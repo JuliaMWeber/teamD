@@ -85,6 +85,10 @@
             android:exported="false"
             android:theme="@style/Theme.GameCollection.NoActionBar" />
         <activity
+            android:name=".sudoku.controller.SchwierigkeitSudoku"
+            android:exported="false"
+            android:theme="@style/Theme.GameCollection.NoActionBar" />
+        <activity
             android:name=".wordle.controller.WordleActivity"
             android:exported="false"
             android:label="@string/title_activity_wordle"
