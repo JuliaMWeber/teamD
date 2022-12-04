@@ -264,6 +264,8 @@
 
         <TextView
             android:id="@+id/f31"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
             android:layout_width="49dp"
             android:layout_height="45dp"
             android:gravity="center"

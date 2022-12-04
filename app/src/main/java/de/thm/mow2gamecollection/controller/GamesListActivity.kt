@@ -45,7 +45,7 @@ class GamesListActivity : AppCompatActivity() {
 
         gamesArrayList = arrayListOf(
             Game("Sudoku", R.drawable.sudoku_vorschau, false),
-            Game("Wordle", R.drawable.wordle, false),
+            Game("Wordle", R.drawable.wordlestart, false),
             Game("Tic Tac Toe HotSeat", R.drawable.ttt1, false),
             Game("Tic Tac Toe Network Multiplayer", R.drawable.ttt, true),
         )
