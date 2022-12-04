@@ -1,5 +1,6 @@
 package de.thm.mow2gamecollection.sudoku.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -29,15 +30,13 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private var zellen: List<Zelle>? = null
 
-
-    //Malt dicke Linien
     private val dickeLinieZeichnen = Paint().apply {
         style = Style.STROKE
         color = Color.BLACK
-        strokeWidth = 4F
+        strokeWidth = 15F
     }
 
-    //Malt dünne Linien
+
     private val duenneLinieZeichnen = Paint().apply {
         style = Style.STROKE
         color = Color.BLACK
@@ -59,13 +58,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.BLACK
     }
 
-
-    private val startzellenTextFarbe = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT_BOLD
-    }
-
     private val notizTextFarbe = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.DKGRAY
@@ -85,28 +77,11 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         color = Color.parseColor("#CFF0CC")
     }
 
-    private val buttonZelleText = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT_BOLD
-    }
-
-    private val richtigeZelleText = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.GREEN
-        typeface = Typeface.DEFAULT_BOLD
-    }
-
     private val richtigeZelle = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.GREEN
     }
 
-    private val falscheZelleText = Paint().apply {
-        style = Style.FILL_AND_STROKE
-        color = Color.RED
-        typeface = Typeface.DEFAULT_BOLD
-    }
     private val falscheZelle = Paint().apply {
         style = Style.FILL_AND_STROKE
         color = Color.RED
@@ -120,7 +95,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
 
-    //Malt eine Box, welche die Basis für das Spielfeld ist
     override fun onDraw(canvas: Canvas) {
         updateMeasurements(width)
         zellenFuellen(canvas)
@@ -133,11 +107,9 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         notizGroesse = zellenGroesse / sqrtGroesse.toFloat()
         notizTextFarbe.textSize = zellenGroesse / sqrtGroesse.toFloat()
         buttonZelle.textSize = zellenGroesse / sqrtGroesse.toFloat()
+        richtigeZelle.textSize = zellenGroesse / sqrtGroesse.toFloat()
+        falscheZelle.textSize = zellenGroesse / sqrtGroesse.toFloat()
         textFarbe.textSize = zellenGroesse / 1.5F
-        startzellenTextFarbe.textSize = zellenGroesse / 1.5F
-        buttonZelleText.textSize = zellenGroesse / 1.5F
-        richtigeZelle.textSize = zellenGroesse / 1.5F
-        falscheZelle.textSize = zellenGroesse / 1.5F
 
 
     }
@@ -214,6 +186,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             val buttonType = zelle.buttonEingabe
             val richtigType = zelle.istRichtig
             val falschType = zelle.istFalsch
+            val valueType = zelle.hatGenValue
 
 
             if (value == 0) {
@@ -239,13 +212,12 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     )
 
                 }
-            } else if (type) {
+            } else if (type || richtigType || falschType) {
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
                 val valueString = zelle.value.toString()
 
-                val zuNutzendeFarbe =
-                    if (zelle.istStartzelle) startzellenTextFarbe else textFarbe
+                val zuNutzendeFarbe = textFarbe
                 val textBounds = Rect()
                 zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
                 val textWidth = textFarbe.measureText(valueString)
@@ -257,45 +229,12 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                     (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
                 )
 
-            } else if (buttonType) {
+            } else if (buttonType){
                 val zeile = zelle.zeile
                 val spalte = zelle.spalte
                 val valueString = zelle.eingabeValue.toString()
 
-                val zuNutzendeFarbe = if (zelle.buttonEingabe) buttonZelle else textFarbe
-                val textBounds = Rect()
-                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
-                val textWidth = textFarbe.measureText(valueString)
-                val textHeight = textBounds.height()
-
-                canvas.drawText(
-                    valueString,
-                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
-                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
-                )
-
-            } else if (richtigType) {
-                val zeile = zelle.zeile
-                val spalte = zelle.spalte
-                val valueString = zelle.value.toString()
-
-                val zuNutzendeFarbe = if (zelle.istRichtig) richtigeZelle else textFarbe
-                val textBounds = Rect()
-                zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
-                val textWidth = textFarbe.measureText(valueString)
-                val textHeight = textBounds.height()
-
-                canvas.drawText(
-                    valueString,
-                    (spalte * zellenGroesse) + zellenGroesse / 2 - textWidth / 2,
-                    (zeile * zellenGroesse) + zellenGroesse / 2 + textHeight / 2, textFarbe
-                )
-            } else if (falschType) {
-                val zeile = zelle.zeile
-                val spalte = zelle.spalte
-                val valueString = ""
-
-                val zuNutzendeFarbe = if (zelle.istFalsch) falscheZelle else textFarbe
+                val zuNutzendeFarbe = textFarbe
                 val textBounds = Rect()
                 zuNutzendeFarbe.getTextBounds(valueString, 0, valueString.length, textBounds)
                 val textWidth = textFarbe.measureText(valueString)
@@ -312,6 +251,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
