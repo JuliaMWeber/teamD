@@ -78,7 +78,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private val richtigeZelle = Paint().apply {
         style = Style.FILL_AND_STROKE
-        color = Color.GREEN
+        color = Color.parseColor("#80ba24")
     }
 
     private val falscheZelle = Paint().apply {
