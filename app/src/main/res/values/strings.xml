@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Game Collection</string>
+    <string name="app_name">Games Collection</string>
     <string name="title_activity_wordle">WordleActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -14,9 +14,15 @@
 
     <string name="playButton">Start</string>
     <string name="restartButton">Neustart</string>
+    <string name="easyButton">Einach</string>
+    <string name="hardButton">Schwer</string>
+    <string name="playerOneScore">Spieler x</string>
+    <string name="playerTwoScore">Spieler o</string>
 
 
     <string name="title_activity_nsd_prototype">NsdPrototype</string>
     <string name="playButtonLabel">Play</string>
     <string name="enter_your_name">Enter your name:</string>
+    <string name="Schwierigkeit">Schwierigkeit</string>
+    <string name="Schwierigkeitsauswahl">Wähle deine Schwierigkeit</string>
 </resources>

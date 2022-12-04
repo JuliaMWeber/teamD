@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tictactoe.controller.TicTacToeActivity">
+
+    <TextView
+        android:id="@+id/playerOneScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/playerOneScore"
+
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grid5x5" />
+
+    <TextView
+        android:id="@+id/playerTwoScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/playerTwoScore"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/playerOneScore" />
+
+    <TextView
+        android:id="@+id/countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="175dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startNewGameButton"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/button"
+        android:text="@string/restartButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/grid5x5"
+        android:layout_width="252dp"
+        android:layout_height="228dp"
+        android:background="@drawable/tictactoe5x5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/f2"
+            android:layout_width="51dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="2"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/f0"
+            android:layout_width="51dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/f11"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="3"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/f12"
+            android:layout_width="51dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="4"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/f01"
+            android:layout_width="46dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="3"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/f02"
+            android:layout_width="48dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="4"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/f3"
+            android:layout_width="50dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/f4"
+            android:layout_width="53dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="1"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/f5"
+            android:layout_width="48dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="2"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/f6"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="0"
+            app:layout_row="2" />
+
+        <TextView
+            android:id="@+id/f30"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="0"
+            app:layout_row="3" />
+
+        <TextView
+            android:id="@+id/f40"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="0"
+            app:layout_row="4" />
+
+        <TextView
+            android:id="@+id/f41"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="1"
+            app:layout_row="4" />
+
+        <TextView
+            android:id="@+id/f42"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="2"
+            app:layout_row="4" />
+
+        <TextView
+            android:id="@+id/f43"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="3"
+            app:layout_row="4" />
+
+        <TextView
+            android:id="@+id/f44"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="4"
+            app:layout_row="4" />
+
+        <TextView
+            android:id="@+id/f33"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="3"
+            app:layout_row="3" />
+
+        <TextView
+            android:id="@+id/f34"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="4"
+            app:layout_row="3" />
+
+        <TextView
+            android:id="@+id/f32"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="2"
+            app:layout_row="3" />
+
+        <TextView
+            android:id="@+id/f31"
+            android:layout_width="49dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            app:layout_column="1"
+            app:layout_row="3" />
+
+        <TextView
+            android:id="@+id/f8"
+            android:layout_width="48dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="2"
+            app:layout_row="2" />
+
+        <TextView
+            android:id="@+id/f20"
+            android:layout_width="48dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="3"
+            app:layout_row="2" />
+
+        <TextView
+            android:id="@+id/f21"
+            android:layout_width="48dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="4"
+            app:layout_row="2" />
+
+        <TextView
+            android:id="@+id/f7"
+            android:layout_width="53dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="1"
+            app:layout_row="2" />
+
+        <TextView
+            android:id="@+id/f1"
+            android:layout_width="53dp"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textColor="@color/thm_primary"
+            android:textSize="25sp"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <ImageView
+        android:id="@+id/XTurn"
+        android:layout_width="113dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/activex" />
+
+    <ImageView
+        android:id="@+id/OTurn"
+        android:layout_width="113dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/activeo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.databinding.ActivityStartTicTacToeBinding
-import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
-import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
+import de.thm.mow2gamecollection.tictactoe.model.game.FieldSize
+//import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
+import de.thm.mow2gamecollection.tictactoe.model.game.GameMode
 
 class StartTicTacToeActivity : AppCompatActivity() {
 
@@ -24,15 +24,29 @@ class StartTicTacToeActivity : AppCompatActivity() {
         btn1.setOnClickListener{
             val intent = Intent(this, TicTacToeActivity::class.java)
             intent.putExtra("gameMode", GameMode.SOFT.toString())
+            intent.putExtra("fieldSize", FieldSize.THREE.toString())
             startActivity(intent, )
         }
         val btn2 = findViewById<Button>(R.id.hardButton)
         btn2.setOnClickListener{
             val intent = Intent(this, TicTacToeActivity::class.java)
             intent.putExtra("gameMode", GameMode.HARD.toString())
+            intent.putExtra("fieldSize", FieldSize.THREE.toString())
             startActivity(intent, )
         }
-
-
+        val btn3 = findViewById<Button>(R.id.easyButton5x5)
+        btn3.setOnClickListener{
+            val intent = Intent(this, TicTacToeActivity::class.java)
+            intent.putExtra("gameMode", GameMode.SOFT.toString())
+            intent.putExtra("fieldSize", FieldSize.FIVE.toString())
+            startActivity(intent, )
+        }
+        val btn4 = findViewById<Button>(R.id.hardButton5x5)
+        btn4.setOnClickListener{
+            val intent = Intent(this, TicTacToeActivity::class.java)
+            intent.putExtra("gameMode", GameMode.HARD.toString())
+            intent.putExtra("fieldSize", FieldSize.FIVE.toString())
+            startActivity(intent, )
+        }
     }
 }
