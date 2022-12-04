@@ -64,7 +64,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/easyButton"
       app:layout_constraintTop_toBottomOf="@+id/imageView2"
-      app:layout_constraintVertical_bias="0.514"
+      app:layout_constraintVertical_bias="0.485"
       tools:ignore="MissingConstraints" />
 
   <ImageView
