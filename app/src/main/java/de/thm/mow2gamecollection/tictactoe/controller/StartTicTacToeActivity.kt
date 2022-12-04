@@ -8,7 +8,6 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.databinding.ActivityStartTicTacToeBinding
 import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
-import de.thm.mow2gamecollection.tictactoe.model.FieldSize
 //import de.thm.mow2gamecollection.tictactoe.model.GameManagerTTT
 import de.thm.mow2gamecollection.tictactoe.model.GameMode
 
@@ -52,4 +51,3 @@ class StartTicTacToeActivity : AppCompatActivity() {
         }
     }
 }
-

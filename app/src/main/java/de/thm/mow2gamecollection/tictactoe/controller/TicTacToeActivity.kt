@@ -382,7 +382,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             field.background = ContextCompat.getDrawable(this, background)
         }
     }
-
+    
     private fun showWinner5x5(winningLine5x5: WinningLine5x5) {
         if (this.gameMode === GameMode.HARD) {
             roundTimer.cancel()
@@ -423,8 +423,3 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
         onFieldClick(Position(row, col))
     }
 }
-
-
-
-
-

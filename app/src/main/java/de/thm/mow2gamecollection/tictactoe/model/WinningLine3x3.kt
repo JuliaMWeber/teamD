@@ -10,5 +10,4 @@ enum class WinningLine3x3 {
     DIAGONAL_LEFT,
     DIAGONAL_RIGHT,
     NOWINNER
-
 }

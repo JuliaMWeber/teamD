@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.tictactoe.model
+package de.thm.mow2gamecollection.tictactoe.controller
 
 enum class FieldSize {
     THREE, FIVE

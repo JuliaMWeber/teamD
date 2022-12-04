@@ -1,6 +1,6 @@
 package de.thm.mow2gamecollection.tictactoe.model
 
-//import de.thm.mow2gamecollection.tictactoe.controller.FieldSize
+import de.thm.mow2gamecollection.tictactoe.controller.FieldSize
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 
 class GameManagerTicTacToe (val controller: TicTacToeActivity){
@@ -31,7 +31,7 @@ class GameManagerTicTacToe (val controller: TicTacToeActivity){
     /**
      * Sets chosen position for player and checks if win or draw happened
      * @param position[row,column] Position in grid
-     * @return null if no win otherwise a WinningLine3x3 or WinningLine3x3.NOWINNER for a draw
+     * @return null if no win otherwise a WinningLine or WinningLine.NOWINNER for a draw
      */
     fun makeMove3x3 (position: Position) : WinningLine3x3? {
         state3x3[position.row][position.column] = currentPlayer
@@ -143,9 +143,6 @@ class GameManagerTicTacToe (val controller: TicTacToeActivity){
     }
 
 }
-
-
-
 
 
 
