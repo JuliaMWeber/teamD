@@ -9,10 +9,13 @@ import android.widget.*
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.controller.KeyboardActivity
+import de.thm.mow2gamecollection.databinding.ActivityWordleBinding
+import de.thm.mow2gamecollection.wordle.controller.helper.Stopwatch
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
+import java.util.*
 
 // debugging
 private const val TAG = "WordleActivity"
@@ -23,16 +26,29 @@ private const val USER_GUESSES_KEY = "userGuesses"
 class WordleActivity : KeyboardActivity() {
     // val GAME_STATE_KEY = "gameState"
 
+    private lateinit var binding: ActivityWordleBinding
+
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
     private lateinit var letterGridFragment: LetterGridFragment
     private var loadSaveGameFromSharedPreferences = false
+
+    private lateinit var stopwatch: Stopwatch
+
+
+
+
 
     // var gameState: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
+
+        binding = ActivityWordleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        stopwatch = Stopwatch(this, binding.timerTextView)
 
         // get saved game state
         savedInstanceState?.let {
@@ -44,8 +60,6 @@ class WordleActivity : KeyboardActivity() {
             // nothing saved to savedInstanceState. Check sharedPreferences
             loadSaveGameFromSharedPreferences = true
         }
-
-        setContentView(R.layout.activity_wordle)
 
         // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboard) as WordleKeyboardFragment
@@ -81,7 +95,12 @@ class WordleActivity : KeyboardActivity() {
             model.init()
         }
 
+
+//         start stopwatch
+        stopwatch.onResume()
     }
+
+
 
     override fun onPause() {
         if (DEBUG) Log.d(TAG, "onPause")
@@ -102,6 +121,7 @@ class WordleActivity : KeyboardActivity() {
     override fun onStop() {
         if (DEBUG) Log.d(TAG, "onStop")
         super.onStop()
+        stopwatch.stop()
     }
 
     // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
@@ -146,8 +166,14 @@ class WordleActivity : KeyboardActivity() {
     // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
         when (e) {
-            GameEvent.LOST -> showDialog(GameEvent.LOST)
-            GameEvent.WON -> showDialog(GameEvent.WON)
+            GameEvent.LOST -> {
+                stopwatch.stop()
+                showDialog(GameEvent.LOST)
+            }
+            GameEvent.WON -> {
+                stopwatch.stop()
+                showDialog(GameEvent.WON)
+            }
             GameEvent.RESTART -> {
                 letterGridFragment.resetAllTiles()
                 wordleKeyboardFragment.resetKeyboard()
@@ -157,30 +183,28 @@ class WordleActivity : KeyboardActivity() {
     }
 
     private fun showDialog(e: GameEvent) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this).setPositiveButton("Yes") { _, _ ->
+                model.restartGame()
+                stopwatch.apply {
+                    resetTimer()
+                    start()
+                }
+            }
+            .setNegativeButton("No") { _, _ ->
+                stopwatch.resetTimer()
+                intent = Intent(this, GamesListActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
 
         when (e) {
             GameEvent.WON -> {
                 builder.setTitle("You won!")
-                    .setMessage("Do you want to play again?")
-                    .setPositiveButton("Yes") { _, _ ->
-                        model.restartGame()
-                    }
-                    .setNegativeButton("No") { _, _ ->
-                        intent = Intent(this, GamesListActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(intent)
-                    }
+                    .setMessage("Time: ${stopwatch.getTotalTimeString()}\n\nDo you want to play again?")
             }
             GameEvent.LOST -> {
                 builder.setTitle("Bad luck!")
-                    .setMessage("Do you want to try again?")
-                    .setPositiveButton("Yes") { _, _ ->
-                        model.restartGame()
-                    }
-                    .setNegativeButton("No") { _, _ ->
-                        startActivity(Intent(this, GamesListActivity::class.java))
-                    }
+                    .setMessage("Do you want to play again?")
             }
             GameEvent.GIVE_UP -> {
                 // TODO
