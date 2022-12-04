@@ -53,9 +53,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         viewModel.sudokuGame.buttonEingabenLiveData.observe(this) {
 
         }
-        viewModel.sudokuGame.hervorgehobeneSchluesselLiveData.observe(this) {
-            updateHervorgehobeneSchluessel(it)
-        }
+
 
 
         leicht = findViewById(R.id.leicht)
@@ -129,14 +127,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
 
         }
     }*/
-
-    private fun updateHervorgehobeneSchluessel(set: Set<Int?>) = set?.let {
-        zahlenButtons.forEachIndexed { index, button ->
-            val color = R.drawable.pixel_button_small_oval_thm_secondary
-            button.setBackgroundColor(color)
-        }
-    }
-
 
     override fun zelleTouched(zeile: Int, spalte: Int) {
         viewModel.sudokuGame.gewaehlteZelleUpdaten(zeile, spalte)

@@ -96,7 +96,6 @@ class SudokuGame {
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         notizenMachenLiveData.postValue(notizenMachen)
         buttonEingabenLiveData.postValue(buttonEingabe)
-        board.getZelle(0, 0)
 
 
         //alleFelderFuellen()
@@ -106,10 +105,8 @@ class SudokuGame {
 
     fun felderAendern(index: Int) {
         val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-        if (gewaehlteZeile < 0 || gewaehlteSpalte < 0) {
             zelle.buttonEingabe = true
             zelle.eingabeValue = index
-        }
         zellenLiveData.postValue(board.zellen)
     }
 
