@@ -73,23 +73,11 @@ class TicTacToeModel (val controller: TicTacToeActivity){
      * Resets the grid
      */
     fun resetGrid() {
-        if (controller.getFieldsize()== FieldSize.THREE) {
-            state3x3 = arrayOf(
-                intArrayOf(0,0,0),
-                intArrayOf(0,0,0),
-                intArrayOf(0,0,0)
-            )
-        } else {
-            state5x5 = arrayOf(
-                intArrayOf(0,0,0,0,0),
-                intArrayOf(0,0,0,0,0),
-                intArrayOf(0,0,0,0,0),
-                intArrayOf(0,0,0,0,0),
-                intArrayOf(0,0,0,0,0)
-            )
-        }
+        if (controller.getFieldsize()== FieldSize.THREE) state3x3 = Array(3) { IntArray(3) {0}}
+        else state5x5 = Array(5) { IntArray(5) {0} }
         currentPlayer = 1
     }
+
 
     /**
      * Checks if game ended
