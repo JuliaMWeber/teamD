@@ -20,7 +20,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     private lateinit var notizButton: ImageButton
     private lateinit var entfernenButton: ImageButton
     private lateinit var loesenButton: Button
-    private lateinit var schwierigkeit: Schwierigkeit
     private lateinit var status: TextView
     lateinit var leicht: Button
     lateinit var mittel: Button
@@ -93,6 +92,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             viewModel.sudokuGame.neuesSudokuEingeben()
             viewModel.sudokuGame.sudokuFelderVorgeben(32)
         }
+        viewModel.sudokuGame.sudokuFelderVorgeben(52)
     }
 
 
