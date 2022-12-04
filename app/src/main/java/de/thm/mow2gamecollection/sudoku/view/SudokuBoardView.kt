@@ -36,7 +36,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         strokeWidth = 15F
     }
 
-
     private val duenneLinieZeichnen = Paint().apply {
         style = Style.STROKE
         color = Color.BLACK
@@ -91,9 +90,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val feldGroesse = min(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(feldGroesse, feldGroesse)
-
     }
-
 
     override fun onDraw(canvas: Canvas) {
         updateMeasurements(width)
@@ -110,8 +107,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         richtigeZelle.textSize = zellenGroesse / sqrtGroesse.toFloat()
         falscheZelle.textSize = zellenGroesse / sqrtGroesse.toFloat()
         textFarbe.textSize = zellenGroesse / 1.5F
-
-
     }
 
     private fun zellenFuellen(canvas: Canvas) {

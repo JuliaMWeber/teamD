@@ -1,19 +1,13 @@
 package de.thm.mow2gamecollection.sudoku.controller
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.RadioButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.sudoku.model.game.Schwierigkeit
-import de.thm.mow2gamecollection.sudoku.model.game.SudokuGame
 import de.thm.mow2gamecollection.sudoku.model.game.Zelle
 import de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
 import de.thm.mow2gamecollection.sudoku.viewModel.PlaySudokuViewModel
@@ -31,10 +25,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     lateinit var leicht: Button
     lateinit var mittel: Button
     lateinit var schwer: Button
-
-
-    //    lateinit var gen : Generator
-
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +44,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         viewModel.sudokuGame.notizenMachenLiveData.observe(this) {
             updateNotizenGemachtUI(it)
         }
-        viewModel.sudokuGame.buttonEingabenLiveData.observe(this) {
-
-        }
-
-
 
         leicht = findViewById(R.id.leicht)
         mittel = findViewById(R.id.mittel)
@@ -120,6 +105,7 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         sudokuBoardView.updategewaelteZelleUI(cell.first, cell.second)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateNotizenGemachtUI(notizenMachen: Boolean?) = notizenMachen?.let {
         if (it) {
             status.setText("Du machst Notizen")

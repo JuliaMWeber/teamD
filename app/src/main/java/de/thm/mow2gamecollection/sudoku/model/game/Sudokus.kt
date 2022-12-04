@@ -1,7 +1,7 @@
 package de.thm.mow2gamecollection.sudoku.model.game
 
 class Sudokus {
-    val sudoku1: Array<IntArray> = arrayOf(
+    private val sudoku1: Array<IntArray> = arrayOf(
         intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
         intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
         intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
@@ -13,7 +13,7 @@ class Sudokus {
         intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
     )
 
-    val sudoku2: Array<IntArray> = arrayOf(
+    private val sudoku2: Array<IntArray> = arrayOf(
         intArrayOf(4, 3, 5, 2, 6, 9, 7, 8, 1),
         intArrayOf(6, 8, 2, 5, 7, 1, 4, 9, 3),
         intArrayOf(1, 9, 7, 8, 3, 4, 5, 6, 2),
@@ -25,7 +25,7 @@ class Sudokus {
         intArrayOf(7, 6, 3, 4, 1, 8, 2, 5, 9),
     )
 
-    val sudoku3: Array<IntArray> = arrayOf(
+    private val sudoku3: Array<IntArray> = arrayOf(
         intArrayOf(8, 2, 7, 1, 5, 4, 3, 9, 6),
         intArrayOf(9, 6, 5, 3, 2, 7, 1, 4, 8),
         intArrayOf(3, 4, 1, 6, 8, 9, 7, 5, 2),
@@ -37,7 +37,7 @@ class Sudokus {
         intArrayOf(2, 3, 9, 8, 4, 1, 5, 6, 7),
     )
 
-    val sudoku4: Array<IntArray> = arrayOf(
+    private val sudoku4: Array<IntArray> = arrayOf(
         intArrayOf(1, 5, 2, 4, 8, 9, 3, 7, 6),
         intArrayOf(7, 3, 9, 2, 5, 6, 8, 4, 1),
         intArrayOf(4, 6, 8, 3, 7, 1, 2, 9, 5),
@@ -49,7 +49,7 @@ class Sudokus {
         intArrayOf(2, 4, 8, 7, 6, 9, 3, 1, 5),
     )
 
-    val sudoku5: Array<IntArray> = arrayOf(
+    private val sudoku5: Array<IntArray> = arrayOf(
         intArrayOf(7, 3, 5, 6, 1, 4, 8, 9, 2),
         intArrayOf(8, 4, 2, 9, 7, 3, 5, 6, 1),
         intArrayOf(9, 6, 1, 2, 8, 5, 3, 7, 4),
@@ -61,7 +61,7 @@ class Sudokus {
         intArrayOf(3, 2, 8, 5, 6, 1, 7, 4, 9)
 
     )
-    val sudoku6: Array<IntArray> = arrayOf(
+    private val sudoku6: Array<IntArray> = arrayOf(
         intArrayOf(3, 8, 7, 4, 9, 1, 6, 2, 5),
         intArrayOf(2, 4, 1, 5, 6, 8, 3, 7, 9),
         intArrayOf(5, 6, 9, 3, 2, 7, 4, 1, 8),
@@ -73,7 +73,7 @@ class Sudokus {
         intArrayOf(8, 1, 2, 9, 4, 5, 7, 6, 3),
 
         )
-    val sudoku7: Array<IntArray> = arrayOf(
+    private val sudoku7: Array<IntArray> = arrayOf(
         intArrayOf(2, 9, 6, 3, 1, 8, 5, 7, 4),
         intArrayOf(5, 8, 4, 9, 7, 2, 6, 1, 3),
         intArrayOf(7, 1, 3, 6, 4, 5, 2, 8, 9),
@@ -85,7 +85,7 @@ class Sudokus {
         intArrayOf(3, 4, 2, 1, 8, 9, 7, 6, 5),
 
         )
-    val sudoku8: Array<IntArray> = arrayOf(
+    private val sudoku8: Array<IntArray> = arrayOf(
         intArrayOf(4,3,1,6,7,9,5,2,8),
         intArrayOf(9,6,7,2,5,8,3,4,1),
         intArrayOf(5,8,2,1,4,3,9,6,7),
@@ -97,7 +97,7 @@ class Sudokus {
         intArrayOf(2,9,6,7,8,5,4,1,3),
 
         )
-    val sudoku9: Array<IntArray> = arrayOf(
+    private val sudoku9: Array<IntArray> = arrayOf(
         intArrayOf(9,4,2,1,6,3,8,5,7),
         intArrayOf(5,3,6,2,8,7,9,4,1),
         intArrayOf(8,7,1,9,5,4,2,3,6),
@@ -109,7 +109,7 @@ class Sudokus {
         intArrayOf(4,1,3,5,9,8,6,7,2),
 
         )
-    val sudoku10: Array<IntArray> = arrayOf(
+    private val sudoku10: Array<IntArray> = arrayOf(
         intArrayOf(2,7,6,3,1,4,9,5,8),
         intArrayOf(8,5,4,9,6,2,7,1,3),
         intArrayOf(9,1,3,8,7,5,2,6,4),

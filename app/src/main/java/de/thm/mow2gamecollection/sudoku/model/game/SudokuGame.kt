@@ -14,11 +14,7 @@ class SudokuGame {
     val notizenMachenLiveData = MutableLiveData<Boolean>()
     val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int?>>()
 
-
     var genSudoku = Sudokus().randomSudoku()
-
-    private lateinit var status: TextView
-
 
     private var gewaehlteZeile = -1
     private var gewaehlteSpalte = -1
@@ -34,11 +30,6 @@ class SudokuGame {
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         notizenMachenLiveData.postValue(notizenMachen)
         buttonEingabenLiveData.postValue(buttonEingabe)
-
-
-        //alleFelderFuellen()
-
-
     }
 
     fun felderAendern(index: Int) {
@@ -59,7 +50,7 @@ class SudokuGame {
     }
 
     fun neuesSudokuEingeben() {
-        var sudoku = Sudokus().randomSudoku()
+        val sudoku = Sudokus().randomSudoku()
         var zaehler = 0
         for (i in 0 until 9) {
             for (j in 0 until 9) {
@@ -166,7 +157,7 @@ class SudokuGame {
     fun loesen() {
         for (i in 0 until 9) {
             for (j in 0 until 9) {
-                var pos = i * board.groesse + j
+                val pos = i * board.groesse + j
                 if (zellen[pos].value == zellen[pos].eingabeValue) {
                     zellen[pos].istRichtig = true
                     zellenLiveData.postValue(board.zellen)
