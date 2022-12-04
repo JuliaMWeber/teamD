@@ -91,6 +91,7 @@ class SudokuGame {
 
 
 
+
         if (notizenMachen) {
             if (zelle.notizen.contains(zahl)) {
                 zelle.notizen.remove(zahl)
@@ -108,16 +109,17 @@ class SudokuGame {
             gewaehlteZeile = zeile
             gewaehlteSpalte = spalte
             gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
+        }
 
-            if (notizenMachen) {
-                hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
-            }
-        } else if (!zelle.istLeer) {
+        if (notizenMachen) {
+            hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
+        }
+
+        if (!zelle.istLeer) {
             gewaehlteZeile = zeile
             gewaehlteSpalte = spalte
             gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
         } else if (!zelle.buttonEingabe) {
-
             hervorgehobeneSchluesselLiveData.postValue(setOf(zelle.eingabeValue) as Set<Int?>?)
         } else if (!zelle.istRichtig) {
             gewaehlteZeile = zeile
