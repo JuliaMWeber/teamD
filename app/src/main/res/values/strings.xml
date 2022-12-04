@@ -16,6 +16,8 @@
     <string name="restartButton">Neustart</string>
     <string name="easyButton">Einach</string>
     <string name="hardButton">Schwer</string>
+    <string name="playerOneScore">Spieler x</string>
+    <string name="playerTwoScore">Spieler o</string>
 
 
     <string name="title_activity_nsd_prototype">NsdPrototype</string>

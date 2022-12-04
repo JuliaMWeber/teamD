@@ -43,34 +43,17 @@ class GamesListActivity : AppCompatActivity() {
             finish()
         }
 
-
-//        val imageIDs = intArrayOf(
-//            R.drawable.test,
-//            R.drawable.wordle,
-//            R.drawable.test)
-//
-//        val gameNames = arrayOf(
-//            "Sudoku",
-//            "Wordle",
-//            "Tic Tac Toe")
-
         gamesArrayList = arrayListOf(
             Game("Sudoku", R.drawable.test, false),
             Game("Wordle", R.drawable.wordle, false),
-            //Game("Tic Tac Toe", R.drawable.test, false),
-            Game("Tic Tac Toe Start", R.drawable.ttt, false),
-            Game("Tic Tac Toe Network Multiplayer", R.drawable.test, true),
+            Game("Tic Tac Toe HotSeat", R.drawable.ttt, false),
+            Game("Tic Tac Toe Network Multiplayer", R.drawable.ttt, true),
         )
-//        for (i in gameNames.indices) {
-//            val game = Game(gameNames[i], imageIDs[i])
-//            gamesArrayList.add(game)
-//        }
+
         binding.listview.isClickable = true
         binding.listview.adapter = MyAdapter(this, gamesArrayList)
         binding.listview.setOnItemClickListener { parent, view, position, id ->
-//            val name = gameNames[position]
             val name = gamesArrayList[position].name
-//            val imageID = imageIDs[position]
             val imageID = gamesArrayList[position].imageId
             val i = when (name) {
                 "Sudoku" -> {
@@ -79,7 +62,7 @@ class GamesListActivity : AppCompatActivity() {
                 "Wordle" -> {
                     Intent(this, WordleActivity::class.java)
                 }
-                "Tic Tac Toe Start" -> {
+                "Tic Tac Toe HotSeat" -> {
                     Intent(this, StartTicTacToeActivity::class.java)
                 }
                 else -> {
@@ -88,9 +71,6 @@ class GamesListActivity : AppCompatActivity() {
             }
 
             i.putExtra("isMultiplayer", gamesArrayList[position].isNetworkMultiplayer)
-
-//            i.putExtra("name",name)
-//            i.putExtra("imageId",imageID)
             startActivity(i)
         }
     }
