@@ -12,74 +12,9 @@ class SudokuGame {
     var buttonEingabenLiveData = MutableLiveData<Int>()
     val notizenMachenLiveData = MutableLiveData<Boolean>()
     val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int?>>()
-    val sudoku1: Array<IntArray> = arrayOf(
-        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
-        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
-        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
-        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
-        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
-        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
-        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
-        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
-        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
-    )
 
-    val sudoku2: Array<IntArray> = arrayOf(
-        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
-        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
-        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
-        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
-        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
-        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
-        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
-        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
-        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
-    )
 
-    val sudoku3: Array<IntArray> = arrayOf(
-        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
-        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
-        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
-        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
-        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
-        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
-        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
-        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
-        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
-    )
-
-    val sudoku4: Array<IntArray> = arrayOf(
-        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
-        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
-        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
-        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
-        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
-        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
-        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
-        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
-        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
-    )
-
-    val sudoku5: Array<IntArray> = arrayOf(
-        intArrayOf(5, 3, 7, 8, 2, 4, 6, 9, 1),
-        intArrayOf(8, 4, 2, 4, 6, 9, 7, 3, 5),
-        intArrayOf(1, 9, 6, 5, 7, 3, 2, 4, 8),
-        intArrayOf(4, 6, 1, 9, 5, 7, 8, 2, 3),
-        intArrayOf(3, 2, 8, 4, 1, 6, 5, 7, 9),
-        intArrayOf(9, 7, 5, 3, 8, 2, 1, 6, 4),
-        intArrayOf(7, 8, 3, 2, 4, 1, 9, 5, 6),
-        intArrayOf(6, 5, 9, 7, 3, 8, 4, 1, 2),
-        intArrayOf(2, 1, 4, 6, 9, 5, 3, 8, 7),
-
-        )
-
-    fun randomSudoku(): Array<IntArray> {
-        val sudokuListe = listOf(sudoku1, sudoku2, sudoku3, sudoku4, sudoku5)
-
-        return sudokuListe.random()
-    }
-
-    var genSudoku = randomSudoku()
+    var genSudoku = Sudokus().randomSudoku()
 
 
     private var gewaehlteZeile = -1
@@ -121,7 +56,7 @@ class SudokuGame {
     }
 
     fun neuesSudokuEingeben() {
-        var sudoku = randomSudoku()
+        var sudoku = Sudokus().randomSudoku()
         var zaehler = 0
         for (i in 0 until 9) {
             for (j in 0 until 9) {
