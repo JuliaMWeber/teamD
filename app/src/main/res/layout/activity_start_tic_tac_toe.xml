@@ -6,11 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".tictactoe.controller.StartTicTacToeActivity">
 
+  <ImageView
+      android:id="@+id/imageView4"
+      android:layout_width="380dp"
+      android:layout_height="132dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
+      app:layout_constraintBottom_toTopOf="@+id/imageView2"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/tictactoe" />
+
+  <ImageView
+      android:id="@+id/imageView2"
+      android:layout_width="146dp"
+      android:layout_height="64dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
+      app:layout_constraintBottom_toTopOf="@+id/easyButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView4"
+      app:srcCompat="@drawable/start3x3" />
 
   <Button
       android:id="@+id/easyButton"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Einfach"
       app:layout_constraintBottom_toTopOf="@+id/imageView3"
@@ -18,34 +49,47 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
+
   <Button
       android:id="@+id/hardButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="64dp"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Schwer"
       app:layout_constraintBottom_toTopOf="@+id/imageView3"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/easyButton"
       app:layout_constraintTop_toBottomOf="@+id/imageView2"
+      app:layout_constraintVertical_bias="0.503"
       tools:ignore="MissingConstraints" />
 
   <ImageView
-      android:id="@+id/imageView2"
+      android:id="@+id/imageView3"
       android:layout_width="146dp"
       android:layout_height="64dp"
-      android:layout_marginTop="112dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
+      app:layout_constraintBottom_toTopOf="@+id/easyButton5x5"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.497"
+      app:layout_constraintHorizontal_bias="0.501"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/imageView4"
-      app:srcCompat="@drawable/start3x3" />
-
+      app:layout_constraintTop_toBottomOf="@+id/easyButton"
+      app:srcCompat="@drawable/start5x5" />
 
   <Button
       android:id="@+id/easyButton5x5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Einfach"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -53,37 +97,26 @@
       app:layout_constraintHorizontal_bias="0.608"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/imageView3"
+      app:layout_constraintVertical_bias="0.5"
       tools:ignore="MissingConstraints" />
 
   <Button
       android:id="@+id/hardButton5x5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="64dp"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
       android:background="@drawable/pixel_button_small_oval_thm_primary"
       android:text="Schwer"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/easyButton5x5"
       app:layout_constraintTop_toBottomOf="@+id/imageView3"
+      app:layout_constraintVertical_bias="0.572"
       tools:ignore="MissingConstraints" />
 
-  <ImageView
-      android:id="@+id/imageView3"
-      android:layout_width="146dp"
-      android:layout_height="64dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.497"
-      app:layout_constraintStart_toStartOf="parent"
-      app:srcCompat="@drawable/start5x5"
-      tools:layout_editor_absoluteY="486dp" />
 
-  <ImageView
-      android:id="@+id/imageView4"
-      android:layout_width="380dp"
-      android:layout_height="132dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:srcCompat="@drawable/tictactoe" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
