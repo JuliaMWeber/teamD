@@ -7,29 +7,25 @@ import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
 
-// Debugging
-private const val DEBUG = true
-private const val TAG = "Stopwatch"
-
 /**
  * @param activity The Activity that uses and displays the time
  * @param textView: the TextView that is used to show the time
  */
 class Stopwatch(val activity: Activity, val textView: TextView) {
-    private lateinit var dataHelper: DataHelper
+    private var sharedPreferencesHelper: SharedPreferencesHelper
     private val timer = Timer()
 
     init {
-        dataHelper = DataHelper(activity)
+        sharedPreferencesHelper = SharedPreferencesHelper(activity)
     }
 
     fun onResume() {
-        if (DEBUG) Log.d(TAG, "isStopwatchRunning: ${dataHelper.isStopwatchRunning}")
-        if(dataHelper.isStopwatchRunning) {
-            dataHelper.setStopwatchRunning(true)
+        if (DEBUG) Log.d(TAG, "isStopwatchRunning: ${sharedPreferencesHelper.isStopwatchRunning}")
+        if(sharedPreferencesHelper.isStopwatchRunning) {
+            sharedPreferencesHelper.setStopwatchRunning(true)
         } else {
-            dataHelper.setStopwatchRunning(false)
-            if (dataHelper.startTime != null && dataHelper.stopTime != null) {
+            sharedPreferencesHelper.setStopwatchRunning(false)
+            if (sharedPreferencesHelper.startTime != null && sharedPreferencesHelper.stopTime != null) {
                 if (DEBUG) Log.d(TAG, "startTime and stop not null")
                 val time = Date().time - calculateRestartTime().time
                 textView.text = timeStringFromLong(time)
@@ -37,39 +33,40 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
             start()
         }
 
+        // use a custom TimerTask to update TextView
         timer.scheduleAtFixedRate(UpdateUiTimerTask(), 0, 500)
     }
 
     fun resetTimer() {
-        dataHelper.apply {
+        sharedPreferencesHelper.apply {
             setStartTime(null)
             setStopTime(null)
-            dataHelper.setStopwatchRunning(false)
+            sharedPreferencesHelper.setStopwatchRunning(false)
         }
         textView.text = timeStringFromLong(0)
     }
 
     fun stop() {
-        if (dataHelper.isStopwatchRunning) {
-            dataHelper.setStopTime(Date())
-            dataHelper.setStopwatchRunning(false)
+        if (sharedPreferencesHelper.isStopwatchRunning) {
+            sharedPreferencesHelper.setStopTime(Date())
+            sharedPreferencesHelper.setStopwatchRunning(false)
         } else {
             Log.e(TAG, "startStopAction")
         }
     }
 
     fun start() {
-        if (dataHelper.stopTime != null) {
-            dataHelper.setStartTime(calculateRestartTime())
-            dataHelper.setStopTime(null)
+        if (sharedPreferencesHelper.stopTime != null) {
+            sharedPreferencesHelper.setStartTime(calculateRestartTime())
+            sharedPreferencesHelper.setStopTime(null)
         } else {
-            dataHelper.setStartTime(Date())
+            sharedPreferencesHelper.setStartTime(Date())
         }
-        dataHelper.setStopwatchRunning(true)
+        sharedPreferencesHelper.setStopwatchRunning(true)
     }
 
     fun getTotalTimeString() : String? {
-        dataHelper.getTotalMilliseconds()?.let {
+        sharedPreferencesHelper.getTotalMilliseconds()?.let {
             return timeStringFromLong(it)
         }
         return null
@@ -77,16 +74,19 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
 
     private fun calculateRestartTime(): Date {
         var restartTimeInMilliseconds = System.currentTimeMillis()
-        dataHelper.getTotalMilliseconds()?.let { timeElapsed ->
+        sharedPreferencesHelper.getTotalMilliseconds()?.let { timeElapsed ->
             restartTimeInMilliseconds -= timeElapsed
         }
         return Date(restartTimeInMilliseconds)
     }
 
+    /**
+     * custom TimerTask to update the TextView displaying the time
+     */
     private inner class UpdateUiTimerTask: TimerTask() {
         override fun run() {
-            if (dataHelper.isStopwatchRunning) {
-                val time = Date().time - dataHelper.startTime!!.time
+            if (sharedPreferencesHelper.isStopwatchRunning) {
+                val time = Date().time - sharedPreferencesHelper.startTime!!.time
 
                 activity.runOnUiThread {
                     textView.text = timeStringFromLong(time)
@@ -95,29 +95,34 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
         }
     }
 
+    private fun timeStringFromLong(timeMilliseconds: Long): String {
+        val seconds = (timeMilliseconds / 1000) % 60
+        val minutes = (timeMilliseconds / (1000 * 60) % 60)
+        val hours = (timeMilliseconds / (1000 * 60 * 60) % 24)
+        return makeTimeString(hours, minutes, seconds)
+    }
+
+    private fun makeTimeString(hours: Long, minutes: Long, seconds: Long): String {
+        return when (hours) {
+            0L -> String.format("%02d:%02d", minutes, seconds)
+            else -> String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        }
+    }
+
     companion object {
+        // Debugging
+        private const val DEBUG = true
+        private const val TAG = "Stopwatch"
+
+        // keys for Shared Preferences
         const val PREFERENCES_KEY = "preferences"
         const val START_TIME_KEY = "startTime"
         const val STOP_TIME_KEY = "stopTime"
         const val IS_STOPWATCH_RUNNING_KEY = "isStopwatchRunning"
-
-        fun timeStringFromLong(timeMilliseconds: Long): String {
-            val seconds = (timeMilliseconds / 1000) % 60
-            val minutes = (timeMilliseconds / (1000 * 60) % 60)
-            val hours = (timeMilliseconds / (1000 * 60 * 60) % 24)
-            return makeTimeString(hours, minutes, seconds)
-        }
-
-        fun makeTimeString(hours: Long, minutes: Long, seconds: Long): String {
-            return when (hours) {
-                0L -> String.format("%02d:%02d", minutes, seconds)
-                else -> String.format("%02d:%02d:%02d", hours, minutes, seconds)
-            }
-        }
     }
 
 
-    private inner class DataHelper(context: Context) {
+    private inner class SharedPreferencesHelper(context: Context) {
         private val sharedPreferences = context.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE)
         private val dateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault())
 

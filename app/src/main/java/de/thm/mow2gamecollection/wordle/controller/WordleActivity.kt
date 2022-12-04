@@ -15,31 +15,16 @@ import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
-import java.util.*
-
-// debugging
-private const val TAG = "WordleActivity"
-private const val DEBUG = true
-private const val TARGET_WORD_KEY = "targetWord"
-private const val USER_GUESSES_KEY = "userGuesses"
 
 class WordleActivity : KeyboardActivity() {
-    // val GAME_STATE_KEY = "gameState"
-
     private lateinit var binding: ActivityWordleBinding
-
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
     private lateinit var letterGridFragment: LetterGridFragment
-    private var loadSaveGameFromSharedPreferences = false
-
     private lateinit var stopwatch: Stopwatch
 
-
-
-
-
-    // var gameState: String? = null
+    // flag indicating whether we need to (try to) load the game state from Shared Preferences
+    private var loadSaveGameFromSharedPreferences = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (DEBUG) Log.d(TAG, "onCreate")
@@ -73,7 +58,6 @@ class WordleActivity : KeyboardActivity() {
     // The savedInstanceState Bundle is same as the one used in onCreate().
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         if (DEBUG) Log.d(TAG, "onRestoreInstanceState")
-        val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
         super.onRestoreInstanceState(savedInstanceState)
     }
 
@@ -218,5 +202,15 @@ class WordleActivity : KeyboardActivity() {
 
     private fun giveUp() {
         // TODO: ???
+    }
+
+    companion object {
+        // debugging
+        private const val TAG = "WordleActivity"
+        private const val DEBUG = true
+
+        // keys for Shared Preferences
+        private const val TARGET_WORD_KEY = "targetWord"
+        private const val USER_GUESSES_KEY = "userGuesses"
     }
 }
