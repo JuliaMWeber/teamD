@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Game Collection</string>
+    <string name="app_name">Games Collection</string>
     <string name="title_activity_wordle">WordleActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
