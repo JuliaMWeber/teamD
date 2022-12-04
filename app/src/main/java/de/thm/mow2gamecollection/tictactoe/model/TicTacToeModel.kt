@@ -22,19 +22,8 @@ class TicTacToeModel (val controller: TicTacToeActivity){
             return if (currentPlayer == 1) "x" else "o"
         }
 
-    private var state3x3 = arrayOf(
-        intArrayOf(0,0,0),
-        intArrayOf(0,0,0),
-        intArrayOf(0,0,0)
-    )
-
-    private var state5x5 = arrayOf(
-        intArrayOf(0,0,0,0,0),
-        intArrayOf(0,0,0,0,0),
-        intArrayOf(0,0,0,0,0),
-        intArrayOf(0,0,0,0,0),
-        intArrayOf(0,0,0,0,0)
-    )
+    private var state3x3 = Array(3) { IntArray(3) {0} }
+    private var state5x5 = Array(5) { IntArray(5) {0} }
 
     /**
      * Sets chosen position for player and checks if win or draw happened
@@ -44,11 +33,13 @@ class TicTacToeModel (val controller: TicTacToeActivity){
     fun makeMove3x3 (position: Position) : WinningLine3x3? {
         state3x3[position.row][position.column] = currentPlayer
         val winningLine = hasGameEnded3x3()
-        if (winningLine == null) {
+        winningLine?.let{
+            if(winningLine != WinningLine3x3.NOWINNER) {
+                if (currentPlayer == 1) player1Points++ else player2Points++
+                controller.updatePoints()
+            }
+        }?: run{
             changeActivePlayer()
-        }else{
-            if (currentPlayer == 1) player1Points++ else player2Points++
-            controller.updatePoints()
         }
         return winningLine
     }
@@ -56,11 +47,13 @@ class TicTacToeModel (val controller: TicTacToeActivity){
     fun makeMove5x5 (position: Position) : WinningLine5x5? {
         state5x5[position.row][position.column] = currentPlayer
         val winningLine = hasGameEnded5x5()
-        if (winningLine == null) {
+        winningLine?.let{
+            if(winningLine != WinningLine5x5.NOWINNER) {
+                if (currentPlayer == 1) player1Points++ else player2Points++
+                controller.updatePoints()
+            }
+        }?:run {
             changeActivePlayer()
-        }else{
-            if (currentPlayer == 1) player1Points++ else player2Points++
-            controller.updatePoints()
         }
         return winningLine
     }
@@ -134,14 +127,23 @@ class TicTacToeModel (val controller: TicTacToeActivity){
             return WinningLine5x5.ROW_0
         } else if (state5x5[1][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[1][2] == currentPlayer && state5x5[1][3] == currentPlayer &&state5x5[1][4] == currentPlayer) {
             return WinningLine5x5.ROW_1
-        } else if (state5x5[2][0] == currentPlayer && state5x5[2][1] == currentPlayer && state5x5[2][2] == currentPlayer) {
+        } else if (state5x5[2][0] == currentPlayer && state5x5[2][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[2][3] == currentPlayer && state5x5[2][4] == currentPlayer) {
             return WinningLine5x5.ROW_2
+        } else if (state5x5[3][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[3][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[3][4] == currentPlayer) {
+            return WinningLine5x5.ROW_3
+        } else if (state5x5[4][0] == currentPlayer && state5x5[4][1] == currentPlayer && state5x5[4][2] == currentPlayer && state5x5[4][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
+            return WinningLine5x5.ROW_4
+
         } else if (state5x5[0][0] == currentPlayer && state5x5[1][0] == currentPlayer && state5x5[2][0] == currentPlayer && state5x5[3][0] == currentPlayer &&state5x5[4][0] == currentPlayer) {
             return WinningLine5x5.COLUMN_0
-        } else if (state5x5[0][1] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][1] == currentPlayer&& state5x5[3][1] == currentPlayer && state5x5[4][1] == currentPlayer) {
+        } else if (state5x5[1][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[1][2] == currentPlayer&& state5x5[1][3] == currentPlayer && state5x5[1][4] == currentPlayer) {
             return WinningLine5x5.COLUMN_1
-        } else if (state5x5[0][2] == currentPlayer && state5x5[1][2] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][2] == currentPlayer && state5x5[4][2] == currentPlayer) {
+        } else if (state5x5[2][0] == currentPlayer && state5x5[2][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[2][3] == currentPlayer && state5x5[2][4] == currentPlayer) {
             return WinningLine5x5.COLUMN_2
+        } else if (state5x5[3][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[3][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[3][4] == currentPlayer) {
+            return WinningLine5x5.COLUMN_3
+        } else if (state5x5[4][0] == currentPlayer && state5x5[4][1] == currentPlayer && state5x5[4][2] == currentPlayer && state5x5[4][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
+            return WinningLine5x5.COLUMN_4
         } else if (state5x5[0][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
             return WinningLine5x5.DIAGONAL_LEFT
         } else if (state5x5[4][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[1][3] == currentPlayer && state5x5[0][4] == currentPlayer) {

@@ -405,7 +405,9 @@ class TicTacToeActivity : AppCompatActivity(), TicTacToeController, EmulatorEnab
             WinningLine5x5.DIAGONAL_RIGHT -> Pair(listOf(binding5x5.f02, binding5x5.f11, binding5x5.f8,binding5x5.f31,binding5x5.f40),
                 R.drawable.right_diagonal_line
             )
-            WinningLine5x5.NOWINNER -> Pair(listOf(binding3x3.f0,binding3x3.f1, binding3x3.f2, binding3x3.f3, binding3x3.f4, binding3x3.f5, binding3x3.f6, binding3x3.f7, binding3x3.f8),
+            WinningLine5x5.NOWINNER -> Pair(listOf(binding5x5.f0,binding5x5.f1, binding5x5.f2,binding5x5.f01, binding5x5.f02, binding5x5.f3, binding5x5.f4, binding5x5.f5,binding5x5.f11,
+                binding5x5.f12, binding5x5.f6, binding5x5.f7, binding5x5.f8, binding5x5.f20,binding5x5.f21, binding5x5.f30,binding5x5.f31,binding5x5.f32,binding5x5.f33,binding5x5.f34,
+                        binding5x5.f40,binding5x5.f41,binding5x5.f42,binding5x5.f43,binding5x5.f44),
                 R.drawable.horizontal_line
             )
         }
