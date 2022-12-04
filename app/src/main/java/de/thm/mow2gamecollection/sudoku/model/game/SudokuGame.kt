@@ -12,7 +12,7 @@ class SudokuGame {
     var zellenLiveData = MutableLiveData<List<Zelle>>()
     var buttonEingabenLiveData = MutableLiveData<Int>()
     val notizenMachenLiveData = MutableLiveData<Boolean>()
-    val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int?>>()
+    val hervorgehobeneSchluesselLiveData = MutableLiveData<Set<Int>>()
 
     var genSudoku = Sudokus().randomSudoku()
 
@@ -30,6 +30,7 @@ class SudokuGame {
         gewaehlteZellenLiveData.postValue(Pair(gewaehlteZeile, gewaehlteSpalte))
         notizenMachenLiveData.postValue(notizenMachen)
         buttonEingabenLiveData.postValue(buttonEingabe)
+
     }
 
     fun felderAendern(index: Int) {
@@ -39,12 +40,20 @@ class SudokuGame {
         zellenLiveData.postValue(board.zellen)
     }
 
+    fun notizenAendern(index: Int){
+        val zelle = board.getZelle(gewaehlteZeile,gewaehlteSpalte)
+        zelle.hatNotizen=true
+        zelle.notizen.add(index)
+        zellenLiveData.postValue(board.zellen)
+    }
+
     fun zellenLeeren() {
         for (i in 0 until 81) {
             zellen[i].istStartzelle = false
             zellen[i].buttonEingabe = false
             zellen[i].eingabeValue = null
             zellen[i].value = null
+            zellen[i].notizen = mutableSetOf()
             zellenLiveData.postValue(board.zellen)
         }
     }
@@ -76,6 +85,7 @@ class SudokuGame {
         for (h in 0 until 81) {
             if (!zellen[h].istStartzelle) {
                 zellen[h].istLeer = true
+
             }
         }
     }
@@ -90,7 +100,6 @@ class SudokuGame {
         if (board.getZelle(gewaehlteZeile, gewaehlteSpalte) != zelle) return
 
 
-
         if (notizenMachen) {
             if (zelle.notizen.contains(zahl)) {
                 zelle.notizen.remove(zahl)
@@ -99,6 +108,7 @@ class SudokuGame {
             }
             hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
         }
+        zellenLiveData.postValue(board.zellen)
 
     }
 
@@ -112,17 +122,16 @@ class SudokuGame {
             if (notizenMachen) {
                 hervorgehobeneSchluesselLiveData.postValue(zelle.notizen)
             }
-        } else if (!zelle.istLeer) {
-            gewaehlteZeile = zeile
-            gewaehlteSpalte = spalte
-            gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
-        } else if (!zelle.buttonEingabe) {
 
-            hervorgehobeneSchluesselLiveData.postValue(setOf(zelle.eingabeValue) as Set<Int?>?)
-        } else if (!zelle.istRichtig) {
-            gewaehlteZeile = zeile
-            gewaehlteSpalte = spalte
+            if (!zelle.istLeer) {
+                gewaehlteZeile = zeile
+                gewaehlteSpalte = spalte
+                gewaehlteZellenLiveData.postValue(Pair(zeile, spalte))
+            } else if (!zelle.istRichtig) {
+                gewaehlteZeile = zeile
+                gewaehlteSpalte = spalte
 
+            }
         }
     }
 
@@ -130,13 +139,14 @@ class SudokuGame {
         notizenMachen = !notizenMachen
         notizenMachenLiveData.postValue(notizenMachen)
 
-        val akNotiz = if (notizenMachen) {
-            board.getZelle(gewaehlteZeile, gewaehlteSpalte).notizen
+        val aktNotiz = if (notizenMachen) {
+            val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
+            zelle.notizen
 
         } else {
             setOf()
         }
-        hervorgehobeneSchluesselLiveData.postValue(akNotiz)
+        hervorgehobeneSchluesselLiveData.postValue(aktNotiz)
     }
 
     fun entfernen() {

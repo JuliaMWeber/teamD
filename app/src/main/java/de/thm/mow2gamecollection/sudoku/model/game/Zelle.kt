@@ -12,6 +12,8 @@ class Zelle(
     var istRichtig : Boolean = false,
     var istFalsch : Boolean = false,
     var hatGenValue : Boolean = false,
-    var genValueList: MutableList<Int> = mutableListOf(),
-    var notizen: MutableSet<Int> = mutableSetOf()
+    var hatNotizen : Boolean = false,
+    var notizen: MutableSet<Int> = mutableSetOf(),
+    var genValueList: MutableList<Int> = mutableListOf()
+
 )

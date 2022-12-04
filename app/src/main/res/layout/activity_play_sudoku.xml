@@ -12,18 +12,22 @@
         android:layout_height="match_parent"
         android:layout_above="@id/buttonsLayout"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="5dp" />
 
     <GridLayout
         android:id="@+id/schwierigkeitsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:rowCount="3"
-        android:columnCount="3"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:columnCount="3"
+        android:rowCount="3">
 
         <Button
             android:id="@+id/leicht"
@@ -41,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_row="1"
             android:layout_column="1"
-            android:fontFamily="@font/pixel12x10"
             android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:fontFamily="@font/pixel12x10"
             android:text="Mittel" />
 
         <Button
@@ -51,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_row="1"
             android:layout_column="2"
-            android:fontFamily="@font/pixel12x10"
             android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:fontFamily="@font/pixel12x10"
             android:text="Schwer" />
 
         <TextView
@@ -89,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="0"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="1" />
 
@@ -99,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="1"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="2" />
 
@@ -109,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="2"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="3" />
 
@@ -119,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_row="1"
             android:layout_column="0"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="4" />
 
@@ -129,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_row="1"
             android:layout_column="1"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="5" />
 
@@ -139,7 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_row="1"
             android:layout_column="2"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="6" />
 
@@ -149,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_row="2"
             android:layout_column="0"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="7" />
 
@@ -159,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_row="2"
             android:layout_column="1"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="8" />
 
@@ -169,7 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_row="2"
             android:layout_column="2"
-            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
             android:fontFamily="@font/pixel12x10"
             android:text="9" />
 
@@ -179,7 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_row="3"
             android:layout_column="0"
-            android:layout_gravity="fill_horizontal"
+            android:layout_gravity="fill_horizontal|fill_vertical"
             android:background= "@drawable/sudoku_buttons"
             app:srcCompat="@drawable/edit_pen_black" />
 
@@ -199,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_row="3"
             android:layout_column="2"
-            android:layout_gravity="fill_horizontal"
+            android:layout_gravity="fill_horizontal|fill_vertical"
             android:background="@drawable/pixel_button_small_oval_thm_primary"
             android:fontFamily="@font/pixel12x10"
             android:text="Lösen" />
