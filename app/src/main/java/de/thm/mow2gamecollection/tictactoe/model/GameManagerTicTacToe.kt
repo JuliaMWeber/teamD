@@ -1,6 +1,5 @@
 package de.thm.mow2gamecollection.tictactoe.model
 
-import de.thm.mow2gamecollection.tictactoe.controller.FieldSize
 import de.thm.mow2gamecollection.tictactoe.controller.TicTacToeActivity
 
 class GameManagerTicTacToe (val controller: TicTacToeActivity){
@@ -72,7 +71,7 @@ class GameManagerTicTacToe (val controller: TicTacToeActivity){
      * Resets the grid
      */
     fun resetGrid() {
-        if (controller.getFieldsize()==FieldSize.THREE) {
+        if (controller.getFieldsize()== FieldSize.THREE) {
             state3x3 = arrayOf(
                 intArrayOf(0,0,0),
                 intArrayOf(0,0,0),

@@ -59,7 +59,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
 
 
         gameManagerTTT = GameManagerTicTacToe(this)
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             binding3x3 = ActivityTicTacToeBinding.inflate(layoutInflater)
             setContentView(binding3x3.root)
         } else {
@@ -83,7 +83,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     fun initializeFields() {
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             initializeFields3x3()
         } else {
             initializeFields5x5()
@@ -139,7 +139,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun initTimer() {
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             initTimer3x3()
         } else {
             initTimer5x5()
@@ -178,7 +178,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun getField(row: Int, col: Int) : TextView {
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             return getField3x3(row, col)
         } else {
             return getField5x5(row, col)
@@ -194,7 +194,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     fun updatePoints() {
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             updatePoints3x3()
         } else {
             updatePoints5x5()
@@ -220,7 +220,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
             // send move to opponent
             sendNetworkMessage("${position.row};${position.column}")
 
-            if(fieldSize==FieldSize.THREE){
+            if(fieldSize== FieldSize.THREE){
                 val winningLine = gameManagerTTT.makeMove3x3(position)
                 if (winningLine != null && winningLine != WinningLine3x3.NOWINNER) {
                     binding3x3.statusText.text = "Spieler ${gameManagerTTT.currentPlayerMark} hat gewonnen"
@@ -265,7 +265,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     fun showActivePlayer() {
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             showActivePlayer3x3()
         } else {
             showActivePlayer5x5()
@@ -306,7 +306,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun resetFields () {
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             resetFields3x3()
         } else {
             resetFields5x5()
@@ -334,7 +334,7 @@ class TicTacToeActivity : AppCompatActivity(), EmulatorEnabledMultiplayerGame {
     }
 
     private fun disableFields(){
-        if(fieldSize==FieldSize.THREE){
+        if(fieldSize== FieldSize.THREE){
             disableFields3x3()
         } else {
             disableFields5x5()
