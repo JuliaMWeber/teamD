@@ -1,9 +1,10 @@
 package de.thm.mow2gamecollection.model
 
-import de.thm.mow2gamecollection.controller.FirstRunActivity
+import android.content.Context
+import de.thm.mow2gamecollection.controller.helper.storage.UserSettings
 
-class FirstRunModel(val controller: FirstRunActivity) {
+class FirstRunModel(val context: Context) {
     fun saveUserName(name: String) {
-        UserSettings.saveUserName(controller, name)
+        UserSettings.saveUserName(context, name)
     }
 }

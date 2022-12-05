@@ -11,15 +11,6 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.view.TileView
 
-    // fragment initialization parameters
-    private const val ARG_SIDE = "side"
-    private const val ARG_STATUS = "status"
-    private const val ARG_LETTER = "letter"
-
-    // DEBUGGING
-    private const val TAG = "TileFaceFragment"
-    private const val DEBUG = true
-
 class TileFaceFragment : Fragment() {
     private var side: String? = null
     private var status: LetterStatus = LetterStatus.BLANK
@@ -28,7 +19,6 @@ class TileFaceFragment : Fragment() {
     private var tileView : TileView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         arguments?.let {
             side = it.getString("side")
@@ -39,7 +29,6 @@ class TileFaceFragment : Fragment() {
                 letter = it
             }
         }
-        Log.d(TAG, "onCreate\t$side\t$status\t$letter")
     }
 
     override fun onCreateView(
@@ -47,7 +36,6 @@ class TileFaceFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        if (DEBUG) Log.d(TAG, "onCreateView")
         val view = inflater.inflate(R.layout.fragment_tile_face, container, false)
         context?.applicationContext?.resources?.displayMetrics?.density?.let {
             view.cameraDistance = resources.getInteger(R.integer.tile_flip_camera_distance) * it
@@ -56,7 +44,6 @@ class TileFaceFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        if (DEBUG) Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         tileView = view.findViewById(R.id.tileView)
@@ -64,8 +51,6 @@ class TileFaceFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        if (DEBUG) Log.d(TAG, "onSaveInstanceState $status $letter")
-//        Log.d(TAG, "tileViewId: ${tileView.id}")
         outState.putString(ARG_SIDE, side)
         outState.putString(ARG_STATUS, status.toString())
         outState.putString(ARG_LETTER, letter.toString())
@@ -74,9 +59,6 @@ class TileFaceFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-//        val tileViewId = savedInstanceState?.getInt("tileViewId")
-//        Log.d(TAG, "tileViewID: $tileViewId")
-//        tileViewId?.let {
         savedInstanceState?.apply {
             side = getString(ARG_SIDE)
             getString(ARG_STATUS)?.let {
@@ -85,8 +67,6 @@ class TileFaceFragment : Fragment() {
             getString(ARG_LETTER)?.let {
                 letter = it.first()
             }
-            Log.d(TAG, "onViewStateRestored $side $letter $status")
-//        }
             tileView = requireView().findViewById(R.id.tileView)
             tileView?.let {
                 update(status, letter)
@@ -95,9 +75,6 @@ class TileFaceFragment : Fragment() {
     }
 
     fun update(status: LetterStatus, letter: Char? = null) {
-
-        Log.d(TAG, "update\t\t$side\t$status\t$letter")
-
         this.status = status
         this.letter = letter
 
@@ -163,11 +140,19 @@ class TileFaceFragment : Fragment() {
             }
             letter?.let { text = it.toString() }
         } ?: run {
-            Log.d(TAG, "TILEVIEW NULL!")
+            Log.e(TAG, "tileView is null!")
         }
     }
 
     companion object {
+        // Debugging
+        private const val TAG = "TileFaceFragment"
+
+        // fragment initialization parameters
+        private const val ARG_SIDE = "side"
+        private const val ARG_STATUS = "status"
+        private const val ARG_LETTER = "letter"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -179,7 +164,6 @@ class TileFaceFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(side: String, status: LetterStatus, letter: Char?) : TileFaceFragment {
-            Log.d(TAG, "newInstance($side, $status, $letter)")
             return TileFaceFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_SIDE, side)
@@ -190,6 +174,5 @@ class TileFaceFragment : Fragment() {
                 }
             }
         }
-
     }
 }

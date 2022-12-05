@@ -10,7 +10,7 @@ import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.adapter.MyAdapter
 import de.thm.mow2gamecollection.sudoku.controller.PlaySudokuActivity
 import de.thm.mow2gamecollection.model.Game
-import de.thm.mow2gamecollection.model.UserSettings
+import de.thm.mow2gamecollection.controller.helper.storage.UserSettings
 import de.thm.mow2gamecollection.tictactoe.controller.StartTicTacToeActivity
 import de.thm.mow2gamecollection.tictactoe.controller.StartTicTacToeNetworkMultiplayerActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
@@ -54,7 +54,6 @@ class GamesListActivity : AppCompatActivity() {
         binding.listview.adapter = MyAdapter(this, gamesArrayList)
         binding.listview.setOnItemClickListener { parent, view, position, id ->
             val name = gamesArrayList[position].name
-            val imageID = gamesArrayList[position].imageId
             val i = when (name) {
                 "Sudoku" -> {
                     Intent(this, PlaySudokuActivity::class.java)

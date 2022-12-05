@@ -1,7 +1,6 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,19 +13,6 @@ import androidx.fragment.app.Fragment
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.KeyboardActivity
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "keyboardLayout"
-private const val ARG_PARAM2 = "swapFunctionButtons"
-
-// DEBUGGIN
-private const val TAG = "KeyboardFragment"
-private const val DEBUG = true
-
-private const val KEYBOARD_STATE_KEYS_KEY = "keyboardStateKeys"
-private const val KEYBOARD_STATE_VALUES_KEY = "keyboardStateValues"
 
 /**
  * A simple [Fragment] subclass.
@@ -59,8 +45,8 @@ class WordleKeyboardFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            keyboardLayout = KeyboardLayout.valueOf(it.getString(ARG_PARAM1)!!)
-            swapFunctionButtons = it.getBoolean(ARG_PARAM2)
+            keyboardLayout = KeyboardLayout.valueOf(it.getString(ARG_KEYBOARD_LAYOUT)!!)
+            swapFunctionButtons = it.getBoolean(ARG_SWAP_FUNCTION_BUTTONS)
         }
     }
 
@@ -81,7 +67,6 @@ class WordleKeyboardFragment : Fragment() {
             for (i in 0 until keys!!.size) {
                 keyStateMap.put(keys[i], LetterStatus.valueOf(values!![i]))
             }
-            if (DEBUG) Log.d(TAG, keyStateMap.toString())
         }
 
         keyboardLayouts[selectedKeyboardLayout]?.let {
@@ -126,7 +111,6 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     private fun handleButtonClick(button: Button) {
-        Log.d("KeyboardFragment", "handleButtonClick")
         val activity = activity as KeyboardActivity
         when (button.text) {
             "✓" -> {
@@ -165,7 +149,7 @@ class WordleKeyboardFragment : Fragment() {
                     LetterStatus.WRONG -> {
                         keyView.setBackgroundResource(R.drawable.pixel_button_small_square_dark_grey)
                         keyView.setTextAppearance(R.style.keyboardLabelGrey)
-                }
+                    }
                     else -> return
                 }
             }
@@ -183,6 +167,13 @@ class WordleKeyboardFragment : Fragment() {
     }
 
     companion object {
+        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+        private const val ARG_KEYBOARD_LAYOUT = "keyboardLayout"
+        private const val ARG_SWAP_FUNCTION_BUTTONS = "swapFunctionButtons"
+
+        private const val KEYBOARD_STATE_KEYS_KEY = "keyboardStateKeys"
+        private const val KEYBOARD_STATE_VALUES_KEY = "keyboardStateValues"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -196,8 +187,8 @@ class WordleKeyboardFragment : Fragment() {
         fun newInstance(keyboardLayout: KeyboardLayout, swapFunctionButtons: Boolean) =
             WordleKeyboardFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, keyboardLayout.toString())
-                    putBoolean(ARG_PARAM2, swapFunctionButtons)
+                    putString(ARG_KEYBOARD_LAYOUT, keyboardLayout.toString())
+                    putBoolean(ARG_SWAP_FUNCTION_BUTTONS, swapFunctionButtons)
                 }
             }
     }

@@ -1,7 +1,6 @@
 package de.thm.mow2gamecollection.wordle.controller
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,6 @@ import android.view.ViewGroup
 import androidx.gridlayout.widget.GridLayout
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-
-// DEBUGGING
-private const val DEBUG = false
-private const val TAG = "TileFragment"
 
 class TileFragment : Fragment() {
     private lateinit var frontFragment: TileFaceFragment
@@ -25,32 +20,21 @@ class TileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (DEBUG) Log.d(TAG, "onCreateView\nsavedInstanceState: $savedInstanceState")
-        if (savedInstanceState != null) {
+        savedInstanceState?.let {
             isShowingBack = savedInstanceState.getBoolean("isShowingBack")
-            childFragmentManager.findFragmentById(savedInstanceState.getInt("frontFragmentId"))?.let {
+            childFragmentManager.findFragmentById(savedInstanceState.getInt(FRONT_FRAGMENT_ID_KEY))?.let {
                 frontFragment = it as TileFaceFragment
-            } ?: run { if (DEBUG) Log.d(TAG, "frontFragmentId not found in savedInstanceState")}
-            childFragmentManager.findFragmentById(savedInstanceState.getInt("backFragmentId"))?.let {
+            }
+            childFragmentManager.findFragmentById(savedInstanceState.getInt(BACK_FRAGMENT_ID_KEY))?.let {
                 backFragment =  it as TileFaceFragment
-            } ?: run { if (DEBUG) Log.d(TAG,"backFragmentId not found in savedInstanceState") }
-        }
-        else {
+            }
+        } ?: run {
             frontFragment = TileFaceFragment.newInstance("FRONT", LetterStatus.BLANK, null)
             childFragmentManager.beginTransaction()
                 .add(R.id.container, frontFragment)
                 .commit()
         }
-//        if (isShowingBack == true) {
-//            childFragmentManager.beginTransaction()
-//                .add(R.id.container, backFragment)
-//                .commit()
-//        } else {
-//            childFragmentManager.beginTransaction()
-//                .add(R.id.container, frontFragment)
-//                .commit()
-//        }
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_tile, container, false)
     }
 
@@ -69,10 +53,10 @@ class TileFragment : Fragment() {
         super.onSaveInstanceState(outState)
         outState.putBoolean("isShowingBack", isShowingBack)
         if (this::frontFragment.isInitialized) {
-            outState.putInt("frontFragmentId", frontFragment.id)
+            outState.putInt(FRONT_FRAGMENT_ID_KEY, frontFragment.id)
         }
         if (this::backFragment.isInitialized) {
-            outState.putInt("backFragmentId", backFragment.id)
+            outState.putInt(BACK_FRAGMENT_ID_KEY, backFragment.id)
         }
 //        outState.putString("letterStatus", letterStatus.toString())
 //        letter?.let { outState.putChar("letterStatus", it) }
@@ -93,43 +77,28 @@ class TileFragment : Fragment() {
             isShowingBack = true
 
             // create new back Fragment
-            backFragment = TileFaceFragment.newInstance("front", letterStatus, letter)
+            backFragment = TileFaceFragment.newInstance("back", letterStatus, letter)
             replacement = backFragment
         }
 
-        // Create and commit a new fragment transaction that adds the fragment for
-        // the back of the card, uses custom animations, and is part of the fragment
-        // manager's back stack.
-
+        // fragment transaction adds the fragment for the back of the card, uses custom animations
         childFragmentManager.beginTransaction()
-
-            // Replace the default fragment animations with animator resources
-            // representing rotations when switching to the back of the card, as
-            // well as animator resources representing rotations when flipping
-            // back to the front (e.g. when the system Back button is pressed).
             .setCustomAnimations(
                 R.animator.tile_flip_right_in,
                 R.animator.tile_flip_right_out,
                 R.animator.tile_flip_left_in,
                 R.animator.tile_flip_left_out
             )
-
             // Replace any fragments currently in the container view with a
-            // fragment representing the next page (indicated by the
-            // just-incremented currentPage variable).
+            // fragment representing the other side
             .replace(R.id.container, replacement)
-
-            // Commit the transaction.
             .commit()
     }
 
     fun update(letterStatus: LetterStatus, letter: Char) {
-        if (DEBUG) Log.d(TAG, "---\nupdate $letterStatus $letter\n${this}")
         getCurrentFragment().update(letterStatus, letter)
         this.letterStatus = letterStatus
         this.letter = letter
-//        frontFragment.update(LetterStatus.UNKNOWN, letter)
-//        backFragment = TileFaceFragment.newInstance("BACK", status, letter)
     }
 
     fun getCurrentFragment() : TileFaceFragment {
@@ -144,5 +113,10 @@ class TileFragment : Fragment() {
             backFragment.update(LetterStatus.BLANK, null)
         }
         if (isShowingBack) flip()
+    }
+
+    companion object {
+        private const val FRONT_FRAGMENT_ID_KEY = "frontFragmentId"
+        private const val BACK_FRAGMENT_ID_KEY = "backFragmentId"
     }
 }

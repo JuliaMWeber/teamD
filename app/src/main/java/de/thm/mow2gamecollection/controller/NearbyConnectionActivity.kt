@@ -2,7 +2,6 @@ package de.thm.mow2gamecollection.controller
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,13 +12,6 @@ import de.thm.mow2gamecollection.controller.helper.connection.NearbyConnectionMa
 import de.thm.mow2gamecollection.databinding.ActivityNearbyConnectionBinding
 import de.thm.mow2gamecollection.model.MultiplayerGame
 import java.util.*
-
-/**
- * The request code for verifying our call to [requestPermissions]. Recall that calling
- * [requestPermissions] leads to a callback to [onRequestPermissionsResult]
- */
-private const val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
-
 
 class NearbyConnectionActivity : AppCompatActivity(), MultiplayerGame {
 
@@ -196,8 +188,6 @@ class NearbyConnectionActivity : AppCompatActivity(), MultiplayerGame {
         }
     }
 
-
-
     /** Sends the user's selection of rock, paper, or scissors to the opponent. */
     private fun sendGameChoice(choice: GameChoice) {
         myChoice = choice
@@ -239,4 +229,11 @@ class NearbyConnectionActivity : AppCompatActivity(), MultiplayerGame {
         binding.score.text = ":"
     }
 
+    companion object {
+        /**
+         * The request code for verifying our call to [requestPermissions]. Recall that calling
+         * [requestPermissions] leads to a callback to [onRequestPermissionsResult]
+         */
+        private const val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
+    }
 }

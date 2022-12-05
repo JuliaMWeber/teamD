@@ -7,7 +7,7 @@ import androidx.preference.PreferenceManager
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.databinding.ActivityMainBinding
 import de.thm.mow2gamecollection.model.FirstRunModel
-import de.thm.mow2gamecollection.model.UserSettings
+import de.thm.mow2gamecollection.controller.helper.storage.UserSettings
 import de.thm.mow2gamecollection.wordle.controller.LetterGridFragment
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
@@ -38,7 +38,7 @@ class FirstRunActivity : KeyboardActivity() {
         }
 
         binding.startButton.setOnClickListener{
-            if(playerName.isNotEmpty()) {
+            if (playerName.isNotEmpty()) {
                 PreferenceManager.getDefaultSharedPreferences(this).edit().apply {
                     putBoolean(UserSettings.IS_FIRST_RUN_KEY, false)
                 }.apply()

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.controller.GamesListActivity
@@ -27,7 +26,6 @@ class WordleActivity : KeyboardActivity() {
     private var loadSaveGameFromSharedPreferences = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (DEBUG) Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
         binding = ActivityWordleBinding.inflate(layoutInflater)
@@ -37,18 +35,14 @@ class WordleActivity : KeyboardActivity() {
 
         // get saved game state
         savedInstanceState?.let {
-            // TODO gameState = savedInstanceState?.getString(GAME_STATE_KEY)
             val targetWord = savedInstanceState.getString(TARGET_WORD_KEY)
             val userGuesses = savedInstanceState.getString(USER_GUESSES_KEY)
-            if (DEBUG) Log.d(TAG, targetWord ?: "savedInstanceState? $savedInstanceState,\n\ttargetWord? $targetWord\n\tuserGuesses? $userGuesses")
         } ?: run {
-            // nothing saved to savedInstanceState. Check sharedPreferences
+            // no savedInstanceState. Check sharedPreferences
             loadSaveGameFromSharedPreferences = true
         }
 
-        // TODO: Use the [WordleKeyboardFragment.newInstance] factory method to create Fragment instead
         wordleKeyboardFragment = supportFragmentManager.findFragmentById(R.id.keyboard) as WordleKeyboardFragment
-        // TODO: Use the [WordleLetterGridFragment.newInstance] factory method to create Fragment instead
         letterGridFragment = supportFragmentManager.findFragmentById(R.id.letterGrid) as LetterGridFragment
     }
 
@@ -57,58 +51,38 @@ class WordleActivity : KeyboardActivity() {
     // other state here, possibly usable after onStart() has completed.
     // The savedInstanceState Bundle is same as the one used in onCreate().
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        if (DEBUG) Log.d(TAG, "onRestoreInstanceState")
         super.onRestoreInstanceState(savedInstanceState)
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
     override fun onSaveInstanceState(outState: Bundle) {
-        if (DEBUG) Log.d(TAG, "onSaveInstanceState")
-        // outState.putString(GAME_STATE_KEY, gameState)
         outState.putString(TARGET_WORD_KEY, model.targetWord)
         outState.putString(USER_GUESSES_KEY, model.getUserGuessesAsString())
-        // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState)
     }
 
     override fun onResume() {
-        if (DEBUG) Log.d(TAG, "onResume")
         super.onResume()
         model = WordleModel(this)
         if (loadSaveGameFromSharedPreferences) {
             model.init()
         }
 
-
-//         start stopwatch
+        // start stopwatch
         stopwatch.onResume()
     }
 
-
-
     override fun onPause() {
-        if (DEBUG) Log.d(TAG, "onPause")
         super.onPause()
         model.saveGameState()
     }
 
-    override fun onRestart() {
-        if (DEBUG) Log.d(TAG, "onRestart")
-        super.onRestart()
-    }
-
-    override fun onStart() {
-        if (DEBUG) Log.d(TAG, "onStart")
-        super.onStart()
-    }
-
     override fun onStop() {
-        if (DEBUG) Log.d(TAG, "onStop")
         super.onStop()
         stopwatch.stop()
     }
 
-    // TODO: give the user some information, e.g. "word too short" / "word not in dictionary"
+    // give the user some information, e.g. "word too short" / "word not in dictionary"
     // for now, simply show a Toast message
     fun displayInformation(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
@@ -131,7 +105,6 @@ class WordleActivity : KeyboardActivity() {
     }
 
     fun updateTile(row: Int, index: Int, letter: Char, status: LetterStatus) {
-        if (DEBUG) Log.d(TAG, "updateTile($row, $index, $letter, $status")
         letterGridFragment.updateTile(row, index, letter, status)
     }
 
@@ -147,7 +120,6 @@ class WordleActivity : KeyboardActivity() {
         letterGridFragment.reveal(row)
     }
 
-    // TODO: better event and state handling
     fun onGameEvent(e: GameEvent) {
         when (e) {
             GameEvent.LOST -> {
@@ -205,10 +177,6 @@ class WordleActivity : KeyboardActivity() {
     }
 
     companion object {
-        // debugging
-        private const val TAG = "WordleActivity"
-        private const val DEBUG = true
-
         // keys for Shared Preferences
         private const val TARGET_WORD_KEY = "targetWord"
         private const val USER_GUESSES_KEY = "userGuesses"

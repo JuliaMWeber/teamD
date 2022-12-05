@@ -17,7 +17,6 @@ class TileView : androidx.appcompat.widget.AppCompatTextView {
         isAllCaps = true
 
         // shift letter using padding to center it properly
-        // TODO: calculate padding to match display size / density
         updatePadding(25, 50, 0, 0)
 
         // automatically scale text size (API >25)

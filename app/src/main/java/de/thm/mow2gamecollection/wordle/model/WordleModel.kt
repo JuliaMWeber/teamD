@@ -8,16 +8,6 @@ import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 import org.apache.commons.collections4.queue.CircularFifoQueue
-import de.thm.mow2gamecollection.wordle.helper.*
-
-// debugging
-private const val TAG = "WordleModel"
-private const val DEBUG = true
-// keys for SharedPreferences
-private const val TARGET_WORD_KEY = "targetWord"
-private const val USER_GUESSES_KEY = "userGuesses"
-private const val TRIES_KEY = "tries"
-private const val RECENT_TARGET_WORDS_KEY = "recentTargetWords"
 
 class WordleModel(val controller : WordleActivity) {
     private var gameEnded = false
@@ -229,5 +219,25 @@ class WordleModel(val controller : WordleActivity) {
 
     fun getUserGuessesAsString(): String {
         return userGuesses.joinToString()
+    }
+
+    companion object {
+        // constants for debugging
+        private const val DEBUG = true
+        private const val TAG = "WordleModel"
+
+        // configuration constants
+        const val WORD_LENGTH = 5
+        const val MAX_TRIES = 6
+
+        // number of recently played target words to save. When a new random target word is picked,
+        // the app makes sure that it is not one of the last [NUMBER_OF_RECENT_TARGET_WORDS] target words
+        const val NUMBER_OF_RECENT_TARGET_WORDS = 5
+
+        // keys for SharedPreferences
+        private const val TARGET_WORD_KEY = "targetWord"
+        private const val USER_GUESSES_KEY = "userGuesses"
+        private const val TRIES_KEY = "tries"
+        private const val RECENT_TARGET_WORDS_KEY = "recentTargetWords"
     }
 }

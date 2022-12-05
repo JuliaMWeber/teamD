@@ -33,14 +33,6 @@ class WifiDirectActivity : AppCompatActivity() {
             peers.addAll(refreshedPeers)
 
             Log.d(TAG, peers.toString())
-
-            // If an AdapterView is backed by this data, notify it
-            // of the change. For instance, if you have a ListView of
-            // available peers, trigger an update.
-           // (listAdapter as WiFiPeerListAdapter).notifyDataSetChanged()
-
-            // Perform any other updates needed based on the new list of
-            // peers connected to the Wi-Fi P2P network.
         }
 
         if (peers.isEmpty()) {
