@@ -123,6 +123,12 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
 
         } else {
             status.setText("Du trägst Zahlen ein")
+            zahlenButtons.forEachIndexed { index, button ->
+                button.setOnClickListener {
+                    viewModel.sudokuGame.handleInput(index + 1)
+                    viewModel.sudokuGame.felderAendern(index+1)
+                }
+            }
         }
     }
 

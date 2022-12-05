@@ -23,7 +23,7 @@ class SudokuGame {
 
     private val board: Board
 
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, genSudoku[f / 9][f % 9], 0, null) }
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, genSudoku[f / 9][f % 9], null) }
 
     init {
         board = Board(9, zellen)
@@ -40,9 +40,9 @@ class SudokuGame {
         zellenLiveData.postValue(board.zellen)
     }
 
-    fun notizenAendern(index: Int){
-        val zelle = board.getZelle(gewaehlteZeile,gewaehlteSpalte)
-        zelle.hatNotizen=true
+    fun notizenAendern(index: Int) {
+        val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
+        zelle.hatNotizen = true
         zelle.notizen.add(index)
         zellenLiveData.postValue(board.zellen)
     }
@@ -151,15 +151,15 @@ class SudokuGame {
 
     fun entfernen() {
         val zelle = board.getZelle(gewaehlteZeile, gewaehlteSpalte)
-        if (notizenMachen) {
+        if (zelle.hatNotizen) {
             zelle.notizen.clear()
+            zelle.istLeer=true
             hervorgehobeneSchluesselLiveData.postValue(setOf())
         } else if (zelle.istStartzelle) {
             zelle.value
         } else {
             zelle.value = 0
         }
-
         zellenLiveData.postValue(board.zellen)
     }
 

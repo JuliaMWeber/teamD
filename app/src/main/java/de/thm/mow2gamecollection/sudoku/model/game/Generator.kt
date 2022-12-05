@@ -2,8 +2,8 @@ package de.thm.mow2gamecollection.sudoku.model.game
 
 
 class Generator {
-
-    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, 0, null) }
+/*
+    var zellen = List(9 * 9) { f -> Zelle(f / 9, f % 9, null, null) }
 
     //Quads
     val quad1 = mutableListOf(0, 1, 2, 9, 10, 11, 18, 19, 20)
@@ -294,9 +294,12 @@ class Generator {
 
 
 //Kontrollausgabe
-/*
-}*/
+
+}
 
 
 /* }*/
+
+ */
+}
 
