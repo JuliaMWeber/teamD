@@ -59,18 +59,10 @@ class GamesListActivity : AppCompatActivity() {
         binding.listview.setOnItemClickListener { parent, view, position, id ->
             val name = gamesArrayList[position].name
             val i = when (name) {
-                SUDOKU_NAME -> {
-                    Intent(this, PlaySudokuActivity::class.java)
-                }
-                WORDLE_NAME -> {
-                    Intent(this, WordleActivity::class.java)
-                }
-                TICTACTOE_NAME -> {
-                    Intent(this, StartTicTacToeActivity::class.java)
-                }
-                else -> {
-                    Intent(this, StartTicTacToeNetworkEmulatorActivity::class.java)
-                }
+                SUDOKU_NAME -> Intent(this, PlaySudokuActivity::class.java)
+                WORDLE_NAME -> Intent(this, WordleActivity::class.java)
+                TICTACTOE_NAME -> Intent(this, StartTicTacToeActivity::class.java)
+                else -> Intent(this, StartTicTacToeNetworkEmulatorActivity::class.java)
             }
 
             i.putExtra("isMultiplayer", gamesArrayList[position].isNetworkMultiplayer)

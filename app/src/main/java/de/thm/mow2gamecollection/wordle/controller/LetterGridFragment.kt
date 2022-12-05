@@ -53,7 +53,11 @@ class LetterGridFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState == null) {
+        savedInstanceState?.let {
+            it.getStringArray(TILE_FRAGMENT_TAGS_KEY)?.forEach {
+                tileFragmentList.add(childFragmentManager.findFragmentByTag(it) as TileFragment)
+            }
+        } ?: run {
             // create all the tiles for the grid and add them to the tileFragmentList.
             for (i in 0 until rows*columns) {
                 TileFragment().let {
@@ -62,10 +66,6 @@ class LetterGridFragment : Fragment() {
                         .commit()
                     tileFragmentList.add(it)
                 }
-            }
-        } else {
-            savedInstanceState.getStringArray("tileFragmentTags")?.forEach {
-                tileFragmentList.add(childFragmentManager.findFragmentByTag(it) as TileFragment)
             }
         }
     }
@@ -77,7 +77,7 @@ class LetterGridFragment : Fragment() {
         tileFragmentList.forEach {
             it.tag?.let { tag -> tileFragmentTags.add(tag) }
         }
-        outState.putStringArray("tileFragmentTags", tileFragmentTags.toTypedArray())
+        outState.putStringArray(TILE_FRAGMENT_TAGS_KEY, tileFragmentTags.toTypedArray())
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -117,6 +117,8 @@ class LetterGridFragment : Fragment() {
     }
 
     companion object {
+        private const val TILE_FRAGMENT_TAGS_KEY = "tileFragmentTags"
+
         // fragment initialization parameters
         private const val ARG_ROWS = "rows"
         private const val ARG_COLUMNS = "columns"

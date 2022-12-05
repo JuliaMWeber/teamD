@@ -3,6 +3,9 @@ package de.thm.mow2gamecollection.controller
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 
+private const val KEYCODE_A = 29
+private const val KEYCODE_Z = 54
+
 abstract class KeyboardActivity : AppCompatActivity() {
     abstract fun addLetter(char: Char)
 
@@ -13,7 +16,7 @@ abstract class KeyboardActivity : AppCompatActivity() {
     // handle physical keyboard input
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            in 29..54 -> {
+            in KEYCODE_A..KEYCODE_Z -> {
                 event?.let {
                     addLetter(event.unicodeChar.toChar())
                 }

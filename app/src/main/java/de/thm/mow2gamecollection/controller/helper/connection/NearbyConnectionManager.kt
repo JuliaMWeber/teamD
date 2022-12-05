@@ -24,7 +24,6 @@ class NearbyConnectionManager(activity: MultiplayerGame, payloadCallback: Payloa
      */
     private var connectionsClient: ConnectionsClient
 
-
     init {
         connectionsClient = Nearby.getConnectionsClient(activity as Activity)
     }
@@ -34,7 +33,7 @@ class NearbyConnectionManager(activity: MultiplayerGame, payloadCallback: Payloa
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startAdvertising(
             playerName,
-            PACKAGE_NAME, // TODO: needs to be unique to the mini game
+            PACKAGE_NAME,
             connectionLifecycleCallback,
             options
         )

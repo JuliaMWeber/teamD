@@ -2,7 +2,6 @@ package de.thm.mow2gamecollection.wordle.controller.helper
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,13 +19,11 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
     }
 
     fun onResume() {
-        if (DEBUG) Log.d(TAG, "isStopwatchRunning: ${sharedPreferencesHelper.isStopwatchRunning}")
         if(sharedPreferencesHelper.isStopwatchRunning) {
             sharedPreferencesHelper.setStopwatchRunning(true)
         } else {
             sharedPreferencesHelper.setStopwatchRunning(false)
             if (sharedPreferencesHelper.startTime != null && sharedPreferencesHelper.stopTime != null) {
-                if (DEBUG) Log.d(TAG, "startTime and stop not null")
                 val time = Date().time - calculateRestartTime().time
                 textView.text = timeStringFromLong(time)
             }
@@ -50,8 +47,6 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
         if (sharedPreferencesHelper.isStopwatchRunning) {
             sharedPreferencesHelper.setStopTime(Date())
             sharedPreferencesHelper.setStopwatchRunning(false)
-        } else {
-            Log.e(TAG, "startStopAction")
         }
     }
 
@@ -110,9 +105,6 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
     }
 
     companion object {
-        // Debugging
-        private const val DEBUG = true
-        private const val TAG = "Stopwatch"
 
         // keys for Shared Preferences
         const val PREFERENCES_KEY = "preferences"
@@ -134,7 +126,6 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
             private set
 
         init {
-            Log.d(TAG, "init")
             isStopwatchRunning = sharedPreferences.getBoolean(IS_STOPWATCH_RUNNING_KEY, false)
 
             val startTimeString = sharedPreferences.getString(START_TIME_KEY, null)
@@ -146,11 +137,9 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
             stopTimeString?.let {
                 stopTime = dateFormat.parse(it)
             }
-            Log.d(TAG, "init: isStopWatchRunning: $isStopwatchRunning startTime: $startTime \t stopTime: $stopTime")
         }
 
         fun setStartTime(date: Date?) {
-            Log.d(TAG, "setStartTime $date")
             startTime = date
             with (sharedPreferences.edit()) {
                 val stringDate = if (date == null) null else dateFormat.format(date)
@@ -166,14 +155,9 @@ class Stopwatch(val activity: Activity, val textView: TextView) {
                 putString(STOP_TIME_KEY, stringDate)
                 apply()
             }
-
-            Log.d(TAG, "setStopTime ${
-                sharedPreferences.getString(STOP_TIME_KEY, "nothing there")
-            }")
         }
 
         fun setStopwatchRunning(boolean: Boolean) {
-            Log.d(TAG, "setStopWatchRunning $boolean")
             isStopwatchRunning = boolean
             with(sharedPreferences.edit()) {
                 putBoolean(IS_STOPWATCH_RUNNING_KEY, boolean)

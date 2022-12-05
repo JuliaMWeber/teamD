@@ -24,17 +24,18 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/gamesName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:fontFamily="@font/pixel12x10"
+                    android:gravity="center_vertical"
                     android:text="Spiel1"
-                    android:textColor="@color/black"
+                    android:textColor="@color/thm_primary"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
