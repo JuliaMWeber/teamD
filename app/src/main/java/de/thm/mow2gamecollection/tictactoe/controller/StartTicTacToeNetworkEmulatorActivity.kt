@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.tictactoe.model.game.FieldSize
+import de.thm.mow2gamecollection.tictactoe.model.game.GameMode
 
-class StartTicTacToeNetworkMultiplayerActivity : AppCompatActivity() {
+class StartTicTacToeNetworkEmulatorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start_chat)
+        setContentView(R.layout.activity_start_tic_tac_toe_network_emulator)
 
         val intent = Intent(this, TicTacToeActivity::class.java)
+        intent.putExtra("gameMode", GameMode.SOFT.toString())
+        intent.putExtra("fieldSize", FieldSize.THREE.toString())
 
         val btn1 = findViewById<Button>(R.id.startServerButton)
         btn1.setOnClickListener{

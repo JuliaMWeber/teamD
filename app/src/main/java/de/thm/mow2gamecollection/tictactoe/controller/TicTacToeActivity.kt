@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.thm.mow2gamecollection.R
+import de.thm.mow2gamecollection.controller.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.databinding.ActivityTicTacToe5x5Binding
 import de.thm.mow2gamecollection.databinding.ActivityTicTacToeBinding
 import de.thm.mow2gamecollection.model.EmulatorEnabledMultiplayerGame
-import de.thm.mow2gamecollection.service.EmulatorNetworkingService
 import de.thm.mow2gamecollection.tictactoe.model.*
 import de.thm.mow2gamecollection.tictactoe.model.game.*
 
@@ -335,10 +335,9 @@ class TicTacToeActivity : AppCompatActivity(), TicTacToeController, EmulatorEnab
     }
 
     private fun disableFields(){
-        if(fieldSize== FieldSize.THREE){
-            disableFields3x3()
-        } else {
-            disableFields5x5()
+        when (fieldSize) {
+            FieldSize.THREE -> disableFields3x3()
+            else -> disableFields5x5()
         }
     }
 

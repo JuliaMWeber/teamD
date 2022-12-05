@@ -2,7 +2,6 @@ package de.thm.mow2gamecollection.controller
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.preference.PreferenceManager
 import de.thm.mow2gamecollection.R
 import de.thm.mow2gamecollection.model.FirstRunModel
@@ -10,10 +9,6 @@ import de.thm.mow2gamecollection.controller.helper.storage.UserSettings
 import de.thm.mow2gamecollection.databinding.ActivityFirstRunBinding
 import de.thm.mow2gamecollection.wordle.controller.LetterGridFragment
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
-
-// DEBUGGING
-private const val DEBUG = true
-private const val TAG = "FirstRunActivity"
 
 class FirstRunActivity : KeyboardActivity() {
     private lateinit var model: FirstRunModel
@@ -51,7 +46,6 @@ class FirstRunActivity : KeyboardActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "saved userName: ${UserSettings.getUserName(this)}")
         model = FirstRunModel(this)
     }
 
@@ -60,7 +54,6 @@ class FirstRunActivity : KeyboardActivity() {
             nameInput.updateTile(0, index, char, LetterStatus.UNKNOWN)
             playerName += char
 
-            if (DEBUG) Log.d(TAG, "playerName: $playerName (${index+1})")
             index++
         }
     }
@@ -69,12 +62,10 @@ class FirstRunActivity : KeyboardActivity() {
         if (index > 0) {
             nameInput.removeLetter(0, --index)
             playerName = playerName.dropLast(1)
-            if (DEBUG) Log.d(TAG, "playerName: $playerName (${index})")
         }
     }
 
     override fun submit() {
-        if (DEBUG) Log.d(TAG, "submit")
         // TODO
     }
 }

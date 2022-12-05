@@ -17,10 +17,15 @@ class TileView : androidx.appcompat.widget.AppCompatTextView {
         isAllCaps = true
 
         // shift letter using padding to center it properly
-        updatePadding(25, 50, 0, 0)
+        updatePadding(SHIFT_TO_RIGHT, SHIFT_DOWN, 0, 0)
 
         // automatically scale text size (API >25)
         // TODO: solution for API <=25?!
         TextViewCompat.setAutoSizeTextTypeWithDefaults(this,  TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM)
+    }
+
+    companion object {
+        const val SHIFT_TO_RIGHT = 25
+        const val SHIFT_DOWN = 50
     }
 }

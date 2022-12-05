@@ -1,4 +1,4 @@
-package de.thm.mow2gamecollection.service
+package de.thm.mow2gamecollection.controller.service
 
 import android.os.Handler
 import android.os.Looper

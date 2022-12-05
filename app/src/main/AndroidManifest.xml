@@ -92,7 +92,7 @@
             android:label="@string/title_activity_wordle"
             android:theme="@style/Theme.GameCollection" />
         <activity
-            android:name=".tictactoe.controller.StartTicTacToeNetworkMultiplayerActivity"
+            android:name=".tictactoe.controller.StartTicTacToeNetworkEmulatorActivity"
             android:exported="false"
             android:theme="@style/Theme.GameCollection" />
         <activity

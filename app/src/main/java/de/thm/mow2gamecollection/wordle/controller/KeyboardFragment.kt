@@ -20,7 +20,6 @@ import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
  * create an instance of this fragment.
  */
 class WordleKeyboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var keyboardLayout: KeyboardLayout? = KeyboardLayout.QWERTZ
     private var swapFunctionButtons: Boolean? = false
     private var keyStateMap = mutableMapOf<Char, LetterStatus>()
@@ -74,8 +73,13 @@ class WordleKeyboardFragment : Fragment() {
                 val rowLayout = (getView() as LinearLayout).getChildAt(row) as LinearLayout
                 for (keyLabel in it[row]) {
 
+                    val buttonStyle = when (keyLabel) {
+                        SUBMIT_KEYLABEL, BACKSPACE_KEYLABEL -> R.style.keyboardButtonAccent
+                        else -> R.style.keyboardButton
+                    }
+
                     val button = Button(
-                        ContextThemeWrapper(context, R.style.keyboardButton),
+                        ContextThemeWrapper(context, buttonStyle),
                         null,
                         0
                     ).apply {
@@ -113,10 +117,10 @@ class WordleKeyboardFragment : Fragment() {
     private fun handleButtonClick(button: Button) {
         val activity = activity as KeyboardActivity
         when (button.text) {
-            "✓" -> {
+            SUBMIT_KEYLABEL.toString() -> {
                 activity.submit()
             }
-            "←" -> {
+            BACKSPACE_KEYLABEL.toString() -> {
                 activity.removeLetter()
             }
             else -> {
@@ -170,6 +174,9 @@ class WordleKeyboardFragment : Fragment() {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private const val ARG_KEYBOARD_LAYOUT = "keyboardLayout"
         private const val ARG_SWAP_FUNCTION_BUTTONS = "swapFunctionButtons"
+
+        private const val BACKSPACE_KEYLABEL = '←'
+        private const val SUBMIT_KEYLABEL = '✓'
 
         private const val KEYBOARD_STATE_KEYS_KEY = "keyboardStateKeys"
         private const val KEYBOARD_STATE_VALUES_KEY = "keyboardStateValues"

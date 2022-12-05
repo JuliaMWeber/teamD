@@ -10,12 +10,13 @@ import de.thm.mow2gamecollection.controller.GamesListActivity
 import de.thm.mow2gamecollection.controller.KeyboardActivity
 import de.thm.mow2gamecollection.databinding.ActivityWordleBinding
 import de.thm.mow2gamecollection.wordle.controller.helper.Stopwatch
+import de.thm.mow2gamecollection.wordle.model.WordleController
 import de.thm.mow2gamecollection.wordle.model.WordleModel
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 
-class WordleActivity : KeyboardActivity() {
+class WordleActivity : KeyboardActivity(), WordleController {
     private lateinit var binding: ActivityWordleBinding
     private lateinit var model: WordleModel
     private lateinit var wordleKeyboardFragment: WordleKeyboardFragment
@@ -84,7 +85,7 @@ class WordleActivity : KeyboardActivity() {
 
     // give the user some information, e.g. "word too short" / "word not in dictionary"
     // for now, simply show a Toast message
-    fun displayInformation(msg: String) {
+    override fun displayInformation(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
@@ -100,7 +101,7 @@ class WordleActivity : KeyboardActivity() {
         model.onGuessSubmitted()
     }
 
-    fun removeLetter(row: Int, index: Int) {
+    override fun removeLetter(row: Int, index: Int) {
         letterGridFragment.removeLetter(row, index)
     }
 
@@ -108,19 +109,19 @@ class WordleActivity : KeyboardActivity() {
         letterGridFragment.updateTile(row, index, letter, status)
     }
 
-    fun updateTile(tile: Tile, letter: Char, status: LetterStatus) {
-        letterGridFragment.updateTile(tile.position.row, tile.position.index, letter, status)
+    override fun updateTile(tile: Tile, letter: Char, letterStatus: LetterStatus) {
+        letterGridFragment.updateTile(tile.position.row, tile.position.index, letter, letterStatus)
     }
 
-    fun updateKey(letter: Char, status: LetterStatus) {
-        wordleKeyboardFragment.updateButton(letter, status)
+    override fun updateKey(letter: Char, letterStatus: LetterStatus) {
+        wordleKeyboardFragment.updateButton(letter, letterStatus)
     }
 
-    fun revealRow(row: Int) {
+    override fun revealRow(row: Int) {
         letterGridFragment.reveal(row)
     }
 
-    fun onGameEvent(e: GameEvent) {
+    override fun onGameEvent(e: GameEvent) {
         when (e) {
             GameEvent.LOST -> {
                 stopwatch.stop()

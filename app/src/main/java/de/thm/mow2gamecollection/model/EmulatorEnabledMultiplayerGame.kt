@@ -1,7 +1,7 @@
 package de.thm.mow2gamecollection.model
 
 import android.app.Activity
-import de.thm.mow2gamecollection.service.EmulatorNetworkingService
+import de.thm.mow2gamecollection.controller.service.EmulatorNetworkingService
 
 interface EmulatorEnabledMultiplayerGame {
         var emulatorNetworkingService: EmulatorNetworkingService?

@@ -173,11 +173,21 @@
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">0dp</item>
     </style>
+    <style name="keyboardButtonAccent"
+        parent="smallSquareButtonThmDarkBlue">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
     <style name="keyboardButtonDarkGrey"
         parent="smallSquareButtonDarkGrey">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
     <style name="keyboardButtonGreen"
         parent="smallSquareButtonThmPrimary">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 
 </resources>

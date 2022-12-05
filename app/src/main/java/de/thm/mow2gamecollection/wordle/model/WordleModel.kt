@@ -3,11 +3,21 @@ package de.thm.mow2gamecollection.wordle.model
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import de.thm.mow2gamecollection.wordle.controller.WordleActivity
+import de.thm.mow2gamecollection.wordle.model.game.Dictionary
 import de.thm.mow2gamecollection.wordle.model.game.GameEvent
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 import de.thm.mow2gamecollection.wordle.model.grid.Position
 import de.thm.mow2gamecollection.wordle.model.grid.Tile
 import org.apache.commons.collections4.queue.CircularFifoQueue
+
+interface WordleController {
+    fun updateTile(tile: Tile, letter: Char, letterStatus: LetterStatus)
+    fun updateKey(letter: Char, letterStatus: LetterStatus)
+    fun revealRow(row: Int)
+    fun onGameEvent(e: GameEvent)
+    fun displayInformation(msg: String)
+    fun removeLetter(row: Int, index: Int)
+}
 
 class WordleModel(val controller : WordleActivity) {
     private var gameEnded = false
@@ -22,40 +32,33 @@ class WordleModel(val controller : WordleActivity) {
     private val dictionary = Dictionary()
 
     fun init() {
-        Log.d(TAG, "init")
         retrieveSaveGame()
         targetWord ?: run {
             pickTargetWord()
         }
 
-//        controller.createTiles(WORD_LENGTH, MAX_TRIES)
-
         // add retrieved userGuesses to UI
         for(guess in userGuesses) {
             checkGuess(guess)
         }
-        // TODO: start timer
     }
 
     // returns a randomly chosen target word
     private fun pickTargetWord() {
-        if (DEBUG) if (DEBUG) Log.d(TAG, "pickTargetWord")
 
         fun getRandomTargetWord() {
             val randomWord = dictionary.randomWord()
             if(recentTargetWords.contains(randomWord)) {
-                if (DEBUG) Log.d(TAG, "word $randomWord has recently been played")
                 getRandomTargetWord()
             } else {
                 targetWord = randomWord
             }
         }
         getRandomTargetWord()
-        Log.d(TAG, "targetWord is $targetWord")
+        Log.i(TAG, "target word is $targetWord")
     }
 
     private fun checkGuess(input: String = userInput) {
-        if (DEBUG) Log.d(TAG, "checkGuess: $input")
 
         val remainingLetterOccurrences = HashMap<Char, Int>()
         // count occurrences of letters in targetWord
@@ -110,29 +113,24 @@ class WordleModel(val controller : WordleActivity) {
 
         if (gameEnded) {
             recentTargetWords.add(targetWord)
-            if (DEBUG) Log.d(TAG, "game ended. recent target words: $recentTargetWords")
         }
 
         userInput = ""
-        // controller.clearUserInput()
     }
 
     private fun gameWon() {
-        if (DEBUG) Log.d(TAG, "gameWon")
         gameEnded = true
         // TODO: update statistics
         controller.onGameEvent(GameEvent.WON)
     }
 
     private fun gameOver() {
-        if (DEBUG) Log.d(TAG, "gameOver")
         gameEnded = true
         // TODO: update statistics
         controller.onGameEvent(GameEvent.LOST)
     }
 
     fun restartGame() {
-        if (DEBUG) Log.d(TAG, "restartGame")
         gameEnded = false
         tries = 0
         userInput = ""
@@ -156,7 +154,6 @@ class WordleModel(val controller : WordleActivity) {
 
     // save game progress to SharedPreferences
     fun saveGameState() {
-        if (DEBUG) Log.d(TAG, "saveGameState")
         // Store values between instances here
         val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
         val editor = preferences.edit()
@@ -179,30 +176,26 @@ class WordleModel(val controller : WordleActivity) {
 
     // retrieve game progress from SharedPreferences
     private fun retrieveSaveGame() {
-        if (DEBUG) Log.d(TAG, "retrieveSaveGame")
         val preferences = controller.getPreferences(AppCompatActivity.MODE_PRIVATE)
 
         // get target word
         preferences.getString(TARGET_WORD_KEY, null)?.let {
             targetWord = it
-            if (DEBUG) Log.d(TAG, "targetWord retrieved: $it")
-        } ?: run { if (DEBUG) Log.d(TAG, "no targetWord saved") }
+        }
 
         // get user's guesses
         preferences.getString(USER_GUESSES_KEY, null)?.let { retrievedGuesses ->
-            if (DEBUG) Log.d(TAG, "user's guesses retrieved: $retrievedGuesses")
             retrievedGuesses.split(", ").forEach {
                 userGuesses.add(it)
             }
-        } ?: run { if (DEBUG) Log.d(TAG, "no user guesses saved") }
+        }
 
         // get recent target words
         preferences.getString(RECENT_TARGET_WORDS_KEY, null)?.let { retrievedRecentTargetWords ->
-            if (DEBUG) Log.d(TAG, "recent target words retrieved: $retrievedRecentTargetWords")
             retrievedRecentTargetWords.split(", ").forEach {
                 recentTargetWords.add(it)
             }
-        } ?: run { if (DEBUG) Log.d(TAG, "no recent target words saved") }
+        }
     }
 
     fun onGuessSubmitted() {
@@ -210,8 +203,6 @@ class WordleModel(val controller : WordleActivity) {
             controller.displayInformation("word too short!")
             return
         }
-
-        // TODO: check if the word (user's guess) is in the dictionary
 
         userGuesses.add(userInput)
         checkGuess()
@@ -222,8 +213,7 @@ class WordleModel(val controller : WordleActivity) {
     }
 
     companion object {
-        // constants for debugging
-        private const val DEBUG = true
+        // tag for Logs
         private const val TAG = "WordleModel"
 
         // configuration constants
