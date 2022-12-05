@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <!--
+     If your app targets Android 13 (API level 33)
+     or higher, you must declare the NEARBY_WIFI_DEVICES permission.
+    -->
+    <uses-permission
+        android:name="android.permission.NEARBY_WIFI_DEVICES"
+        android:usesPermissionFlags="neverForLocation"
+        tools:ignore="CoarseFineLocation"
+        tools:targetApi="s" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="32"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="32"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Gamecollection"
+        tools:targetApi="31" >
+        <activity
+            android:name=".tictactoe.controller.StartTicTacToeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GameCollection.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".controller.WifiDirectActivity"
+            android:exported="true"
+            android:theme="@style/Theme.GameCollection.NoActionBar" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".controller.NetworkServiceDiscoveryActivity"
+            android:exported="true"
+            android:theme="@style/Theme.GameCollection.NoActionBar" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".controller.FirstRunActivity"
+            android:exported="false"
+            android:noHistory="true"
+            android:theme="@style/Theme.GameCollection" >
+        </activity>
+        <activity
+            android:name=".controller.GamesListActivity"
+            android:exported="true"
+            android:theme="@style/Theme.GameCollection" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".sudoku.controller.PlaySudokuActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GameCollection.NoActionBar" />
+
+        <activity
+            android:name=".wordle.controller.WordleActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_wordle"
+            android:theme="@style/Theme.GameCollection" />
+        <activity
+            android:name=".tictactoe.controller.StartTicTacToeNetworkEmulatorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GameCollection" />
+        <activity
+            android:name=".tictactoe.controller.TicTacToeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GameCollection" />
+    </application>
+
+</manifest>

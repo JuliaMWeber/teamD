@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/mediumOvalButtonThmPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button4"
+            style="@style/mediumOvalButtonThmSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+        <Button
+            android:id="@+id/button5"
+            style="@style/mediumOvalButtonThmOrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+        <Button
+            android:id="@+id/button6"
+            style="@style/mediumOvalButtonThmRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+        <Button
+            android:id="@+id/button7"
+            style="@style/mediumOvalButtonThmLightBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button6" />
+
+        <Button
+            android:id="@+id/button8"
+            style="@style/mediumOvalButtonThmDarkBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+        <Button
+            android:id="@+id/button9"
+            style="@style/mediumOvalButtonWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/button10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button8" />
+
+        <Button
+            android:id="@+id/button10"
+            style="@style/mediumOvalButtonLightGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button9" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <Button
+            style="@style/smallSquareButtonThmPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmOrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmLightBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonThmDarkBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonLightGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+        <Button
+            style="@style/smallSquareButtonDarkGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingTop="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Play"
+            android:textAllCaps="true" />
+
+    </LinearLayout>
+</LinearLayout>

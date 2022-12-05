@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="@drawable/hintergrund">
+
+    <de.thm.mow2gamecollection.sudoku.view.SudokuBoardView
+        android:id="@+id/sudokuBoardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/buttonsLayout"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp" />
+
+    <GridLayout
+        android:id="@+id/schwierigkeitsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:columnCount="3"
+        android:rowCount="3">
+
+        <Button
+            android:id="@+id/leicht"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Leicht" />
+
+        <Button
+            android:id="@+id/mittel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Mittel" />
+
+        <Button
+            android:id="@+id/schwer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Schwer" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_columnSpan="3"
+            android:layout_gravity="fill_horizontal"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Du trägst Zahlen ein"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            tools:ignore="RtlCompat" />
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:columnCount="4"
+        android:rowCount="4">
+
+        <Button
+            android:id="@+id/oneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/twoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/threeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/fourButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/fiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/sixButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/sevenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/eightButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/nineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:background="@drawable/pixel_button_small_oval_light_grey"
+            android:fontFamily="@font/pixel12x10"
+            android:text="9" />
+
+        <ImageButton
+            android:id="@+id/notizButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal|fill_vertical"
+            android:background= "@drawable/sudoku_buttons"
+            app:srcCompat="@drawable/edit_pen_black" />
+
+        <ImageButton
+            android:id="@+id/entfernenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal|fill_vertical"
+            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            app:srcCompat="@drawable/delete_black" />
+
+        <Button
+            android:id="@+id/loesenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="2"
+            android:layout_gravity="fill_horizontal|fill_vertical"
+            android:background="@drawable/pixel_button_small_oval_thm_primary"
+            android:fontFamily="@font/pixel12x10"
+            android:text="Lösen" />
+
+    </GridLayout>
+
+
+</RelativeLayout>

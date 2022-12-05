@@ -1,0 +1,34 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GameCollection" parent="Theme.Design.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/background</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/thm_primary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/thm_secondary</item>
+        <item name="colorSecondaryVariant">@color/thm_dark_blue</item>
+        <item name="colorOnSecondary">@android:color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <!-- Fonts -->
+        <item name="android:fontFamily">@font/pixel12x10</item>
+    </style>
+
+    <style name="Theme.GameCollection.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Gamecollection.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Gamecollection.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Gamecollection.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
