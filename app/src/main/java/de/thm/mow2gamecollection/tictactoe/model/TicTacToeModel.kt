@@ -124,13 +124,13 @@ class TicTacToeModel (val controller: TicTacToeActivity){
 
         } else if (state5x5[0][0] == currentPlayer && state5x5[1][0] == currentPlayer && state5x5[2][0] == currentPlayer && state5x5[3][0] == currentPlayer &&state5x5[4][0] == currentPlayer) {
             return WinningLine5x5.COLUMN_0
-        } else if (state5x5[1][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[1][2] == currentPlayer&& state5x5[1][3] == currentPlayer && state5x5[1][4] == currentPlayer) {
+        } else if (state5x5[0][1] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][1] == currentPlayer&& state5x5[3][1] == currentPlayer && state5x5[4][1] == currentPlayer) {
             return WinningLine5x5.COLUMN_1
-        } else if (state5x5[2][0] == currentPlayer && state5x5[2][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[2][3] == currentPlayer && state5x5[2][4] == currentPlayer) {
+        } else if (state5x5[0][2] == currentPlayer && state5x5[1][2] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][2] == currentPlayer && state5x5[4][2] == currentPlayer) {
             return WinningLine5x5.COLUMN_2
-        } else if (state5x5[3][0] == currentPlayer && state5x5[3][1] == currentPlayer && state5x5[3][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[3][4] == currentPlayer) {
+        } else if (state5x5[0][3] == currentPlayer && state5x5[1][3] == currentPlayer && state5x5[2][3] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[4][3] == currentPlayer) {
             return WinningLine5x5.COLUMN_3
-        } else if (state5x5[4][0] == currentPlayer && state5x5[4][1] == currentPlayer && state5x5[4][2] == currentPlayer && state5x5[4][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
+        } else if (state5x5[0][4] == currentPlayer && state5x5[1][4] == currentPlayer && state5x5[2][4] == currentPlayer && state5x5[3][4] == currentPlayer && state5x5[4][4] == currentPlayer) {
             return WinningLine5x5.COLUMN_4
         } else if (state5x5[0][0] == currentPlayer && state5x5[1][1] == currentPlayer && state5x5[2][2] == currentPlayer && state5x5[3][3] == currentPlayer && state5x5[4][4] == currentPlayer) {
             return WinningLine5x5.DIAGONAL_LEFT
