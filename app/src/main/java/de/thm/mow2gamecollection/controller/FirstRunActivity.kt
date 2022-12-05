@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.preference.PreferenceManager
 import de.thm.mow2gamecollection.R
-import de.thm.mow2gamecollection.databinding.ActivityMainBinding
 import de.thm.mow2gamecollection.model.FirstRunModel
 import de.thm.mow2gamecollection.controller.helper.storage.UserSettings
+import de.thm.mow2gamecollection.databinding.ActivityFirstRunBinding
 import de.thm.mow2gamecollection.wordle.controller.LetterGridFragment
 import de.thm.mow2gamecollection.wordle.model.grid.LetterStatus
 
@@ -17,7 +17,7 @@ private const val TAG = "FirstRunActivity"
 
 class FirstRunActivity : KeyboardActivity() {
     private lateinit var model: FirstRunModel
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityFirstRunBinding
     private var playerName = ""
     private val nameInput: LetterGridFragment by lazy { binding.nameInput.getFragment() }
     private var index = 0
@@ -28,7 +28,7 @@ class FirstRunActivity : KeyboardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityFirstRunBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         LetterGridFragment.newInstance(1, maxUserNameLength).let{
