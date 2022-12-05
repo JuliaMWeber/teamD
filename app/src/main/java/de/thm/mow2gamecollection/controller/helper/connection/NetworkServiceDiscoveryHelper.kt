@@ -9,7 +9,6 @@ import java.net.ServerSocket
 import kotlin.properties.Delegates
 
 class NetworkServiceDiscoveryHelper(val context: Context) {
-    private val TAG = "NsdHelper"
     private val SERVICE_NAME = "Mow2Multiplayer"
     private val SERVICE_TYPE = "_mow2multiplayer._tcp."
 
@@ -151,5 +150,9 @@ class NetworkServiceDiscoveryHelper(val context: Context) {
         Log.d(TAG, nsdManager.toString())
         nsdManager?.unregisterService(registrationListener)
         nsdManager?.stopServiceDiscovery(discoveryListener)
+    }
+
+    companion object {
+        private const val TAG = "NsdHelper"
     }
 }

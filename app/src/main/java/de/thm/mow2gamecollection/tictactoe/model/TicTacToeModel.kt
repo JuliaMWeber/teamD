@@ -33,12 +33,12 @@ class TicTacToeModel (val controller: TicTacToeActivity){
     fun makeMove3x3 (position: Position) : WinningLine3x3? {
         state3x3[position.row][position.column] = currentPlayer
         val winningLine = hasGameEnded3x3()
-        winningLine?.let{
-            if(winningLine != WinningLine3x3.NOWINNER) {
+        winningLine?.let {
+            if (winningLine != WinningLine3x3.NOWINNER) {
                 if (currentPlayer == 1) player1Points++ else player2Points++
                 controller.updatePoints()
             }
-        }?: run{
+        } ?: run {
             changeActivePlayer()
         }
         return winningLine
@@ -62,7 +62,7 @@ class TicTacToeModel (val controller: TicTacToeActivity){
      * Changes the active Player and restarts timer on hardmode
      */
     fun changeActivePlayer() {
-        currentPlayer = if (currentPlayer==1) 2 else 1
+        currentPlayer = if (currentPlayer == 1) 2 else 1
         controller.showActivePlayer()
         if (controller.getGameMode() === GameMode.HARD){
             controller.restartTimer()
